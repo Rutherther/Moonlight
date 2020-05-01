@@ -1,14 +1,14 @@
-﻿using Moonlight.Clients;
+using Moonlight.Clients;
 using Moonlight.Packet;
 
 namespace Moonlight.Handlers
 {
-    internal interface IPacketHandler
+    public interface IPacketHandler
     {
         void Handle(Client client, IPacket packet);
     }
 
-    internal abstract class PacketHandler<TPacket> : IPacketHandler where TPacket : IPacket
+    public abstract class PacketHandler<TPacket> : IPacketHandler where TPacket : IPacket
     {
         public void Handle(Client client, IPacket packet)
         {

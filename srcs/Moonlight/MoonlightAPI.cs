@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -61,7 +61,7 @@ namespace Moonlight
 
         internal static SynchronizationContext Context { get; private set; }
 
-        internal IServiceProvider Services { get; }
+        public IServiceProvider Services { get; }
 
         public Language Language
         {

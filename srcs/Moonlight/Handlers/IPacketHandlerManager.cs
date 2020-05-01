@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Moonlight.Clients;
 using Moonlight.Core.Logging;
@@ -8,12 +8,12 @@ using Moonlight.Packet.Core.Serialization;
 
 namespace Moonlight.Handlers
 {
-    internal interface IPacketHandlerManager
+    public interface IPacketHandlerManager
     {
         bool Handle(Client client, string packet);
     }
 
-    internal class PacketHandlerManager : IPacketHandlerManager
+    public class PacketHandlerManager : IPacketHandlerManager
     {
         private readonly IDeserializer _deserializer;
         private readonly IDictionary<Type, IPacketHandler> _handlers;

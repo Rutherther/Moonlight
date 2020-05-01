@@ -1,6 +1,6 @@
-﻿namespace Moonlight.Packet.Core.Serialization
+namespace Moonlight.Packet.Core.Serialization
 {
-    internal interface IDeserializer
+    public interface IDeserializer
     {
         /// <summary>
         ///     Deserialize packet

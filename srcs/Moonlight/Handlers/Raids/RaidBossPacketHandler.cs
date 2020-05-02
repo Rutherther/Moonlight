@@ -25,11 +25,16 @@ namespace Moonlight.Handlers.Raids
             if (raid.Boss == null)
             {
                 raid.Boss = client.Character.Map.GetEntity<Monster>(packet.MonsterId);
+                raid.Boss.IsRaidBoss = true;
+
                 raid.Bosses.Add(raid.Boss);
             }
             else if (raid.Boss.Id != packet.MonsterId && !raid.Bosses.Exists(x => x.Id == packet.MonsterId))
             {
-                raid.Bosses.Add(client.Character.Map.GetEntity<Monster>(packet.MonsterId));
+                Monster anotherRaidBoss = client.Character.Map.GetEntity<Monster>(packet.MonsterId);
+                anotherRaidBoss.IsRaidBoss = true;
+
+                raid.Bosses.Add(anotherRaidBoss);
             }
         }
     }

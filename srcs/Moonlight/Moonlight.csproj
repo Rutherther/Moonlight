@@ -60,6 +60,7 @@
     <Compile Include="Core\Enums\TargetType.cs" />
     <Compile Include="Core\Interop\Kernel32.cs" />
     <Compile Include="Core\Interop\User32.cs" />
+    <Compile Include="Core\IServiceConfiguration.cs" />
     <Compile Include="Core\Logging\ILogger.cs" />
     <Compile Include="Core\Logging\SerilogLogger.cs" />
     <Compile Include="Core\Position.cs" />

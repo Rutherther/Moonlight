@@ -33,7 +33,7 @@ namespace Moonlight
 
         public MoonlightAPI(SynchronizationContext context) : this() => Context = context;
 
-        internal MoonlightAPI(AppConfig config)
+        public MoonlightAPI(AppConfig config)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
 
@@ -48,6 +48,11 @@ namespace Moonlight
             serviceCollection.AddSingleton<IEventManager, EventManager>();
 
             serviceCollection.AddImplementingTypes<IPacketHandler>();
+
+            if (config.Configuration != null)
+            {
+                config.Configuration.ConfigureServices(this, serviceCollection);
+            }
 
             Services = serviceCollection.BuildServiceProvider();
 

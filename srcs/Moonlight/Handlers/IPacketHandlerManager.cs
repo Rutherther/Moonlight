@@ -13,7 +13,7 @@ namespace Moonlight.Handlers
         bool Handle(Client client, string packet);
     }
 
-    public class PacketHandlerManager : IPacketHandlerManager
+    internal class PacketHandlerManager : IPacketHandlerManager
     {
         private readonly IDeserializer _deserializer;
         private readonly IDictionary<Type, IPacketHandler> _handlers;

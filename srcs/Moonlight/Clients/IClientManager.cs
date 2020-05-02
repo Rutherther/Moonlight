@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +8,7 @@ using Moonlight.Handlers;
 
 namespace Moonlight.Clients
 {
-    internal interface IClientManager
+    public interface IClientManager
     {
         Client CreateLocalClient();
     }

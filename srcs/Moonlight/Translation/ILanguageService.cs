@@ -1,8 +1,8 @@
-﻿using Moonlight.Core.Enums;
+using Moonlight.Core.Enums;
 
 namespace Moonlight.Translation
 {
-    internal interface ILanguageService
+    public interface ILanguageService
     {
         Language Language { get; set; }
         string GetTranslation(RootKey rootKey, string key);

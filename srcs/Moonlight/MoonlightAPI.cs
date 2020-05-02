@@ -78,11 +78,6 @@ namespace Moonlight
 
         public Client CreateLocalClient() => _clientManager.CreateLocalClient();
 
-        public void AddListener<T>(EventListener<T> listener) where T : IEventNotification
-        {
-            _eventManager.RegisterListener(listener);
-        }
-
         public void AllocConsole()
         {
             Kernel32.AllocConsole();

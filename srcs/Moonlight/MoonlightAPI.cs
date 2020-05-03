@@ -36,7 +36,6 @@ namespace Moonlight
         public MoonlightAPI(AppConfig config)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-
             serviceCollection.AddLogger();
             serviceCollection.AddPacketDependencies();
             serviceCollection.AddDatabaseDependencies(config);
@@ -46,14 +45,12 @@ namespace Moonlight
             serviceCollection.AddSingleton<IClientManager, ClientManager>();
             serviceCollection.AddSingleton<IPacketHandlerManager, PacketHandlerManager>();
             serviceCollection.AddSingleton<IEventManager, EventManager>();
-
             serviceCollection.AddImplementingTypes<IPacketHandler>();
 
             if (config.Configuration != null)
             {
                 config.Configuration.ConfigureServices(this, serviceCollection);
             }
-
             Services = serviceCollection.BuildServiceProvider();
 
             _clientManager = Services.GetService<IClientManager>();
@@ -66,6 +63,8 @@ namespace Moonlight
 
         internal static SynchronizationContext Context { get; private set; }
 
+        public Client Client { get; set; }
+
         public IServiceProvider Services { get; }
 
         public Language Language
@@ -76,7 +75,7 @@ namespace Moonlight
 
         public ILogger Logger { get; }
 
-        public Client CreateLocalClient() => _clientManager.CreateLocalClient();
+        public Client CreateLocalClient() => Client = _clientManager.CreateLocalClient();
 
         public void AllocConsole()
         {

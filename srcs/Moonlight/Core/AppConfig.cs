@@ -1,6 +1,6 @@
-﻿namespace Moonlight.Core
+namespace Moonlight.Core
 {
-    internal class AppConfig
+    public class AppConfig
     {
         public string Database { get; set; } = "Moonlight/database.db";
         public IServiceConfiguration Configuration { get; set; }

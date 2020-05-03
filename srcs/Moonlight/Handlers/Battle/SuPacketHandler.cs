@@ -1,5 +1,6 @@
-﻿using System.Linq;
+using System.Linq;
 using Moonlight.Clients;
+using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 using Moonlight.Event;
 using Moonlight.Event.Entities;
@@ -58,7 +59,11 @@ namespace Moonlight.Handlers.Battle
 
             target.HpPercentage = 0;
 
-            map.RemoveEntity(target);
+            if (target.Id != client.Character.Id)
+            {
+                map.RemoveEntity(target);
+            }
+
             _logger.Info($"Entity {target.EntityType} {target.Id} died");
 
             _eventManager.Emit(new EntityDeathEvent(client)

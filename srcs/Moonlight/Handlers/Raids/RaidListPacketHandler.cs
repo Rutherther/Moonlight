@@ -11,7 +11,7 @@ using Moonlight.Packet.Raid;
 
 namespace Moonlight.Handlers.Raids
 {
-    public class RaidListPacketHandler : PacketHandler<RaidListPacket>
+    internal class RaidListPacketHandler : PacketHandler<RaidListPacket>
     {
         private readonly IEventManager _eventManager;
 

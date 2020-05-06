@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moonlight.Game.Entities;
+using Moonlight.Packet.Raid;
 
 namespace Moonlight.Game.Raids
 {
@@ -11,7 +12,7 @@ namespace Moonlight.Game.Raids
     {
         public Raid()
         {
-            Players = new List<Player>();
+            Players = new List<RaidPlayerData>();
             Bosses = new List<Monster>();
         }
 
@@ -27,7 +28,7 @@ namespace Moonlight.Game.Raids
 
         public RaidStatus Status { get; set; }
 
-        public List<Player> Players { get; set; }
+        public List<RaidPlayerData> Players { get; set; }
 
         public Monster Boss { get; set; }
 

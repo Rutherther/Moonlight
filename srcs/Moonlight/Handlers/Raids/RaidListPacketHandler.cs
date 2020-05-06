@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moonlight.Clients;
+using Moonlight.Event;
+using Moonlight.Event.Raids;
 using Moonlight.Game.Raids;
 using Moonlight.Packet.Raid;
 
@@ -38,7 +40,8 @@ namespace Moonlight.Handlers.Raids
                 });
             }
 
-            // TODO: handle players
+            raid.Players.AddRange(packet.Data.Except(raid.Players));
+            raid.Players.RemoveAll(x => !packet.Data.Contains(x));
         }
     }
 }

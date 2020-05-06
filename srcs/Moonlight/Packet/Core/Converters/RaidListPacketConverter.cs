@@ -32,7 +32,7 @@ namespace Moonlight.Packet.Core.Converters
                 int championLevel = Convert.ToInt32(splittedPlayer[7]);
                 int id = Convert.ToInt32(splittedPlayer[6]);
 
-                playerData.Add(new RaidPlayerData()
+                playerData.Add(new RaidPlayerData
                 {
                     Level = level,
                     ChampionLevel = championLevel,

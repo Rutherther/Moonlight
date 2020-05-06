@@ -98,6 +98,8 @@
     <Compile Include="Event\Maps\EntityLeaveEvent.cs" />
     <Compile Include="Event\Maps\MapChangeEvent.cs" />
     <Compile Include="Event\Maps\MapCleanEvent.cs" />
+    <Compile Include="Event\Raids\RaidBossInitializedEvent.cs" />
+    <Compile Include="Event\Raids\RaidInitializedEvent.cs" />
     <Compile Include="Event\Raids\RaidStatusChangedEvent.cs" />
     <Compile Include="Extensions\AssemblyExtension.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />

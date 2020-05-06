@@ -8,7 +8,7 @@ using Moonlight.Packet.Core.Attributes;
 namespace Moonlight.Packet.Raid
 {
     [PacketHeader("rdlst")]
-    public class RaidListPacket : Packet
+    internal class RaidListPacket : Packet
     {
         public int MinimumLevel { get; set; }
         public int MaximumLevel { get; set; }

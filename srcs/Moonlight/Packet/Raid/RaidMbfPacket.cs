@@ -8,7 +8,7 @@ using Moonlight.Packet.Core.Attributes;
 namespace Moonlight.Packet.Raid
 {
     [PacketHeader("raidmbf")]
-    public class RaidMbfPacket : Packet
+    internal class RaidMbfPacket : Packet
     {
         [PacketIndex(0)]
         public int MonsterLockerInitial { get; set; }

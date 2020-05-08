@@ -59,6 +59,22 @@ namespace Moonlight
             Logger = Services.GetService<ILogger>();
         }
 
+        /// <summary>
+        /// Process packets in a queue too speed up NosTale
+        /// </summary>
+        public void DeferPackets()
+        {
+            _packetHandlerManager.SetupQueue();
+        }
+
+        /// <summary>
+        /// Process packets in sync so they could be denied
+        /// </summary>
+        public void SyncPackets()
+        {
+            _packetHandlerManager.DestroyQueue();
+        }
+
         internal static SynchronizationContext Context { get; private set; }
 
         internal IServiceProvider Services { get; }

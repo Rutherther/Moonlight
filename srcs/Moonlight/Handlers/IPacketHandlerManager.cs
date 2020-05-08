@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Moonlight.Clients;
 using Moonlight.Core.Logging;
 using Moonlight.Extensions;
@@ -11,6 +12,10 @@ namespace Moonlight.Handlers
     internal interface IPacketHandlerManager
     {
         bool Handle(Client client, string packet);
+
+        void SetupQueue();
+
+        void DestroyQueue();
     }
 
     internal class PacketHandlerManager : IPacketHandlerManager
@@ -18,6 +23,9 @@ namespace Moonlight.Handlers
         private readonly IDeserializer _deserializer;
         private readonly IDictionary<Type, IPacketHandler> _handlers;
         private readonly ILogger _logger;
+        private ConcurrentQueue<ReceivedPacket> _packets;
+        private Thread _thread;
+        private bool _queuePackets;
 
         public PacketHandlerManager(ILogger logger, IDeserializer deserializer, IEnumerable<IPacketHandler> handlers)
         {
@@ -37,7 +45,63 @@ namespace Moonlight.Handlers
             }
         }
 
+        public void SetupQueue()
+        {
+            _thread = new Thread(() => ProcessQueue(true));
+            _thread.IsBackground = true;
+            _thread.Start();
+            _packets = new ConcurrentQueue<ReceivedPacket>();
+
+            _queuePackets = true;
+        }
+
+        public void DestroyQueue()
+        {
+            _queuePackets = false;
+            _thread.Join();
+            _thread = null;
+
+            ProcessQueue(false);
+            _packets = null;
+        }
+
+        protected void ProcessQueue(bool loop)
+        {
+            do
+            {
+                while (_packets.TryDequeue(out ReceivedPacket packet))
+                {
+                    HandlePacket(packet.Client, packet.Packet);
+                }
+
+                if (loop)
+                {
+                    Thread.Sleep(10);
+                }
+            } while (loop && _queuePackets);
+        }
+
         public bool Handle(Client client, string packet)
+        {
+            if (_queuePackets)
+            {
+                ReceivedPacket receivedPacket = new ReceivedPacket
+                {
+                    Client = client,
+                    Packet = packet
+                };
+
+                _packets.Enqueue(receivedPacket);
+            }
+            else
+            {
+                return HandlePacket(client, packet);
+            }
+
+            return true;
+        }
+
+        public bool HandlePacket(Client client, string packet)
         {
             try
             {
@@ -68,6 +132,12 @@ namespace Moonlight.Handlers
             }
 
             return true;
+        }
+
+        class ReceivedPacket
+        {
+            public string Packet { get; set; }
+            public Client Client { get; set; }
         }
     }
 }

@@ -23,6 +23,11 @@ namespace Moonlight.Handlers.Raids
 
         protected override void Handle(Client client, RaidBossPacket packet)
         {
+            if (client.Character == null || client.Character.Raid == null)
+            {
+                return;
+            }
+
             Raid raid = client.Character.Raid;
 
             if (raid.Status == RaidStatus.Unknown)

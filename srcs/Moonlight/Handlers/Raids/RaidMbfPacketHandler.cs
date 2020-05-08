@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +13,11 @@ namespace Moonlight.Handlers.Raids
     {
         protected override void Handle(Client client, RaidMbfPacket packet)
         {
+            if (client.Character == null || client.Character.Raid == null)
+            {
+                return;
+            }
+
             Raid raid = client.Character.Raid;
 
             raid.ButtonLockerCurrent = packet.ButtonLockerCurrent;

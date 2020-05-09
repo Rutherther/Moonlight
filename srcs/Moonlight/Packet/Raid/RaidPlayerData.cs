@@ -13,7 +13,7 @@ namespace Moonlight.Packet.Raid
 
         public int ChampionLevel { get; set; }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
 

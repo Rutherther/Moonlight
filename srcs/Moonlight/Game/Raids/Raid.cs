@@ -8,7 +8,8 @@ using Moonlight.Packet.Raid;
 
 namespace Moonlight.Game.Raids
 {
-    public class Raid
+    public class 
+        Raid
     {
         public Raid()
         {
@@ -18,7 +19,9 @@ namespace Moonlight.Game.Raids
 
         public bool Ended => Status == RaidStatus.Fail || Status == RaidStatus.Left || Status == RaidStatus.Successful;
 
-        public int RaidId { get; set; }
+        public int? RaidId { get; set; }
+
+        public long LeaderId { get; set; }
 
         public int MinimumLevel { get; set; }
 

@@ -35,10 +35,17 @@ namespace Moonlight.Handlers.Raids
                 raid.Status = RaidStatus.InProgress;
             }
 
+            Monster boss = client.Character.Map.GetEntity<Monster>(packet.MonsterId);
+
+            if (boss == null)
+            {
+                return;
+            }
+
             if (raid.Boss == null)
             {
-                raid.Boss = client.Character.Map.GetEntity<Monster>(packet.MonsterId);
-                raid.Boss.IsRaidBoss = true;
+                raid.Boss = boss;
+                boss.IsRaidBoss = true;
 
                 raid.Bosses.Add(raid.Boss);
 

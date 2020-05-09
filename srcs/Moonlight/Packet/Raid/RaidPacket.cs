@@ -10,10 +10,8 @@ namespace Moonlight.Packet.Raid
     [PacketHeader("raid")]
     internal class RaidPacket : Packet
     {
-        [PacketIndex(0)]
-        public int Type { get; set; }
+        public RaidPacketType Type { get; set; }
 
-        [PacketIndex(1)]
-        public int Data { get; set; }
+        public long LeaderId { get; set; }
     }
 }

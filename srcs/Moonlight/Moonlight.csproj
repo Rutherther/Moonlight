@@ -100,6 +100,7 @@
     <Compile Include="Event\Maps\MapChangeEvent.cs" />
     <Compile Include="Event\Maps\MapCleanEvent.cs" />
     <Compile Include="Event\Raids\RaidBossInitializedEvent.cs" />
+    <Compile Include="Event\Raids\RaidInfoRetrievedEvent.cs" />
     <Compile Include="Event\Raids\RaidInitializedEvent.cs" />
     <Compile Include="Event\Raids\RaidStatusChangedEvent.cs" />
     <Compile Include="Extensions\AssemblyExtension.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Packet\Core\Converters\IvnPacketConverter.cs" />
     <Compile Include="Packet\Core\Converters\PacketConverter.cs" />
     <Compile Include="Packet\Core\Converters\RaidListPacketConverter.cs" />
+    <Compile Include="Packet\Core\Converters\RaidPacketConverter.cs" />
     <Compile Include="Packet\Core\Converters\SkiPacketConverter.cs" />
     <Compile Include="Packet\Core\Converters\SpecialListConverter.cs" />
     <Compile Include="Packet\Core\IPacketReader.cs" />
@@ -239,6 +241,7 @@
     <Compile Include="Packet\Raid\RaidListPacket.cs" />
     <Compile Include="Packet\Raid\RaidMbfPacket.cs" />
     <Compile Include="Packet\Raid\RaidPacket.cs" />
+    <Compile Include="Packet\Raid\RaidPacketType.cs" />
     <Compile Include="Packet\Raid\RaidPlayerData.cs" />
     <Compile Include="Packet\UnknownPacket.cs" />
     <Compile Include="Translation\ILanguageService.cs" />

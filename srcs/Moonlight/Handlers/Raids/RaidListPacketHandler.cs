@@ -22,24 +22,20 @@ namespace Moonlight.Handlers.Raids
 
         protected override void Handle(Client client, RaidListPacket packet)
         {
-            if (client.Character == null)
+            if (client.Character == null || client.Character.Raid == null)
             {
                 return;
             }
 
             Raid raid = client.Character.Raid;
 
-            if (raid == null || raid.Ended)
+            if (raid.RaidId == null)
             {
-                raid = client.Character.Raid = new Raid
-                {
-                    Status = RaidStatus.Preparation,
-                    RaidId = packet.RaidId,
-                    MinimumLevel = packet.MinimumLevel,
-                    MaximumLevel = packet.MaximumLevel
-                };
+                raid.RaidId = packet.RaidId;
+                raid.MinimumLevel = packet.MinimumLevel;
+                raid.MaximumLevel = packet.MaximumLevel;
 
-                _eventManager.Emit(new RaidInitializedEvent(client)
+                _eventManager.Emit(new RaidInfoRetrievedEvent(client)
                 {
                     Raid = raid
                 });

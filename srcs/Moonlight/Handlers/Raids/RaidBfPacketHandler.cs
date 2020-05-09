@@ -31,27 +31,14 @@ namespace Moonlight.Handlers.Raids
 
             if (raid == null || raid.Ended)
             {
-                raid = client.Character.Raid = new Raid
-                {
-                    Status = RaidStatus.Unknown
-                };
-
-                _eventManager.Emit(new RaidInitializedEvent(client)
-                {
-                    Raid = client.Character.Raid
-                });
+                return;
             }
 
-            if (packet.Type == 0)
-            {
-                raid.Status = RaidStatus.InProgress;
-                raid.StartTime = DateTime.Now;
-            }
-            else if (packet.Type == 1)
+            if (packet.Type == 1)
             {
                 raid.Status = RaidStatus.Successful;
             }
-            else
+            else if (packet.Type != 0)
             {
                 raid.Status = RaidStatus.Fail;
             }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Moonlight.Toolkit": {
+      "commandName": "Project",
+      "commandLineArgs": "parse -i D:\\Shared\\Downloads\\packet\\parse.json"
+    }
+  }
+}

@@ -1,5 +1,7 @@
-﻿using System;
+using System;
+using Moonlight.Core;
 using Moonlight.Game.Entities;
+using MoonlightC.EventArgs;
 using PropertyChanged;
 
 namespace Moonlight.Clients
@@ -7,6 +9,8 @@ namespace Moonlight.Clients
     [AddINotifyPropertyChangedInterface]
     public abstract class Client
     {
+        public event EventHandler<WalkEventArgs> Walk;
+
         public Character Character { get; internal set; }
 
         public event Func<string, bool> PacketSend;
@@ -17,5 +21,14 @@ namespace Moonlight.Clients
 
         public abstract void SendPacket(string packet);
         public abstract void ReceivePacket(string packet);
+
+        public void OnWalk(Position position)
+        {
+            Walk?.Invoke(this, new WalkEventArgs
+            {
+                X = position.X,
+                Y = position.Y
+            });
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CommandLine;
+using CommandLine;
 using Newtonsoft.Json;
 
 namespace Moonlight.Toolkit.Commands

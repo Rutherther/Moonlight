@@ -1,5 +1,4 @@
 ﻿using Moonlight.Core.Enums;
-using Moonlight.Database.Dto;
 
 namespace Moonlight.Game.Entities
 {

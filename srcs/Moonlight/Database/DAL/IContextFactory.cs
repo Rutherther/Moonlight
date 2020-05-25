@@ -1,8 +1,8 @@
-﻿using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Moonlight.Database.DAL
 {
-    internal interface IContextFactory<out T> where T : DbContext
+    public interface IContextFactory<out T> where T : DbContext
     {
         T CreateContext();
     }

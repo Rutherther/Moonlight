@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Moonlight.Core;
+﻿using Moonlight.Core;
 using Moonlight.Extensions.Game;
 using Moonlight.Game.Inventories.Items;
 using Moonlight.Game.Maps;

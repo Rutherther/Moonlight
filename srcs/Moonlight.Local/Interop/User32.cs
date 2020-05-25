@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Moonlight.Core.Interop
+namespace Moonlight.Local.Interop
 {
     internal static class User32
     {
@@ -36,7 +36,7 @@ namespace Moonlight.Core.Interop
         public static IEnumerable<IntPtr> FindWindowsWithTitle(string title)
         {
             var windows = new List<IntPtr>();
-            EnumWindows(delegate(IntPtr hWnd, IntPtr lParam)
+            EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
             {
                 string windowTitle = GetWindowTitle(hWnd);
                 if (windowTitle.Equals(title))

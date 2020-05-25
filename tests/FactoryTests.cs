@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Core;
 using Moonlight.Core.Enums;
 using Moonlight.Game.Battle;

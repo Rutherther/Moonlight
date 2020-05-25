@@ -48,10 +48,10 @@ namespace Moonlight.Handlers
 
         public void SetupQueue()
         {
+            _packets = new ConcurrentQueue<ReceivedPacket>();
             _thread = new Thread(() => ProcessQueue(true));
             _thread.IsBackground = true;
             _thread.Start();
-            _packets = new ConcurrentQueue<ReceivedPacket>();
 
             _queuePackets = true;
         }
@@ -70,14 +70,32 @@ namespace Moonlight.Handlers
         {
             do
             {
-                while (_packets.TryDequeue(out ReceivedPacket packet))
+                try
                 {
-                    HandlePacket(packet.Client, packet.Packet);
-                }
+                    if (_packets == null)
+                    {
+                        continue;
+                    }
 
-                if (loop)
+                    while (_packets.TryDequeue(out ReceivedPacket packet))
+                    {
+                        if (packet == null || packet.Client == null || packet.Packet == null)
+                        {
+                            _logger.Error("Either packet, its client or inner packet is null (ProcessQueue)");
+                            continue;
+                        }
+
+                        HandlePacket(packet.Client, packet.Packet);
+                    }
+
+                    if (loop)
+                    {
+                        Thread.Sleep(10);
+                    }
+                }
+                catch (Exception e)
                 {
-                    Thread.Sleep(10);
+                    _logger.Error(e.Message, e);
                 }
             } while (loop && _queuePackets);
         }

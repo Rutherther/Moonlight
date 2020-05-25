@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moonlight.Clients;
 using Moonlight.Event;
 using Moonlight.Event.Raids;
@@ -63,6 +59,11 @@ namespace Moonlight.Handlers.Raids
                     });
                     break;
                 case RaidPacketType.Left:
+                    if (raid.Ended)
+                    {
+                        break;
+                    }
+
                     raid.Status = RaidStatus.Left;
                     _eventManager.Emit(new RaidStatusChangedEvent(client)
                     {

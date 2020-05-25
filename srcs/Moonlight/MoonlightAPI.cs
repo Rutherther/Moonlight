@@ -5,12 +5,13 @@ using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Clients;
 using Moonlight.Core;
-using Moonlight.Core.Interop;
 using Moonlight.Core.Logging;
+using Moonlight.Database;
+using Moonlight.Database.DAL;
+using Moonlight.Database.Dto;
+using Moonlight.Database.Entities;
 using Moonlight.Event;
 using Moonlight.Extensions;
-using Moonlight.Game.Entities;
-using Moonlight.Game.Maps;
 using Moonlight.Handlers;
 using Moonlight.Translation;
 
@@ -90,12 +91,5 @@ namespace Moonlight
         }
 
         public ILogger Logger { get; }
-
-        public Client CreateLocalClient() => Client = _clientManager.CreateLocalClient();
-
-        public void AllocConsole()
-        {
-            Kernel32.AllocConsole();
-        }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Moonlight.Clients.Local;
+using Moonlight.Clients;
+using Moonlight.Local.Clients.Local;
+using MoonlightC.Clients;
 using MoonlightCore;
 
-namespace Moonlight.Clients
+namespace Moonlight.Local.Clients
 {
-    public sealed class LocalClient : Client
+    public sealed class LocalClient : Client, ILocalClient
     {
         /// <summary>
         ///     Declared as private field to avoid GC

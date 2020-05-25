@@ -1,6 +1,6 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
-namespace Moonlight.Core.Interop
+namespace Moonlight.Local.Interop
 {
     internal static class Kernel32
     {

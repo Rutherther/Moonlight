@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Moonlight.Database.DAL
 {
@@ -29,7 +30,7 @@ namespace Moonlight.Database.DAL
         {
             using (TContext context = _contextFactory.CreateContext())
             {
-                TEntity entity = context.Set<TEntity>().FirstOrDefault(x => (object)x.Id == (object)id);
+                TEntity entity = context.Set<TEntity>().FirstOrDefault(x => x.Id.Equals(id));
                 return _mapper.Map(entity);
             }
         }

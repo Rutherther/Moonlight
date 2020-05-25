@@ -8,8 +8,9 @@ using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 using Moonlight.Game.Battle;
 using Moonlight.Game.Inventories;
-using Moonlight.Game.Maps;
 using Moonlight.Game.Raids;
+using MoonlightC.Clients;
+using MoonlightC.EventArgs;
 
 namespace Moonlight.Game.Entities
 {
@@ -20,7 +21,7 @@ namespace Moonlight.Game.Entities
     public class Character : Player
     {
         private readonly ILogger _logger;
-        
+
         internal Character(ILogger logger, long id, string name, Client client) : base(id, name)
         {
             _logger = logger;
@@ -118,10 +119,7 @@ namespace Moonlight.Game.Entities
                 return;
             }
 
-            if (Client is LocalClient local)
-            {
-                local.ManagedMoonlightCore.Walk(position.X, position.Y);
-            }
+            Client.OnWalk(position);
 
             LastMovement = DateTime.Now;
 

@@ -1,15 +1,20 @@
-﻿using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Common;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage;
 using Moonlight.Database.Entities;
-using SQLite.CodeFirst;
 
 namespace Moonlight.Database
 {
     internal class MoonlightContext : DbContext
     {
-        public MoonlightContext(DbConnection connection) : base(connection, true)
+        private DbConnection _connection;
+
+        public MoonlightContext(DbConnection connection)
+            : base()
         {
+            _connection = connection;
+            Database.EnsureCreated();
         }
 
         public DbSet<Monster> Monsters { get; set; }
@@ -18,11 +23,24 @@ namespace Moonlight.Database
         public DbSet<Map> Maps { get; set; }
         public DbSet<Entities.Translation> Translations { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            System.Data.Entity.Database.SetInitializer(new SqliteDropCreateDatabaseWhenModelChanges<MoonlightContext>(modelBuilder));
+            optionsBuilder.UseSqlite(_connection);
 
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            foreach (IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                // Skip shadow types
+                if (entityType.ClrType == null)
+                    continue;
+
+                entityType.SetTableName(entityType.ClrType.Name);
+            }
 
             base.OnModelCreating(modelBuilder);
         }

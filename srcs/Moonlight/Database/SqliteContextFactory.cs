@@ -1,4 +1,5 @@
-using System.Data.SQLite;
+using System.IO;
+using Microsoft.Data.Sqlite;
 using Moonlight.Core;
 using Moonlight.Database.DAL;
 
@@ -12,9 +13,16 @@ namespace Moonlight.Database
 
         public MoonlightContext CreateContext()
         {
-            var connection = new SQLiteConnection
+            var builder = new SqliteConnectionStringBuilder()
             {
-                ConnectionString = $"Data Source={_appConfig.Database}"
+                DataSource = _appConfig.Database,
+                Mode = SqliteOpenMode.ReadOnly,
+                Cache = SqliteCacheMode.Shared
+            };
+
+            var connection = new SqliteConnection()
+            {
+                ConnectionString = builder.ToString()
             };
 
             return new MoonlightContext(connection);

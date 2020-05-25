@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Moonlight.Core.Enums;
-using Moonlight.Database.Dto;
 
 namespace Moonlight.Game.Inventories.Items
 {

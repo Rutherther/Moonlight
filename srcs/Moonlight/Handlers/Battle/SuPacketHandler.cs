@@ -1,6 +1,5 @@
 using System.Linq;
 using Moonlight.Clients;
-using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 using Moonlight.Event;
 using Moonlight.Event.Entities;

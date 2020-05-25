@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
-using Moonlight.Core.Interop;
+using Moonlight.Local.Interop;
 
-namespace Moonlight.Clients.Local
+namespace Moonlight.Local.Clients.Local
 {
     public class Window
     {
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
         private const int WM_CHAR = 0x0102;
-        
+
         public Window(IntPtr handle) => Handle = handle;
         public IntPtr Handle { get; }
 

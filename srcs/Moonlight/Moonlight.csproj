@@ -18,8 +18,4 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\lib\MoonlightCore\srcs\MoonlightCore\MoonlightCore.vcxproj" />
-  </ItemGroup>
-
 </Project>

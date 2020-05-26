@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MoonlightC.Clients
+namespace Moonlight.Clients
 {
     public interface ILocalClient
     {

@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MoonlightC.EventArgs
+namespace Moonlight.EventArgs
 {
     public class WalkEventArgs : System.EventArgs
     {

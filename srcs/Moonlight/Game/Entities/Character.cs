@@ -9,8 +9,8 @@ using Moonlight.Core.Logging;
 using Moonlight.Game.Battle;
 using Moonlight.Game.Inventories;
 using Moonlight.Game.Raids;
-using MoonlightC.Clients;
-using MoonlightC.EventArgs;
+using Moonlight.Clients;
+using Moonlight.EventArgs;
 
 namespace Moonlight.Game.Entities
 {

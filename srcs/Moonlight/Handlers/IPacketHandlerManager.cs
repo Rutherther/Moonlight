@@ -104,7 +104,7 @@ namespace Moonlight.Handlers
         {
             if (_queuePackets)
             {
-                ReceivedPacket receivedPacket = new ReceivedPacket
+                var receivedPacket = new ReceivedPacket
                 {
                     Client = client,
                     Packet = packet

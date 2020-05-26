@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moonlight.Clients;
+using Moonlight.EventArgs;
 using Moonlight.Local.Clients;
 using Moonlight.Local.Clients.Local;
 using Moonlight.Local.Interop;

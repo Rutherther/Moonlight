@@ -1,7 +1,7 @@
 using System;
 using Moonlight.Core;
+using Moonlight.EventArgs;
 using Moonlight.Game.Entities;
-using MoonlightC.EventArgs;
 using PropertyChanged;
 
 namespace Moonlight.Clients

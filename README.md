@@ -1,3 +1,5 @@
+This is a fork of Roxeez/Moonlight. I migrated it to .NET Standard so it can be used on Linux as well as Windows.
+
 # Moonlight
 
 Moonlight aims to make NosTale .NET Application developer life easier by giving them access to a complete & easy to use API allowing them to interact with (almost) everything in the game  
@@ -11,6 +13,8 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 
 ## Getting Started
 
+### .NET Framework with local client
+
 - Create a C# .dll project targeting .NET Framework 4.7+
 - Add Moonlight as submodule
 - Install DllExport to your project and create your export function (cf. DllExport wiki)
@@ -21,6 +25,7 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 - Inject your .dll using an injector supporting custom export function.
 
 > <sub><sup>Moonlight is a packet based lib, so if you want everything to work correctly using local client, it should be injected before character selection.</sub></sup>  
+
 ## Example
 >Example application can be found here : https://github.com/Roxeez/Moonlight.Example
 ```csharp
@@ -79,10 +84,12 @@ private async Task<Monster> GetClosestPod()
 
 ### Prerequisites
 
-- **.NET Framework 4.7**
+- **.NET Framework 4.7** for local client
+- **.NET Core** for remote client
 
 ## Contributors
 * **Roxeez**
+* **Rutherther**
 
 ### Special thanks
 

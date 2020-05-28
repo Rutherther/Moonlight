@@ -18,6 +18,7 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 - Create a C# .dll project targeting .NET Framework 4.7+
 - Add Moonlight as submodule
 - Install DllExport to your project and create your export function (cf. DllExport wiki)
+- Install Costura.Fody to your project so you don't have to copy all dependencies to NosTale folder
 - Build your project
 - Create database.db using Moonlight.Toolkit CLI
 - Copy previously generated database.db to a subfolder named Moonlight in your NosTale folder

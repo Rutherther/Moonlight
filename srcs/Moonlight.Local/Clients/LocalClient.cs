@@ -5,7 +5,7 @@ using MoonlightCore;
 
 namespace Moonlight.Local.Clients
 {
-    public sealed class LocalClient : Client, ILocalClient
+    public sealed class LocalClient : Client
     {
         /// <summary>
         ///     Declared as private field to avoid GC

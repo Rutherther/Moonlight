@@ -25,6 +25,7 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 - Copy your generated .dll & MoonlightCore to your NosTale folder
 - Copy SQLitePCLRaw.batteries_v2.dll, SQLitePCLRaw.provider.dynamic_cdecl.dll, SQLitePCLRaw.core.dll, SQLitePCLRaw.nativelibrary.dll to NosTale folder
   - if you encounter SqliteException with inner exception of "The path is not of a legal form." check that you added these files to NosTale folder
+- Copy runtimes folder
 - Inject your .dll using an injector supporting custom export function.
 
 > Moonlight is a packet based lib, so if you want everything to work correctly using local client, it should be injected before character selection.

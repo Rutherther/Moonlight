@@ -64,6 +64,7 @@ namespace Moonlight.Handlers.Maps
 
             if (entity is Player player)
             {
+                player.Level = packet.PlayerSubPacket.Level;
                 player.Class = packet.PlayerSubPacket.Class;
                 player.Gender = packet.PlayerSubPacket.Gender;
                 player.Direction = packet.Direction;

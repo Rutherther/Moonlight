@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Moonlight.Core.Enums;
 using Moonlight.Packet.Map;
@@ -37,6 +37,7 @@ namespace Moonlight.Packet.Core.Converters
                     break;
                 case EntityType.PLAYER:
                     packet.PlayerSubPacket = (InPlayerSubPacket)factory.ToObject(content, typeof(InPlayerSubPacket));
+                    packet.PlayerSubPacket.Level = byte.Parse(split.Skip(27).SkipWhile(x => x.Any(char.IsLetter)).Skip(5).First());
                     break;
                 case EntityType.GROUND_ITEM:
                     packet.DropSubPacket = (InDropSubPacket)factory.ToObject(content, typeof(InDropSubPacket));

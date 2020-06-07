@@ -1,4 +1,4 @@
-﻿using Moonlight.Core.Enums;
+using Moonlight.Core.Enums;
 using Moonlight.Packet.Core.Attributes;
 
 namespace Moonlight.Packet.Map
@@ -63,6 +63,8 @@ namespace Moonlight.Packet.Map
 
         [PacketIndex(7)]
         public byte MpPercentage { get; set; }
+
+        public byte Level { get; set; }
     }
 
     internal class InDropSubPacket : Packet

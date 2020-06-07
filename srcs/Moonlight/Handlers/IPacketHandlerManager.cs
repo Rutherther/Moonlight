@@ -58,6 +58,12 @@ namespace Moonlight.Handlers
 
         public void DestroyQueue()
         {
+            if (!_queuePackets || _thread == null)
+            {
+                _queuePackets = false;
+                return;
+            }
+
             _queuePackets = false;
             _thread.Join();
             _thread = null;

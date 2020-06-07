@@ -1,5 +1,7 @@
 using Moonlight.Clients;
 using Moonlight.Core;
+using Moonlight.Event;
+using Moonlight.Event.Maps;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Maps;
@@ -10,8 +12,13 @@ namespace Moonlight.Handlers.Characters
     internal class AtPacketHandler : PacketHandler<AtPacket>
     {
         private readonly IMapFactory _mapFactory;
+        private IEventManager _eventManager;
 
-        public AtPacketHandler(IMapFactory mapFactory) => _mapFactory = mapFactory;
+        public AtPacketHandler(IMapFactory mapFactory, IEventManager eventManager)
+        {
+            _eventManager = eventManager;
+            _mapFactory = mapFactory;
+        }
 
         protected override void Handle(Client client, AtPacket packet)
         {
@@ -27,8 +34,21 @@ namespace Moonlight.Handlers.Characters
             }
 
             Map map = _mapFactory.CreateMap(packet.MapId);
+            Map source = character.Map;
+            bool mapChange = character.Map.Id != packet.MapId;
+            
             map.AddEntity(character);
             character.Position = new Position(packet.PositionX, packet.PositionY);
+
+            if (mapChange)
+            {
+                _eventManager.Emit(new MapChangeEvent(client)
+                {
+                    Character = client.Character,
+                    Source = source,
+                    Destination = map
+                });
+            }
         }
     }
 }

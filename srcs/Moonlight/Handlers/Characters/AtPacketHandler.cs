@@ -35,7 +35,7 @@ namespace Moonlight.Handlers.Characters
 
             Map map = _mapFactory.CreateMap(packet.MapId);
             Map source = character.Map;
-            bool mapChange = character.Map.Id != packet.MapId;
+            bool mapChange = character.Map == null || character.Map.Id != packet.MapId;
             
             map.AddEntity(character);
             character.Position = new Position(packet.PositionX, packet.PositionY);

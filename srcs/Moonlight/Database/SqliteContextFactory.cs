@@ -16,7 +16,7 @@ namespace Moonlight.Database
             var builder = new SqliteConnectionStringBuilder()
             {
                 DataSource = Path.GetFullPath(_appConfig.Database),
-                Mode = SqliteOpenMode.ReadOnly,
+                Mode = _appConfig.ReadOnlyDatabase ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate,
                 Cache = SqliteCacheMode.Shared
             };
 

@@ -20,7 +20,8 @@ namespace Moonlight.Toolkit
             services.AddLogger();
             services.AddDatabaseDependencies(new AppConfig
             {
-                Database = "output/database.db"
+                Database = "output/database.db",
+                ReadOnlyDatabase = false
             });
 
             services.AddImplementingTypes<ICommandHandler>();

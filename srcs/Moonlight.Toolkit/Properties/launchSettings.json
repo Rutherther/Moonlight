@@ -2,7 +2,7 @@
   "profiles": {
     "Moonlight.Toolkit": {
       "commandName": "Project",
-      "commandLineArgs": "parse -i D:\\Shared\\Downloads\\packet\\parse.json"
+      "commandLineArgs": "parse -i D:\\Shared\\Documents\\NosTale\\Data\\Parsed\\2020-07-14\\cz\\parse.json"
     }
   }
 }

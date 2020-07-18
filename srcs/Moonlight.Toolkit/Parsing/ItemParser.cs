@@ -7,6 +7,7 @@ using Moonlight.Database.DAL;
 using Moonlight.Database.Dto;
 using Moonlight.Toolkit.Commands;
 using Moonlight.Utility.Reader;
+using NosCore.Packets.Enumerations;
 using TextReader = Moonlight.Utility.Reader.TextReader;
 
 namespace Moonlight.Toolkit.Parsing
@@ -74,7 +75,7 @@ namespace Moonlight.Toolkit.Parsing
                 {
                     Id = vnum,
                     NameKey = name,
-                    BagType = (BagType)inventoryType,
+                    BagType = (PocketType)inventoryType,
                     Type = type,
                     SubType = subType,
                     Data = string.Join("|", data)

@@ -4,7 +4,7 @@ using Moonlight.Event;
 using Moonlight.Event.Maps;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map;
+using NosCore.Packets.ServerPackets.Entities;
 
 namespace Moonlight.Handlers.Maps
 {
@@ -29,15 +29,15 @@ namespace Moonlight.Handlers.Maps
                 return;
             }
 
-            Entity entity = map.GetEntity(packet.EntityType, packet.EntityId);
+            Entity entity = map.GetEntity(packet.VisualType, packet.VisualId);
             if (entity == null)
             {
-                _logger.Warn($"Can't found entity {packet.EntityType} {packet.EntityId} in map");
+                _logger.Warn($"Can't found entity {packet.VisualType} {packet.VisualId} in map");
                 return;
             }
 
-            map.RemoveEntity(packet.EntityType, packet.EntityId);
-            _logger.Info($"Entity {entity.EntityType} {entity.Id} leaved map");
+            map.RemoveEntity(packet.VisualType, packet.VisualId);
+            _logger.Info($"Entity {entity.VisualType} {entity.Id} leaved map");
 
             _eventManager.Emit(new EntityLeaveEvent(client)
             {

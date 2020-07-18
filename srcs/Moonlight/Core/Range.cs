@@ -2,13 +2,13 @@
 {
     public class Range
     {
-        public Range(int minimum, int maximum)
+        public Range(long minimum, long maximum)
         {
             Minimum = minimum;
             Maximum = maximum;
         }
 
-        public int Minimum { get; }
-        public int Maximum { get; }
+        public long Minimum { get; }
+        public long Maximum { get; }
     }
 }

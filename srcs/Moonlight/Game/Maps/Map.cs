@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Moonlight.Core;
 using Moonlight.Core.Collection;
-using Moonlight.Core.Enums;
 using Moonlight.Game.Entities;
 using Moonlight.Utility;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Maps
 {
@@ -41,24 +41,24 @@ namespace Moonlight.Game.Maps
         public InternalObservableDictionary<long, Portal> Portals { get; }
         public IEnumerable<Entity> Entities => Monsters.Concat(Npcs.Cast<Entity>()).Concat(Players).Concat(GroundItems);
 
-        public Entity GetEntity(EntityType entityType, long entityId)
+        public Entity GetEntity(VisualType entityType, long entityId)
         {
             switch (entityType)
             {
-                case EntityType.NPC:
+                case VisualType.Npc:
                     return Npcs.GetValueOrDefault(entityId);
-                case EntityType.MONSTER:
+                case VisualType.Monster:
                     return Monsters.GetValueOrDefault(entityId);
-                case EntityType.PLAYER:
+                case VisualType.Player:
                     return Players.GetValueOrDefault(entityId);
-                case EntityType.GROUND_ITEM:
+                case VisualType.Object:
                     return GroundItems.GetValueOrDefault(entityId);
                 default:
                     throw new InvalidOperationException();
             }
         }
 
-        public T GetEntity<T>(EntityType entityType, long entityId) where T : Entity
+        public T GetEntity<T>(VisualType entityType, long entityId) where T : Entity
         {
             Entity entity = GetEntity(entityType, entityId);
             if (!(entity is T castEntity))
@@ -71,25 +71,25 @@ namespace Moonlight.Game.Maps
 
         public T GetEntity<T>(long entityId) where T : Entity
         {
-            EntityType entityType = EntityUtility.GetEntityType<T>();
+            VisualType entityType = EntityUtility.GetVisualType<T>();
             return GetEntity<T>(entityType, entityId);
         }
 
         public Portal GetPortal(int id) => Portals.GetValueOrDefault(id);
 
-        public bool Contains(EntityType entityType, long entityId) => GetEntity(entityType, entityId) != null;
+        public bool Contains(VisualType entityType, long entityId) => GetEntity(entityType, entityId) != null;
 
-        public IEnumerable<Entity> GetEntities(EntityType entityType)
+        public IEnumerable<Entity> GetEntities(VisualType entityType)
         {
             switch (entityType)
             {
-                case EntityType.NPC:
+                case VisualType.Npc:
                     return Npcs;
-                case EntityType.PLAYER:
+                case VisualType.Player:
                     return Players;
-                case EntityType.MONSTER:
+                case VisualType.Monster:
                     return Monsters;
-                case EntityType.GROUND_ITEM:
+                case VisualType.Object:
                     return GroundItems;
                 default:
                     return Array.Empty<Entity>();
@@ -98,7 +98,7 @@ namespace Moonlight.Game.Maps
 
         public IEnumerable<T> GetEntities<T>() where T : Entity
         {
-            EntityType entityType = EntityUtility.GetEntityType<T>();
+            VisualType entityType = EntityUtility.GetVisualType<T>();
             return GetEntities(entityType).Cast<T>();
         }
 
@@ -109,18 +109,18 @@ namespace Moonlight.Game.Maps
 
         internal void AddEntity(Entity entity)
         {
-            switch (entity.EntityType)
+            switch (entity.VisualType)
             {
-                case EntityType.NPC:
+                case VisualType.Npc:
                     Npcs[entity.Id] = (Npc)entity;
                     break;
-                case EntityType.MONSTER:
+                case VisualType.Monster:
                     Monsters[entity.Id] = (Monster)entity;
                     break;
-                case EntityType.PLAYER:
+                case VisualType.Player:
                     Players[entity.Id] = (Player)entity;
                     break;
-                case EntityType.GROUND_ITEM:
+                case VisualType.Object:
                     GroundItems[entity.Id] = (GroundItem)entity;
                     break;
                 default:
@@ -132,23 +132,23 @@ namespace Moonlight.Game.Maps
 
         internal void RemoveEntity(Entity entity)
         {
-            RemoveEntity(entity.EntityType, entity.Id);
+            RemoveEntity(entity.VisualType, entity.Id);
         }
 
-        internal void RemoveEntity(EntityType entityType, long entityId)
+        internal void RemoveEntity(VisualType entityType, long entityId)
         {
             switch (entityType)
             {
-                case EntityType.NPC:
+                case VisualType.Npc:
                     Npcs.Remove(entityId);
                     break;
-                case EntityType.MONSTER:
+                case VisualType.Monster:
                     Monsters.Remove(entityId);
                     break;
-                case EntityType.PLAYER:
+                case VisualType.Player:
                     Players.Remove(entityId);
                     break;
-                case EntityType.GROUND_ITEM:
+                case VisualType.Object:
                     GroundItems.Remove(entityId);
                     break;
                 default:

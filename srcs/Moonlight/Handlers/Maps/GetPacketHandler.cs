@@ -1,7 +1,7 @@
 using Moonlight.Clients;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map;
+using NosCore.Packets.ClientPackets.Drops;
 
 namespace Moonlight.Handlers.Maps
 {
@@ -11,8 +11,8 @@ namespace Moonlight.Handlers.Maps
         {
             Map map = client.Character?.Map;
 
-            LivingEntity entity = map?.GetEntity<LivingEntity>(packet.EntityType, packet.EntityId);
-            GroundItem groundItem = map?.GetEntity<GroundItem>(packet.DropId);
+            LivingEntity entity = map?.GetEntity<LivingEntity>(packet.PickerType, packet.PickerId);
+            GroundItem groundItem = map?.GetEntity<GroundItem>(packet.VisualId);
 
             if (entity == null || groundItem == null)
             {

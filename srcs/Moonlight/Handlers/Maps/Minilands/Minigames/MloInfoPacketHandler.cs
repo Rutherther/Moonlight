@@ -4,7 +4,8 @@ using Moonlight.Clients;
 using Moonlight.Core;
 using Moonlight.Event;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map.Miniland.Minigame;
+using NosCore.Packets.ServerPackets.Miniland;
+using Range = Moonlight.Core.Range;
 
 namespace Moonlight.Handlers.Maps.Minilands.Minigames
 {
@@ -18,7 +19,7 @@ namespace Moonlight.Handlers.Maps.Minilands.Minigames
         {
             var miniland = client?.Character?.Map as Miniland;
 
-            var minigame = miniland?.Objects.FirstOrDefault(x => x.Item.Vnum == packet.Vnum && x.Slot == packet.ObjectId) as Minigame;
+            var minigame = miniland?.Objects.FirstOrDefault(x => x.Item.Vnum == packet.ObjectVNum && x.Slot == packet.Slot) as Minigame;
             if (minigame == null)
             {
                 return;
@@ -26,18 +27,24 @@ namespace Moonlight.Handlers.Maps.Minilands.Minigames
 
             minigame.Scores.Clear();
 
-            string[] content = packet.Content.Split(' ').Skip(8).ToArray();
-            for (int i = 0; i < content.Length; i += 2)
+            if (packet.MinigamePoints != null)
             {
-                int minimum = Convert.ToInt32(content[i]);
-                int maximum = Convert.ToInt32(content[i + 1]);
-
-                if (maximum > 100000)
+                foreach (MloInfoPacketSubPacket subPacket in packet.MinigamePoints)
                 {
-                    maximum = minimum + 5000;
-                }
+                    if (subPacket == null)
+                    {
+                        continue;
+                    }
 
-                minigame.Scores.Add(new Range(minimum, maximum));
+                    long minimum = subPacket.MinimumPoints, maximum = subPacket.MaximumPoints;
+
+                    if (minimum > 100000)
+                    {
+                        maximum = minimum + 5000;
+                    }
+
+                    minigame.Scores.Add(new Range(minimum, maximum));
+                }
             }
         }
     }

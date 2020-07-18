@@ -2,7 +2,7 @@ using Moonlight.Clients;
 using Moonlight.Core.Logging;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Inventories;
-using Moonlight.Packet.Character.Inventory;
+using NosCore.Packets.ServerPackets.Inventory;
 
 namespace Moonlight.Handlers.Characters.Inventories
 {
@@ -25,15 +25,15 @@ namespace Moonlight.Handlers.Characters.Inventories
             }
 
 
-            Bag bag = client.Character.Inventory.GetBag(packet.BagType);
+            Bag bag = client.Character.Inventory.GetBag(packet.Type);
 
             if (bag == null)
             {
-                _logger.Error($"Can't found bad {packet.BagType}");
+                _logger.Error($"Can't found bad {packet.Type}");
                 return;
             }
 
-            foreach (IvnSubPacket sub in packet.SubPackets)
+            foreach (IvnSubPacket sub in packet.IvnSubPackets)
             {
                 ItemInstance existingItem = bag.GetValueOrDefault(sub.Slot);
                 if (existingItem == null)
@@ -51,7 +51,7 @@ namespace Moonlight.Handlers.Characters.Inventories
                 existingItem.Amount = sub.RareAmount;
             }
 
-            _logger.Info($"{packet.BagType} bag initialized.");
+            _logger.Info($"{packet.Type} bag initialized.");
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Moonlight.Core.Enums;
-using Moonlight.Game.Entities;
+﻿using Moonlight.Game.Entities;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Extensions.Game
 {
@@ -7,6 +7,6 @@ namespace Moonlight.Extensions.Game
     {
         public static bool IsGold(this GroundItem groundItem) => groundItem.CannotBePickedUp() && groundItem.Item.Data[0] == 70;
         public static bool IsLever(this GroundItem groundItem) => groundItem.CannotBePickedUp() && groundItem.Item.Data[0] == 1000 || groundItem.Item.Data[0] == 1001;
-        private static bool CannotBePickedUp(this GroundItem groundItem) => groundItem.Item.BagType == BagType.MAIN && groundItem.Item.Type == 3 && groundItem.Item.SubType == 0;
+        private static bool CannotBePickedUp(this GroundItem groundItem) => groundItem.Item.BagType == PocketType.Main && groundItem.Item.Type == 3 && groundItem.Item.SubType == 0;
     }
 }

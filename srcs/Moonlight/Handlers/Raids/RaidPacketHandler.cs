@@ -1,5 +1,6 @@
 using System;
 using Moonlight.Clients;
+using Moonlight.Core.Enums;
 using Moonlight.Event;
 using Moonlight.Event.Raids;
 using Moonlight.Game.Raids;

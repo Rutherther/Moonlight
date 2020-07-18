@@ -1,6 +1,6 @@
 using Moonlight.Clients;
 using Moonlight.Game.Entities;
-using Moonlight.Packet.Character;
+using NosCore.Packets.ServerPackets.Specialists;
 
 namespace Moonlight.Handlers.Characters
 {
@@ -12,8 +12,8 @@ namespace Moonlight.Handlers.Characters
 
             if (character != null)
             {
-                character.SpPoints = packet.Points;
-                character.AdditionalSpPoints = packet.AdditionalPoints;
+                character.SpPoints = packet.SpPoint;
+                character.AdditionalSpPoints = packet.AdditionalPoint;
             }
         }
     }

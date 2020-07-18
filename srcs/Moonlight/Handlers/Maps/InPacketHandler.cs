@@ -1,14 +1,15 @@
 using System;
 using Moonlight.Clients;
 using Moonlight.Core;
-using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 using Moonlight.Event;
 using Moonlight.Event.Maps;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map;
+using NosCore.Packets.Enumerations;
+using NosCore.Packets.ServerPackets.Visibility;
+using NosCore.Shared.Enumerations;
 
 namespace Moonlight.Handlers.Maps
 {
@@ -35,26 +36,27 @@ namespace Moonlight.Handlers.Maps
                 return;
             }
 
-            if (map.Contains(packet.EntityType, packet.EntityId))
+            if (map.Contains(packet.VisualType, packet.VisualId))
             {
-                _logger.Warn($"Entity {packet.EntityType} {packet.EntityId} already on map");
+                _logger.Warn($"Entity {packet.VisualType} {packet.VisualId} already on map");
                 return;
             }
 
             Entity entity;
-            switch (packet.EntityType)
+            int Vnum = int.Parse(packet.VNum ?? "");
+            switch (packet.VisualType)
             {
-                case EntityType.MONSTER:
-                    entity = _entityFactory.CreateMonster(packet.EntityId, packet.Vnum);
+                case VisualType.Monster:
+                    entity = _entityFactory.CreateMonster(packet.VisualId, Vnum);
                     break;
-                case EntityType.NPC:
-                    entity = _entityFactory.CreateNpc(packet.EntityId, packet.Vnum, packet.NpcSubPacket.Name);
+                case VisualType.Npc:
+                    entity = _entityFactory.CreateNpc(packet.VisualId, Vnum, packet.InNonPlayerSubPacket?.Name);
                     break;
-                case EntityType.PLAYER:
-                    entity = _entityFactory.CreatePlayer(packet.EntityId, packet.Name);
+                case VisualType.Player:
+                    entity = _entityFactory.CreatePlayer(packet.VisualId, packet.Name);
                     break;
-                case EntityType.GROUND_ITEM:
-                    entity = _entityFactory.CreateGroundItem(packet.EntityId, packet.Vnum, packet.DropSubPacket.Amount);
+                case VisualType.Object:
+                    entity = _entityFactory.CreateGroundItem(packet.VisualId, Vnum, packet.InItemSubPacket?.Amount ?? 0);
                     break;
                 default:
                     throw new InvalidOperationException("Undefined entity type");
@@ -64,37 +66,37 @@ namespace Moonlight.Handlers.Maps
 
             if (entity is Player player)
             {
-                player.Level = packet.PlayerSubPacket.Level;
-                player.Class = packet.PlayerSubPacket.Class;
-                player.Gender = packet.PlayerSubPacket.Gender;
-                player.Direction = packet.Direction;
-                player.HpPercentage = packet.PlayerSubPacket.HpPercentage;
-                player.MpPercentage = packet.PlayerSubPacket.MpPercentage;
+                player.Level = packet.InCharacterSubPacket?.Level ?? 0;
+                player.Class = packet.InCharacterSubPacket?.Class ?? CharacterClassType.Adventurer;
+                player.Gender = packet.InCharacterSubPacket?.Gender ?? GenderType.Male;
+                player.Direction = packet.Direction ?? 0;
+                player.HpPercentage = packet.InCharacterSubPacket?.InAliveSubPacket?.Hp ?? 0;
+                player.MpPercentage = packet.InCharacterSubPacket?.InAliveSubPacket?.Mp ?? 0;
             }
 
             if (entity is Monster monster)
             {
-                monster.Direction = packet.Direction;
-                monster.HpPercentage = packet.NpcSubPacket.HpPercentage;
-                monster.MpPercentage = packet.NpcSubPacket.MpPercentage;
-                monster.Faction = packet.NpcSubPacket.Faction;
+                monster.Direction = packet.Direction ?? 0;
+                monster.HpPercentage = packet.InNonPlayerSubPacket?.InAliveSubPacket?.Hp ?? 0;
+                monster.MpPercentage = packet.InNonPlayerSubPacket?.InAliveSubPacket?.Mp ?? 0;
+                monster.Faction = (FactionType)(packet.InNonPlayerSubPacket?.Faction ?? 0);
             }
 
             if (entity is Npc npc)
             {
-                npc.Direction = packet.Direction;
-                npc.HpPercentage = packet.NpcSubPacket.HpPercentage;
-                npc.MpPercentage = packet.NpcSubPacket.MpPercentage;
-                npc.Faction = packet.NpcSubPacket.Faction;
+                npc.Direction = packet.Direction ?? 0;
+                npc.HpPercentage = packet.InNonPlayerSubPacket?.InAliveSubPacket?.Hp ?? 0;
+                npc.MpPercentage = packet.InNonPlayerSubPacket?.InAliveSubPacket?.Mp ?? 0;
+                npc.Faction = (FactionType)(packet.InNonPlayerSubPacket?.Faction ?? 0);
             }
 
             if (entity is GroundItem drop)
             {
-                drop.Owner = map.GetEntity<Player>(packet.DropSubPacket.Owner);
+                drop.Owner = map.GetEntity<Player>(packet.InItemSubPacket?.Owner ?? 0);
             }
 
             map.AddEntity(entity);
-            _logger.Info($"Entity {entity.EntityType} {entity.Id} joined map");
+            _logger.Info($"Entity {entity.VisualType} {entity.Id} joined map");
 
             _eventManager.Emit(new EntityJoinEvent(client)
             {

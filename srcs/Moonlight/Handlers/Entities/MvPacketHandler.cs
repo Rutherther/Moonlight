@@ -3,19 +3,19 @@ using Moonlight.Core;
 using Moonlight.Event;
 using Moonlight.Event.Entities;
 using Moonlight.Game.Entities;
-using Moonlight.Packet.Entity;
+using NosCore.Packets.ServerPackets.Entities;
 
 namespace Moonlight.Handlers.Entities
 {
-    internal class MvPacketHandler : PacketHandler<MvPacket>
+    internal class MvPacketHandler : PacketHandler<MovePacket>
     {
         private readonly IEventManager _eventManager;
 
         public MvPacketHandler(IEventManager eventManager) => _eventManager = eventManager;
 
-        protected override void Handle(Client client, MvPacket packet)
+        protected override void Handle(Client client, MovePacket packet)
         {
-            LivingEntity entity = client.Character?.Map?.GetEntity<LivingEntity>(packet.EntityType, packet.EntityId);
+            LivingEntity entity = client.Character?.Map?.GetEntity<LivingEntity>(packet.VisualType, packet.VisualEntityId);
 
             if (entity == null)
             {
@@ -24,7 +24,7 @@ namespace Moonlight.Handlers.Entities
 
             Position from = entity.Position;
 
-            entity.Position = new Position(packet.PositionX, packet.PositionY);
+            entity.Position = new Position(packet.MapX, packet.MapY);
             entity.Speed = packet.Speed;
 
             _eventManager.Emit(new EntityMoveEvent(client)

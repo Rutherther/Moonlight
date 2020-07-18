@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Core;
@@ -10,10 +11,8 @@ using Moonlight.Database.Dto;
 using Moonlight.Database.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Factory.Impl;
-using Moonlight.Packet.Core;
-using Moonlight.Packet.Core.Serialization;
-using Moonlight.Utility.Conversion;
-using Moonlight.Utility.Conversion.Converters;
+using NosCore.Packets;
+using NosCore.Packets.Interfaces;
 
 namespace Moonlight.Extensions
 {
@@ -31,10 +30,13 @@ namespace Moonlight.Extensions
 
         internal static void AddPacketDependencies(this IServiceCollection services)
         {
-            services.AddSingleton<IConversionFactory, ConversionFactory>();
-            services.AddSingleton<IReflectionCache, ReflectionCache>();
-            services.AddImplementingTypes<IConverter>();
-            services.AddTransient<IDeserializer, Deserializer>();
+            IEnumerable<Type> packetTypes = 
+                typeof(IPacket).Assembly.GetAssignableTypes<IPacket>().Where(x => !x.IsAbstract && !x.IsInterface)
+                    .Concat(Assembly.GetExecutingAssembly().GetAssignableTypes<IPacket>().Where(x => !x.IsAbstract && !x.IsInterface))
+                    .ToArray();
+            
+            services.AddSingleton<IDeserializer>(new Deserializer(packetTypes));
+            services.AddSingleton<ISerializer>(new Serializer(packetTypes));
         }
 
         internal static void AddDatabaseDependencies(this IServiceCollection services, AppConfig config)

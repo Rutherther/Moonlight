@@ -2,7 +2,7 @@ using System;
 using Moonlight.Clients;
 using Moonlight.Core;
 using Moonlight.Game.Entities;
-using Moonlight.Packet.Character;
+using NosCore.Packets.ClientPackets.Movement;
 
 namespace Moonlight.Handlers.Characters
 {
@@ -15,7 +15,7 @@ namespace Moonlight.Handlers.Characters
             if (character != null)
             {
                 character.Speed = packet.Speed;
-                character.Position = new Position(packet.PositionX, packet.PositionY);
+                character.Position = new Position(packet.XCoordinate, packet.YCoordinate);
                 character.LastMovement = DateTime.Now;
             }
         }

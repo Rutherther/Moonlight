@@ -5,8 +5,8 @@ using System.Threading;
 using Moonlight.Clients;
 using Moonlight.Core.Logging;
 using Moonlight.Extensions;
-using Moonlight.Packet;
-using Moonlight.Packet.Core.Serialization;
+using NosCore.Packets;
+using NosCore.Packets.Interfaces;
 
 namespace Moonlight.Handlers
 {
@@ -131,24 +131,14 @@ namespace Moonlight.Handlers
             try
             {
                 IPacket deserialized = _deserializer.Deserialize(packet);
-                if (deserialized == null || deserialized is UnknownPacket)
+                if (deserialized is UnresolvedPacket)
                 {
-                    return true;
-                }
-
-                if (deserialized is CommandPacket commandPacket)
-                {
-                    // TODO : Command manager
                     return true;
                 }
 
                 IPacketHandler handler = _handlers.GetValueOrDefault(deserialized.GetType());
-                if (handler == null)
-                {
-                    return true;
-                }
 
-                handler.Handle(client, deserialized);
+                handler?.Handle(client, deserialized);
                 return true;
             }
             catch (Exception e)

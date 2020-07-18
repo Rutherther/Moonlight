@@ -1,15 +1,15 @@
 using Moonlight.Clients;
-using Moonlight.Packet.Map.Miniland.Minigame;
+using NosCore.Packets.ServerPackets.Miniland;
 
 namespace Moonlight.Handlers.Maps.Minilands.Minigames
 {
-    internal class MlPtPacketHandler : PacketHandler<MlPtPacket>
+    internal class MlPtPacketHandler : PacketHandler<MinilandPointPacket>
     {
-        protected override void Handle(Client client, MlPtPacket packet)
+        protected override void Handle(Client client, MinilandPointPacket packet)
         {
             if (client.Character != null)
             {
-                client.Character.ProductionPoints = packet.Points;
+                client.Character.ProductionPoints = packet.MinilandPoint;
             }
         }
     }

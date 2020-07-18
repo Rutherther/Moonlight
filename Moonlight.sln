@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonlight.Local", "srcs\Moo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlight.Toolkit", "srcs\Moonlight.Toolkit\Moonlight.Toolkit.csproj", "{E6A119E0-BB0A-47D1-89E5-952CBF84D14E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonlight.Remote", "Moonlight.Remote\Moonlight.Remote.csproj", "{FD44D272-8FCC-475F-8DD0-F4BD32D77731}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,18 @@ Global
 		{E6A119E0-BB0A-47D1-89E5-952CBF84D14E}.Release|x64.Build.0 = Release|Any CPU
 		{E6A119E0-BB0A-47D1-89E5-952CBF84D14E}.Release|x86.ActiveCfg = Release|Any CPU
 		{E6A119E0-BB0A-47D1-89E5-952CBF84D14E}.Release|x86.Build.0 = Release|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Debug|x86.Build.0 = Debug|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Release|x64.Build.0 = Release|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Release|x86.ActiveCfg = Release|Any CPU
+		{FD44D272-8FCC-475F-8DD0-F4BD32D77731}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

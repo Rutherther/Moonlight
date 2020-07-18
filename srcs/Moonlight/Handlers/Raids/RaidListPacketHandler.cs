@@ -37,8 +37,8 @@ namespace Moonlight.Handlers.Raids
                 });
             }
 
-            raid.Players.AddRange(packet.Data.Except(raid.Players));
-            raid.Players.RemoveAll(x => !packet.Data.Contains(x));
+            raid.Players.AddRange(packet.RaidPlayers.Except(raid.Players));
+            raid.Players.RemoveAll(x => !packet.RaidPlayers.Contains(x));
         }
     }
 }

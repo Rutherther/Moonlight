@@ -1,4 +1,4 @@
-using Moonlight.Core.Enums;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Entities
 {
@@ -11,7 +11,7 @@ namespace Moonlight.Game.Entities
 
         public bool IsRaidBoss { get; internal set; }
         
-        internal Monster(long id, string name) : base(id, name, EntityType.MONSTER)
+        internal Monster(long id, string name) : base(id, name, VisualType.Monster)
         {
             
         }

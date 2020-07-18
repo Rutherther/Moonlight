@@ -1,15 +1,10 @@
 using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Clients;
 using Moonlight.Core;
 using Moonlight.Core.Logging;
-using Moonlight.Database;
-using Moonlight.Database.DAL;
-using Moonlight.Database.Dto;
-using Moonlight.Database.Entities;
 using Moonlight.Event;
 using Moonlight.Extensions;
 using Moonlight.Handlers;

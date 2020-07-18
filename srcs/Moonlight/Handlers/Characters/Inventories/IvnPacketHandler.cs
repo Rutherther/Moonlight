@@ -2,7 +2,7 @@ using Moonlight.Clients;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Inventories;
-using Moonlight.Packet.Character.Inventory;
+using NosCore.Packets.ServerPackets.Inventory;
 
 namespace Moonlight.Handlers.Characters.Inventories
 {
@@ -20,34 +20,44 @@ namespace Moonlight.Handlers.Characters.Inventories
             }
 
             Character character = client.Character;
-            IvnSubPacket ivn = packet.SubPacket;
 
-            Bag bag = character.Inventory.GetBag(packet.BagType);
-            if (bag == null)
+            if (packet.IvnSubPackets != null)
             {
-                return;
-            }
-
-            if (ivn.VNum == -1)
-            {
-                bag.Remove(ivn.Slot);
-                return;
-            }
-
-            ItemInstance existingItem = bag.GetValueOrDefault(ivn.Slot);
-            if (existingItem == null || existingItem.Item.Vnum == ivn.VNum)
-            {
-                ItemInstance item = _itemInstanceFactory.CreateItemInstance(packet.SubPacket.VNum, packet.SubPacket.RareAmount);
-                if (item == null)
+                foreach (IvnSubPacket ivn in packet.IvnSubPackets)
                 {
-                    return;
+                    if (ivn == null)
+                    {
+                        continue;
+                    }
+
+                    Bag bag = character.Inventory.GetBag(packet.Type);
+                    if (bag == null)
+                    {
+                        return;
+                    }
+
+                    if (ivn.VNum == -1)
+                    {
+                        bag.Remove(ivn.Slot);
+                        return;
+                    }
+
+                    ItemInstance existingItem = bag.GetValueOrDefault(ivn.Slot);
+                    if (existingItem == null || existingItem.Item.Vnum == ivn.VNum)
+                    {
+                        ItemInstance item = _itemInstanceFactory.CreateItemInstance(ivn.VNum, ivn.RareAmount);
+                        if (item == null)
+                        {
+                            return;
+                        }
+
+                        bag[ivn.Slot] = item;
+                        return;
+                    }
+
+                    existingItem.Amount = ivn.RareAmount;
                 }
-
-                bag[ivn.Slot] = item;
-                return;
             }
-
-            existingItem.Amount = packet.SubPacket.RareAmount;
         }
     }
 }

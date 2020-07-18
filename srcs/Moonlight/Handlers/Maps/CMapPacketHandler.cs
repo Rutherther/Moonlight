@@ -4,7 +4,7 @@ using Moonlight.Event;
 using Moonlight.Event.Maps;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map;
+using NosCore.Packets.ServerPackets.MiniMap;
 
 namespace Moonlight.Handlers.Maps
 {
@@ -23,13 +23,13 @@ namespace Moonlight.Handlers.Maps
 
         protected override void Handle(Client client, CMapPacket packet)
         {
-            if (!packet.IsBaseMap)
+            if (!packet.MapType)
             {
                 _logger.Debug("Is base map");
                 return;
             }
             
-            Map destination = _mapFactory.CreateMap(packet.MapId);
+            Map destination = _mapFactory.CreateMap(packet.Id);
             if (client.Character?.Map?.Id == destination.Id)
             {
                 return;

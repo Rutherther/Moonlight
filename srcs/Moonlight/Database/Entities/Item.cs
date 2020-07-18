@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Moonlight.Core.Enums;
 using Moonlight.Database.DAL;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Database.Entities
 {
@@ -18,7 +18,7 @@ namespace Moonlight.Database.Entities
         public int SubType { get; set; }
 
         [Required]
-        public BagType BagType { get; set; }
+        public PocketType BagType { get; set; }
 
         [Required]
         public string Data { get; set; }

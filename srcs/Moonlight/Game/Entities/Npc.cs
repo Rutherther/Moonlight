@@ -1,4 +1,4 @@
-﻿using Moonlight.Core.Enums;
+﻿using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Entities
 {
@@ -8,7 +8,7 @@ namespace Moonlight.Game.Entities
     /// </summary>
     public class Npc : LivingEntity
     {
-        internal Npc(long id, string name) : base(id, name, EntityType.NPC)
+        internal Npc(long id, string name) : base(id, name, VisualType.Npc)
         {
             
         }

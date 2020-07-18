@@ -4,17 +4,19 @@ using Moonlight.Core;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map.Miniland;
+using Moonlight.Packet.Miniland;
+using NosCore.Packets;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Handlers.Maps.Minilands
 {
-    internal class MltObjPacketHandler : PacketHandler<MltObjPacket>
+    internal class MltObjPacketHandler : PacketHandler<MltobjPacket>
     {
         private readonly IMinilandObjectFactory _minilandObjectFactory;
 
         public MltObjPacketHandler(IMinilandObjectFactory minilandObjectFactory) => _minilandObjectFactory = minilandObjectFactory;
 
-        protected override void Handle(Client client, MltObjPacket packet)
+        protected override void Handle(Client client, MltobjPacket packet)
         {
             Character character = client.Character;
 
@@ -26,22 +28,24 @@ namespace Moonlight.Handlers.Maps.Minilands
 
             miniland.Objects.Clear();
 
-            string[] minilandObjects = packet.Content.Split(' ');
-            foreach (string obj in minilandObjects)
+            if (packet.MinilandObjectSubPackets != null)
             {
-                string[] objectInfo = obj.Split('.');
-
-                int vnum = Convert.ToInt32(objectInfo[0]);
-                int slot = Convert.ToInt32(objectInfo[1]);
-                var position = new Position(Convert.ToInt16(objectInfo[2]), Convert.ToInt16(objectInfo[3]));
-
-                MinilandObject minilandObject = _minilandObjectFactory.CreateMinilandObject(vnum, slot, position);
-                if (minilandObject == null)
+                foreach (MltobjSubPacket subPacket in packet.MinilandObjectSubPackets)
                 {
-                    continue;
-                }
+                    if (subPacket == null)
+                    {
+                        continue;
+                    }
+                    
+                    var position = new Position(subPacket.MapX, subPacket.MapY);
+                    MinilandObject minilandObject = _minilandObjectFactory.CreateMinilandObject(subPacket.Vnum, subPacket.Slot, position);
+                    if (minilandObject == null)
+                    {
+                        continue;
+                    }
 
-                miniland.Objects.Add(minilandObject);
+                    miniland.Objects.Add(minilandObject);
+                }
             }
         }
     }

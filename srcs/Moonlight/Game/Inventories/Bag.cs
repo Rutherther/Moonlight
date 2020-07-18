@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Moonlight.Core.Collection;
-using Moonlight.Core.Enums;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Inventories.Items;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Inventories
 {
@@ -11,13 +11,13 @@ namespace Moonlight.Game.Inventories
     {
         private readonly Character _character;
 
-        public Bag(Character character, BagType bagType)
+        public Bag(Character character, PocketType bagType)
         {
             _character = character;
             BagType = bagType;
         }
 
-        public BagType BagType { get; }
+        public PocketType BagType { get; }
 
         public void Move(int sourceSlot, int destinationSlot)
         {
@@ -73,8 +73,8 @@ namespace Moonlight.Game.Inventories
             {
                 return;
             }
-
-            _character.Client.SendPacket($"u_i {(int)_character.EntityType} {_character.Id} {(int)BagType} {slot} 0 0 ");
+            
+            _character.Client.SendPacket($"u_i {(int)_character.VisualType} {_character.Id} {(int)BagType} {slot} 0 0 ");
         }
 
         public void Drop(int slot, int amount)

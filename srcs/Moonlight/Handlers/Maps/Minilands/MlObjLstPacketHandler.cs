@@ -6,11 +6,11 @@ using Moonlight.Game.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Inventories;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map.Miniland;
+using NosCore.Packets.ServerPackets.Miniland;
 
 namespace Moonlight.Handlers.Maps.Minilands
 {
-    internal class MlObjLstPacketHandler : PacketHandler<MlObjLstPacket>
+    internal class MlObjLstPacketHandler : PacketHandler<MlobjlstPacket>
     {
         private readonly ILogger _logger;
         private readonly IMinilandObjectFactory _minilandObjectFactory;
@@ -21,7 +21,7 @@ namespace Moonlight.Handlers.Maps.Minilands
             _minilandObjectFactory = minilandObjectFactory;
         }
 
-        protected override void Handle(Client client, MlObjLstPacket packet)
+        protected override void Handle(Client client, MlobjlstPacket packet)
         {
             Character character = client.Character;
             
@@ -34,37 +34,42 @@ namespace Moonlight.Handlers.Maps.Minilands
 
             miniland.Objects.Clear();
 
-            string[] minilandObjects = packet.Content.Split(' ');
-            foreach (string obj in minilandObjects)
+            if (packet.MlobjlstSubPacket != null)
             {
-                string[] objectInfo = obj.Split('.');
-
-                int slot = Convert.ToInt32(objectInfo[0]);
-                bool used = objectInfo[1] == "1";
-
-                if (!used)
+                foreach (MlobjlstSubPacket subPacket in packet.MlobjlstSubPacket)
                 {
-                    _logger.Info($"Miniland object {slot} is not used, skipping.");
-                    continue;
-                }
+                    if (subPacket == null)
+                    {
+                        continue;
+                    }
 
-                ItemInstance itemInstance = character.Inventory.Miniland.GetValueOrDefault(slot);
-                if (itemInstance == null)
-                {
-                    _logger.Info($"No miniland object found in inventory at slot {slot}");
-                    continue;
-                }
-                
-                var position = new Position(Convert.ToInt16(objectInfo[2]), Convert.ToInt16(objectInfo[3]));
+                    int slot = subPacket.Slot;
+                    bool used = subPacket.InUse;
+                    
+                    if (!used)
+                    {
+                        _logger.Info($"Miniland object {slot} is not used, skipping.");
+                        continue;
+                    }
 
-                MinilandObject minilandObject = _minilandObjectFactory.CreateMinilandObject(itemInstance.Item, slot, position);
-                if (minilandObject == null)
-                {
-                    _logger.Debug("Not a miniland object");
-                    continue;
+                    ItemInstance itemInstance = character.Inventory.Miniland.GetValueOrDefault(slot);
+                    if (itemInstance == null)
+                    {
+                        _logger.Info($"No miniland object found in inventory at slot {slot}");
+                        continue;
+                    }
+                    
+                    var position = new Position(subPacket.MlObjSubPacket?.MapX ?? 0, subPacket.MlObjSubPacket?.MapY ?? 0);
+                    
+                    MinilandObject minilandObject = _minilandObjectFactory.CreateMinilandObject(itemInstance.Item, slot, position);
+                    if (minilandObject == null)
+                    {
+                        _logger.Debug("Not a miniland object");
+                        continue;
+                    }
+                    
+                    miniland.Objects.Add(minilandObject);
                 }
-
-                miniland.Objects.Add(minilandObject);
             }
         }
     }

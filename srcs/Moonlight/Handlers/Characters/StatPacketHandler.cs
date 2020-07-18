@@ -2,7 +2,7 @@ using Moonlight.Clients;
 using Moonlight.Event;
 using Moonlight.Event.Characters;
 using Moonlight.Game.Entities;
-using Moonlight.Packet.Character;
+using NosCore.Packets.ServerPackets.Player;
 
 namespace Moonlight.Handlers.Characters
 {
@@ -20,8 +20,8 @@ namespace Moonlight.Handlers.Characters
             {
                 character.Hp = packet.Hp;
                 character.Mp = packet.Mp;
-                character.MaxHp = packet.MaxHp;
-                character.MaxMp = packet.MaxMp;
+                character.MaxHp = packet.HpMaximum;
+                character.MaxMp = packet.MpMaximum;
 
                 _eventManager.Emit(new StatChangeEvent(client)
                 {

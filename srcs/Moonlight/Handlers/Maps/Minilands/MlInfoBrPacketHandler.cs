@@ -1,7 +1,7 @@
 using Moonlight.Clients;
 using Moonlight.Core.Logging;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Map.Miniland;
+using NosCore.Packets.ServerPackets.Miniland;
 
 namespace Moonlight.Handlers.Maps.Minilands
 {
@@ -20,7 +20,7 @@ namespace Moonlight.Handlers.Maps.Minilands
                 return;
             }
 
-            miniland.Owner = packet.Owner;
+            miniland.Owner = packet.Name;
         }
     }
 }

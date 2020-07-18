@@ -6,7 +6,7 @@ using Moonlight.Event.Entities;
 using Moonlight.Game.Battle;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Battle;
+using NosCore.Packets.ServerPackets.Battle;
 
 namespace Moonlight.Handlers.Battle
 {
@@ -30,8 +30,8 @@ namespace Moonlight.Handlers.Battle
 
             Map map = client.Character.Map;
 
-            LivingEntity caster = map.GetEntity<LivingEntity>(packet.EntityType, packet.EntityId);
-            LivingEntity target = map.GetEntity<LivingEntity>(packet.TargetEntityType, packet.TargetEntityId);
+            LivingEntity caster = map.GetEntity<LivingEntity>(packet.VisualType, packet.VisualId);
+            LivingEntity target = map.GetEntity<LivingEntity>(packet.TargetVisualType, packet.TargetId);
 
             if (caster is Character character)
             {
@@ -50,7 +50,7 @@ namespace Moonlight.Handlers.Battle
                 return;
             }
 
-            target.HpPercentage = packet.TargetHpPercentage;
+            target.HpPercentage = packet.HpPercentage;
 
             _eventManager.Emit(new EntityDamageEvent(client)
             {
@@ -71,7 +71,7 @@ namespace Moonlight.Handlers.Battle
                 map.RemoveEntity(target);
             }
 
-            _logger.Info($"Entity {target.EntityType} {target.Id} died");
+            _logger.Info($"Entity {target.VisualType} {target.Id} died");
 
             _eventManager.Emit(new EntityDeathEvent(client)
             {

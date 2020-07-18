@@ -1,5 +1,5 @@
-﻿using Moonlight.Core.Enums;
-using Moonlight.Game.Inventories.Items;
+﻿using Moonlight.Game.Inventories.Items;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Entities
 {
@@ -8,7 +8,7 @@ namespace Moonlight.Game.Entities
     /// </summary>
     public class GroundItem : Entity
     {
-        internal GroundItem(long id, Item item, int amount) : base(id, item.Name, EntityType.GROUND_ITEM)
+        internal GroundItem(long id, Item item, int amount) : base(id, item.Name, VisualType.Object)
         {
             Item = item;
             Amount = amount;

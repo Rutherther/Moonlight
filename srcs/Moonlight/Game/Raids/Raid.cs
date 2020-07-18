@@ -10,7 +10,7 @@ namespace Moonlight.Game.Raids
     {
         public Raid()
         {
-            Players = new List<RaidPlayerData>();
+            Players = new List<RaidListSubPacket>();
             Bosses = new List<Monster>();
         }
 
@@ -28,7 +28,7 @@ namespace Moonlight.Game.Raids
 
         public RaidStatus Status { get; set; }
 
-        public List<RaidPlayerData> Players { get; set; }
+        public List<RaidListSubPacket> Players { get; set; }
 
         public Monster Boss { get; set; }
 

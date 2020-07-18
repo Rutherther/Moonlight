@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
-using Moonlight.Core.Enums;
-using Moonlight.Extensions;
 using Moonlight.Game.Entities;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Inventories
 {
     public class Inventory
     {
-        private readonly Dictionary<BagType, Bag> _bags;
+        private readonly Dictionary<PocketType, Bag> _bags;
 
         public Inventory(Character character)
         {
-            Equipment = new Bag(character, BagType.EQUIPMENT);
-            Main = new Bag(character, BagType.MAIN);
-            Etc = new Bag(character, BagType.ETC);
-            Miniland = new Bag(character, BagType.MINILAND);
-            Specialist = new Bag(character, BagType.SPECIALIST);
-            Costume = new Bag(character, BagType.COSTUME);
+            Equipment = new Bag(character, PocketType.Equipment);
+            Main = new Bag(character, PocketType.Main);
+            Etc = new Bag(character, PocketType.Etc);
+            Miniland = new Bag(character, PocketType.Miniland);
+            Specialist = new Bag(character, PocketType.Specialist);
+            Costume = new Bag(character, PocketType.Costume);
 
-            _bags = new Dictionary<BagType, Bag>
+            _bags = new Dictionary<PocketType, Bag>
             {
                 [Equipment.BagType] = Equipment,
                 [Main.BagType] = Main,
@@ -36,6 +35,6 @@ namespace Moonlight.Game.Inventories
         public Bag Specialist { get; }
         public Bag Costume { get; }
 
-        public Bag GetBag(BagType bagType) => _bags.GetValueOrDefault(bagType);
+        public Bag GetBag(PocketType bagType) => _bags.GetValueOrDefault(bagType);
     }
 }

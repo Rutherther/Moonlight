@@ -1,7 +1,7 @@
 ﻿using System;
 using Moonlight.Core;
-using Moonlight.Core.Enums;
 using Moonlight.Game.Maps;
+using NosCore.Packets.Enumerations;
 using PropertyChanged;
 
 namespace Moonlight.Game.Entities
@@ -13,11 +13,11 @@ namespace Moonlight.Game.Entities
     [AddINotifyPropertyChangedInterface]
     public abstract class Entity : IEquatable<Entity>
     {
-        protected Entity(long id, string name, EntityType entityType)
+        protected Entity(long id, string name, VisualType entityType)
         {
             Id = id;
             Name = name;
-            EntityType = entityType;
+            VisualType = entityType;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Moonlight.Game.Entities
         /// <summary>
         ///     Type of entity
         /// </summary>
-        public EntityType EntityType { get; }
+        public VisualType VisualType { get; }
 
         /// <summary>
         ///     Current map where entity is located
@@ -65,14 +65,14 @@ namespace Moonlight.Game.Entities
                 return true;
             }
 
-            return Id == other.Id && EntityType == other.EntityType;
+            return Id == other.Id && VisualType == other.VisualType;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return Id.GetHashCode() * 397 ^ (int)EntityType;
+                return Id.GetHashCode() * 397 ^ (int)VisualType;
             }
         }
     }

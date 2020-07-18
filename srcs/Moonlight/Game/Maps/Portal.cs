@@ -1,5 +1,5 @@
 ﻿using Moonlight.Core;
-using Moonlight.Core.Enums;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Maps
 {

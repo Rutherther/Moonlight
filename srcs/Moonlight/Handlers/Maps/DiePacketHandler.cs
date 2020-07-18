@@ -20,17 +20,17 @@ namespace Moonlight.Handlers.Maps
                 return;
             }
 
-            LivingEntity entity = map.GetEntity<LivingEntity>(packet.EntityType, packet.EntityId);
+            LivingEntity entity = map.GetEntity<LivingEntity>(packet.VisualType, packet.EntityId);
             if (entity == null)
             {
-                _logger.Info($"Can't found entity {packet.EntityType} {packet.EntityId} in map (Die)");
+                _logger.Info($"Can't found entity {packet.VisualType} {packet.EntityId} in map (Die)");
                 return;
             }
 
             entity.HpPercentage = 0;
             map.RemoveEntity(entity);
 
-            _logger.Info($"Entity {entity.EntityType} {entity.Id} died");
+            _logger.Info($"Entity {entity.VisualType} {entity.Id} died");
         }
     }
 }

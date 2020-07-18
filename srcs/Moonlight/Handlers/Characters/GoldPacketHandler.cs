@@ -1,5 +1,5 @@
 using Moonlight.Clients;
-using Moonlight.Packet.Character;
+using NosCore.Packets.ServerPackets.Inventory;
 
 namespace Moonlight.Handlers.Characters
 {

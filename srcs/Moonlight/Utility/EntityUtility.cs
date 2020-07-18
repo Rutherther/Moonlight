@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using Moonlight.Core.Enums;
-using Moonlight.Extensions;
 using Moonlight.Game.Entities;
+using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Utility
 {
     public static class EntityUtility
     {
-        private static readonly Dictionary<Type, EntityType> _typeMapping;
+        private static readonly Dictionary<Type, VisualType> _typeMapping;
 
         static EntityUtility() =>
-            _typeMapping = new Dictionary<Type, EntityType>
+            _typeMapping = new Dictionary<Type, VisualType>
             {
-                [typeof(Monster)] = EntityType.MONSTER,
-                [typeof(Npc)] = EntityType.NPC,
-                [typeof(Player)] = EntityType.PLAYER,
-                [typeof(GroundItem)] = EntityType.GROUND_ITEM
+                [typeof(Monster)] = VisualType.Monster,
+                [typeof(Npc)] = VisualType.Npc,
+                [typeof(Player)] = VisualType.Player,
+                [typeof(GroundItem)] = VisualType.Object
             };
 
-        public static EntityType GetEntityType<T>() where T : Entity => _typeMapping.GetValueOrDefault(typeof(T));
+        public static VisualType GetVisualType<T>() where T : Entity => _typeMapping.GetValueOrDefault(typeof(T));
     }
 }

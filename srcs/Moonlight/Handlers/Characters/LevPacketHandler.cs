@@ -1,6 +1,6 @@
 using Moonlight.Clients;
 using Moonlight.Game.Entities;
-using Moonlight.Packet.Character;
+using NosCore.Packets.ServerPackets.Player;
 
 namespace Moonlight.Handlers.Characters
 {

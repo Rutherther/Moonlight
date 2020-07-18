@@ -9,8 +9,6 @@ using Moonlight.Core.Logging;
 using Moonlight.Game.Battle;
 using Moonlight.Game.Inventories;
 using Moonlight.Game.Raids;
-using Moonlight.Clients;
-using Moonlight.EventArgs;
 
 namespace Moonlight.Game.Entities
 {
@@ -50,7 +48,7 @@ namespace Moonlight.Game.Entities
         /// <summary>
         ///     Maximum player Mp
         /// </summary>
-        public int MaxHp { get; internal set; }
+        public double MaxHp { get; internal set; }
 
         /// <summary>
         ///     Current player Mp
@@ -60,7 +58,7 @@ namespace Moonlight.Game.Entities
         /// <summary>
         ///     Maximum player Mp
         /// </summary>
-        public int MaxMp { get; internal set; }
+        public double MaxMp { get; internal set; }
 
         /// <summary>
         ///     Represent character global inventory (gold, bags etc...)
@@ -70,7 +68,7 @@ namespace Moonlight.Game.Entities
         /// <summary>
         ///     Current character gold
         /// </summary>
-        public int Gold { get; set; }
+        public long Gold { get; set; }
 
         /// <summary>
         ///     Current sp points
@@ -85,7 +83,7 @@ namespace Moonlight.Game.Entities
         /// <summary>
         ///     Current character production points
         /// </summary>
-        public short ProductionPoints { get; internal set; }
+        public long ProductionPoints { get; internal set; }
 
         /// <summary>
         ///     Current character skills
@@ -104,8 +102,8 @@ namespace Moonlight.Game.Entities
 
         internal DateTime LastMovement { get; set; }
 
-        public override byte HpPercentage => (byte)(Hp == 0 ? 0 : (double)Hp / MaxHp * 100);
-        public override byte MpPercentage => (byte)(Mp == 0 ? 0 : (double)Mp / MaxMp * 100);
+        public override int HpPercentage => (int)(Hp == 0 ? 0 : (double)Hp / MaxHp * 100);
+        public override int MpPercentage => (int)(Mp == 0 ? 0 : (double)Mp / MaxMp * 100);
 
         /// <summary>
         ///     Walk to the specified position
@@ -198,7 +196,7 @@ namespace Moonlight.Game.Entities
                 return;
             }
 
-            Client.SendPacket($"u_s {skill.CastId} {(int)EntityType} {Id}");
+            Client.SendPacket($"u_s {skill.CastId} {(int)VisualType} {Id}");
             await Task.Delay(skill.CastTime * 200).ConfigureAwait(false);
         }
 
@@ -241,7 +239,7 @@ namespace Moonlight.Game.Entities
             }
 
             await WalkInRange(target.Position, skill.Range).ConfigureAwait(false);
-            Client.SendPacket($"u_s {skill.CastId} {(int)target.EntityType} {target.Id}");
+            Client.SendPacket($"u_s {skill.CastId} {(int)target.VisualType} {target.Id}");
             await Task.Delay(skill.CastTime * 200).ConfigureAwait(false);
         }
 
@@ -285,7 +283,7 @@ namespace Moonlight.Game.Entities
         public async Task PickUp(GroundItem groundItem)
         {
             await WalkInRange(groundItem.Position, 1).ConfigureAwait(false);
-            Client.SendPacket($"get {(byte)EntityType} {Id} {groundItem.Id}");
+            Client.SendPacket($"get {(byte)VisualType} {Id} {groundItem.Id}");
         }
     }
 }

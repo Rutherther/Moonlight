@@ -5,7 +5,7 @@ using Moonlight.Event.Maps;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Maps;
-using Moonlight.Packet.Character;
+using NosCore.Packets.ServerPackets.MiniMap;
 
 namespace Moonlight.Handlers.Characters
 {

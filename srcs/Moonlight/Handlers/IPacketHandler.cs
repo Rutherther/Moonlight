@@ -1,5 +1,5 @@
 using Moonlight.Clients;
-using Moonlight.Packet;
+using NosCore.Packets.Interfaces;
 
 namespace Moonlight.Handlers
 {

@@ -1,4 +1,5 @@
-﻿using Moonlight.Core.Enums;
+﻿using NosCore.Packets.Enumerations;
+using NosCore.Shared.Enumerations;
 
 namespace Moonlight.Game.Entities
 {
@@ -7,14 +8,14 @@ namespace Moonlight.Game.Entities
     /// </summary>
     public class Player : LivingEntity
     {
-        internal Player(long id, string name) : base(id, name, EntityType.PLAYER)
+        internal Player(long id, string name) : base(id, name, VisualType.Player)
         {
         }
 
         /// <summary>
         ///     Class of player
         /// </summary>
-        public ClassType Class { get; internal set; }
+        public CharacterClassType Class { get; internal set; }
 
         /// <summary>
         ///     Gender of player

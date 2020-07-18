@@ -10,7 +10,7 @@ namespace Moonlight.Event.Entities
 
         public LivingEntity Entity { get; internal set; }
         public LivingEntity Attacker { get; internal set; }
-        public int Damage { get; internal set; }
+        public uint Damage { get; internal set; }
         public Skill Skill { get; internal set; }
         public Client Emitter { get; }
     }

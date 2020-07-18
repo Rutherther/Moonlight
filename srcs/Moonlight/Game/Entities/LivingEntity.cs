@@ -1,4 +1,4 @@
-﻿using Moonlight.Core.Enums;
+﻿using NosCore.Packets.Enumerations;
 
 namespace Moonlight.Game.Entities
 {
@@ -8,14 +8,14 @@ namespace Moonlight.Game.Entities
     /// </summary>
     public abstract class LivingEntity : Entity
     {
-        protected LivingEntity(long id, string name, EntityType entityType) : base(id, name, entityType)
+        protected LivingEntity(long id, string name, VisualType entityType) : base(id, name, entityType)
         {
         }
 
         /// <summary>
         ///     Speed of the entity
         /// </summary>
-        public byte Speed { get; internal set; }
+        public short Speed { get; internal set; }
 
         /// <summary>
         ///     Level of the entity
@@ -30,12 +30,12 @@ namespace Moonlight.Game.Entities
         /// <summary>
         ///     Hp percentage of the entity
         /// </summary>
-        public virtual byte HpPercentage { get; internal set; }
+        public virtual int HpPercentage { get; internal set; }
 
         /// <summary>
         ///     Mp percentage of the entity
         /// </summary>
-        public virtual byte MpPercentage { get; internal set; }
+        public virtual int MpPercentage { get; internal set; }
 
         /// <summary>
         ///     Current faction of the entity

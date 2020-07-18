@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Moonlight.Clients;
 using Moonlight.Event;
 using Moonlight.Event.Dialogs;
@@ -20,7 +17,7 @@ namespace Moonlight.Handlers.Dialogs
 
         protected override void Handle(Client client, Qnamli2Packet packet)
         {
-            Dialog dialog = new Dialog(client, packet.Command);
+            var dialog = new Dialog(client, packet.Command);
 
             switch (packet.Type)
             {

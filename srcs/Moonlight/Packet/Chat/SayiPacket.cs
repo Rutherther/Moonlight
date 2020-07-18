@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Moonlight.Packet.Core.Attributes;
+using NosCore.Packets;
+using NosCore.Packets.Attributes;
 
 namespace Moonlight.Packet.Chat
 {
     [PacketHeader("sayi")]
-    public class SayiPacket : Packet
+    public class SayiPacket : PacketBase
     {
         [PacketIndex(0)]
         public int Type { get; set; }

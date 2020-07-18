@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using Moonlight.Packet.Core.Attributes;
+using NosCore.Packets;
+using NosCore.Packets.Attributes;
 
 namespace Moonlight.Packet.Dialogs
 {
     [PacketHeader("qnamli2")]
-    public class Qnamli2Packet : Packet
+    public class Qnamli2Packet : PacketBase
     {
         [PacketIndex(1)]
         public string Command { get; set; }
@@ -17,6 +16,6 @@ namespace Moonlight.Packet.Dialogs
         [PacketIndex(3)]
         public int ParametersCount { get; set; }
 
-        public string[] Parameters { get; set; }
+        public List<string> Parameters { get; set; }
     }
 }

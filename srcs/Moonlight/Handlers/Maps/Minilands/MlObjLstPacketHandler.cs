@@ -1,4 +1,3 @@
-using System;
 using Moonlight.Clients;
 using Moonlight.Core;
 using Moonlight.Core.Logging;

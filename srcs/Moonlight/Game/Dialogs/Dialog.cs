@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Moonlight.Clients;
 
 namespace Moonlight.Game.Dialogs

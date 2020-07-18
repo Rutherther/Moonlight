@@ -1,8 +1,9 @@
-﻿using Moonlight.Packet.Core.Serialization;
-using Moonlight.Packet.Map.Miniland.Minigame;
-using Moonlight.Tests.Extensions;
+﻿using Moonlight.Tests.Extensions;
 using Moonlight.Tests.Utility;
 using NFluent;
+using NosCore.Packets.ClientPackets.Miniland;
+using NosCore.Packets.Interfaces;
+using NosCore.Packets.ServerPackets.Miniland;
 using Xunit;
 
 namespace Moonlight.Tests.Packet.Deserialization
@@ -16,10 +17,10 @@ namespace Moonlight.Tests.Packet.Deserialization
         [Fact]
         public void Mg_Packet()
         {
-            MgPacket packet = _deserializer.Deserialize<MgPacket>("mg 1 7");
+            MinigamePacket packet = _deserializer.Deserialize<MinigamePacket>("mg 1 7");
 
             Check.That(packet.Type).Is<byte>(1);
-            Check.That(packet.MinigameId).Is<short>(7);
+            Check.That(packet.Id).Is<byte>(7);
         }
 
         [Fact]
@@ -27,9 +28,9 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             MloInfoPacket packet = _deserializer.Deserialize<MloInfoPacket>("mlo_info 1 3120 7 2000 0 0 0 999 1000 3999 4000 7999 8000 11999 12000 19999 20000 1000000");
 
-            Check.That(packet.Points).Is<short>(2000);
-            Check.That(packet.Vnum).Is(3120);
-            Check.That(packet.ObjectId).Is(7);
+            Check.That(packet.MinilandPoints).Is(2000);
+            Check.That(packet.ObjectVNum).Is<short>(3120);
+            Check.That(packet.Slot).Is<byte>(7);
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             MloLvPacket packet = _deserializer.Deserialize<MloLvPacket>("mlo_lv 4");
 
-            Check.That(packet.Level).Is(4);
+            Check.That(packet.Level).Is<short>(4);
         }
 
         [Fact]
@@ -45,8 +46,8 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             MloRwPacket packet = _deserializer.Deserialize<MloRwPacket>("mlo_rw 2070 4");
 
-            Check.That(packet.ItemVnum).Is(2070);
-            Check.That(packet.Count).Is(4);
+            Check.That(packet.VNum).Is<short>(2070);
+            Check.That(packet.Amount).Is<short>(4);
         }
 
         [Fact]
@@ -60,8 +61,8 @@ namespace Moonlight.Tests.Packet.Deserialization
         [Fact]
         public void MlPt_Packet()
         {
-            MlPtPacket packet = _deserializer.Deserialize<MlPtPacket>("mlpt 2000 2000");
-            Check.That(packet.Points).Is<short>(2000);
+            MinilandPointPacket packet = _deserializer.Deserialize<MinilandPointPacket>("mlpt 2000 2000");
+            Check.That(packet.MinilandPoint).Is<long>(2000);
         }
     }
 }

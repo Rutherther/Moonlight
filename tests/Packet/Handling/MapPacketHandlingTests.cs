@@ -50,8 +50,8 @@ namespace Moonlight.Tests.Packet.Handling
             Check.That(npc.Position.X).Is<short>(96);
             Check.That(npc.Position.Y).Is<short>(57);
             Check.That(npc.Direction).Is<byte>(2);
-            Check.That(npc.HpPercentage).Is<byte>(87);
-            Check.That(npc.MpPercentage).Is<byte>(100);
+            Check.That(npc.HpPercentage).Is<int>(87);
+            Check.That(npc.MpPercentage).Is<int>(100);
         }
 
         [Fact]
@@ -67,8 +67,8 @@ namespace Moonlight.Tests.Packet.Handling
             Check.That(npc.Vnum).Is(815);
             Check.That(npc.Position).Is(new Position(75, 64));
             Check.That(npc.Direction).Is<byte>(2);
-            Check.That(npc.HpPercentage).Is<byte>(100);
-            Check.That(npc.MpPercentage).Is<byte>(100);
+            Check.That(npc.HpPercentage).Is<int>(100);
+            Check.That(npc.MpPercentage).Is<int>(100);
             Check.That(npc.Name).Is("Ratufu centurion");
         }
 
@@ -86,8 +86,8 @@ namespace Moonlight.Tests.Packet.Handling
             Check.That(player.Name).Is("~Orage~");
             Check.That(player.Position).Is(new Position(100, 58));
             Check.That(player.Direction).Is<byte>(2);
-            Check.That(player.HpPercentage).Is<byte>(100);
-            Check.That(player.MpPercentage).Is<byte>(100);
+            Check.That(player.HpPercentage).Is<int>(100);
+            Check.That(player.MpPercentage).Is<int>(100);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace Moonlight.Tests.Packet.Handling
             Map map = Character.Map;
             map.AddEntity(player);
 
-            Client.ReceivePacket($"out {player.EntityType} {player.Id}");
+            Client.ReceivePacket($"out {player.VisualType} {player.Id}");
 
             Check.That(map.Players).Not.Contains(player);
         }

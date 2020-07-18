@@ -19,7 +19,7 @@ namespace Moonlight.Tests.Packet.Handling
 
             Client.ReceivePacket("cond 3 55 0 0 10");
 
-            Check.That(monster.Speed).Is<byte>(10);
+            Check.That(monster.Speed).Is<short>(10);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Moonlight.Tests.Packet.Handling
             Client.ReceivePacket("mv 2 2195 27 109 5");
 
             Check.That(npc.Position).Is(new Position(27, 109));
-            Check.That(npc.Speed).Is<byte>(5);
+            Check.That(npc.Speed).Is<short>(5);
         }
     }
 }

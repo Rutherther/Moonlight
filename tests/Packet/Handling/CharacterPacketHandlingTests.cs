@@ -1,7 +1,7 @@
 ﻿using Moonlight.Core;
-using Moonlight.Core.Enums;
 using Moonlight.Tests.Extensions;
 using NFluent;
+using NosCore.Packets.Enumerations;
 using Xunit;
 
 namespace Moonlight.Tests.Packet.Handling
@@ -23,7 +23,7 @@ namespace Moonlight.Tests.Packet.Handling
         {
             Client.ReceivePacket("fs 1");
 
-            Check.That(Character.Faction).Is(FactionType.ANGEL);
+            Check.That(Character.Faction).Is(FactionType.Angel);
         }
 
         [Fact]

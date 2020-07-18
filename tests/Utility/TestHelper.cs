@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Extensions;
-using Moonlight.Packet.Core.Serialization;
+using NosCore.Packets.Interfaces;
 
 namespace Moonlight.Tests.Utility
 {

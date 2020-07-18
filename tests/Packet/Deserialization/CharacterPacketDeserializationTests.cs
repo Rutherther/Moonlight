@@ -1,10 +1,19 @@
-﻿using Moonlight.Core.Enums;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Moonlight.Core.Enums;
 using Moonlight.Packet.Character;
-using Moonlight.Packet.Core.Serialization;
 using Moonlight.Packet.Map;
 using Moonlight.Tests.Extensions;
 using Moonlight.Tests.Utility;
 using NFluent;
+using NosCore.Packets.ClientPackets.Battle;
+using NosCore.Packets.ClientPackets.Movement;
+using NosCore.Packets.Enumerations;
+using NosCore.Packets.Interfaces;
+using NosCore.Packets.ServerPackets.Inventory;
+using NosCore.Packets.ServerPackets.MiniMap;
+using NosCore.Packets.ServerPackets.Player;
+using NosCore.Packets.ServerPackets.Specialists;
+using NosCore.Shared.Enumerations;
 using Xunit;
 
 namespace Moonlight.Tests.Packet.Deserialization
@@ -33,8 +42,8 @@ namespace Moonlight.Tests.Packet.Deserialization
 
             Check.That(packet.Name).Is("Mermoud");
             Check.That(packet.CharacterId).Is(1234567);
-            Check.That(packet.Class).Is(ClassType.ARCHER);
-            Check.That(packet.Gender).Is(GenderType.MALE);
+            Check.That(packet.Class).Is(CharacterClassType.Archer);
+            Check.That(packet.Gender).Is(GenderType.Male);
         }
 
         [Fact]
@@ -42,8 +51,8 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             CMapPacket packet = _deserializer.Deserialize<CMapPacket>("c_map 1 20001 1");
 
-            Check.That(packet.MapId).IsEqualTo(20001);
-            Check.That(packet.IsBaseMap).IsTrue();
+            Check.That(packet.Id).IsEqualTo(20001);
+            Check.That(packet.MapType).IsTrue();
         }
 
         [Fact]
@@ -51,7 +60,7 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             FsPacket packet = _deserializer.Deserialize<FsPacket>("fs 2");
 
-            Check.That(packet.Faction).Is(FactionType.DEMON);
+            Check.That(packet.Faction).Is(FactionType.Demon);
         }
 
         [Fact]
@@ -59,7 +68,7 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             FdPacket packet = _deserializer.Deserialize<FdPacket>("fd 49698 14 100 1");
 
-            Check.That(packet.Reputation).Is(49698);
+            Check.That(packet.Reput).Is(49698);
             Check.That(packet.Dignity).Is(100);
         }
 
@@ -85,8 +94,8 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             NcifPacket packet = _deserializer.Deserialize<NcifPacket>("ncif 3 2304");
 
-            Check.That(packet.EntityType).Is(EntityType.MONSTER);
-            Check.That(packet.EntityId).Is(2304);
+            Check.That(packet.Type).Is(VisualType.Monster);
+            Check.That(packet.TargetId).Is(2304);
         }
 
         [Fact]
@@ -94,10 +103,10 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             PairyPacket packet = _deserializer.Deserialize<PairyPacket>("pairy 1 1234567 4 2 28 0");
 
-            Check.That(packet.EntityType).Is(EntityType.PLAYER);
-            Check.That(packet.EntityId).Is(1234567);
-            Check.That(packet.Element).Is(ElementType.WATER);
-            Check.That(packet.Power).Is<short>(28);
+            Check.That(packet.VisualType).Is(VisualType.Player);
+            Check.That(packet.VisualId).Is(1234567);
+            Check.That(packet.Element).Is(ElementType.Water);
+            Check.That(packet.ElementRate).Is<int>(28);
         }
 
         [Fact]
@@ -113,10 +122,10 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             SpPacket packet = _deserializer.Deserialize<SpPacket>("sp 115488 1000000 10000 10000");
 
-            Check.That(packet.Points).Is(10000);
-            Check.That(packet.AdditionalPoints).Is(115488);
-            Check.That(packet.MaximumPoints).Is(10000);
-            Check.That(packet.MaximumAdditionalPoints).Is(1000000);
+            Check.That(packet.SpPoint).Is(10000);
+            Check.That(packet.AdditionalPoint).Is(115488);
+            Check.That(packet.MaxSpPoint).Is(10000);
+            Check.That(packet.MaxAdditionalPoint).Is(1000000);
         }
 
         [Fact]
@@ -125,9 +134,9 @@ namespace Moonlight.Tests.Packet.Deserialization
             StatPacket packet = _deserializer.Deserialize<StatPacket>("stat 3300 3395 1340 1350 0 416");
 
             Check.That(packet.Hp).Is(3300);
-            Check.That(packet.MaxHp).Is(3395);
+            Check.That(packet.HpMaximum).Is(3395);
             Check.That(packet.Mp).Is(1340);
-            Check.That(packet.MaxMp).Is(1350);
+            Check.That(packet.MpMaximum).Is(1350);
         }
 
         [Fact]
@@ -135,9 +144,9 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             WalkPacket packet = _deserializer.Deserialize<WalkPacket>("walk 140 87 1 12");
 
-            Check.That(packet.PositionX).Is<short>(140);
-            Check.That(packet.PositionY).Is<short>(87);
-            Check.That(packet.Speed).Is<byte>(12);
+            Check.That(packet.XCoordinate).Is<short>(140);
+            Check.That(packet.YCoordinate).Is<short>(87);
+            Check.That(packet.Speed).Is<short>(12);
         }
     }
 }

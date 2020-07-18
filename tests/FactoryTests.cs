@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Core;
 using Moonlight.Core.Enums;
@@ -9,6 +10,7 @@ using Moonlight.Game.Maps;
 using Moonlight.Tests.Extensions;
 using Moonlight.Translation;
 using NFluent;
+using NosCore.Packets.Enumerations;
 using Xunit;
 
 namespace Moonlight.Tests
@@ -23,9 +25,10 @@ namespace Moonlight.Tests
 
         public FactoryTests()
         {
+            string fullPath = Path.GetFullPath("../../../database.db");
             var moonlight = new MoonlightAPI(new AppConfig
             {
-                Database = "../../database.db"
+                Database = fullPath
             });
 
             _itemFactory = moonlight.Services.GetService<IItemFactory>();
@@ -105,7 +108,7 @@ namespace Moonlight.Tests
             Check.That(item).IsNotNull();
             Check.That(item.Vnum).Is(759);
             Check.That(item.Name).Is("Archmage Wand");
-            Check.That(item.BagType).Is(BagType.EQUIPMENT);
+            Check.That(item.BagType).Is(PocketType.Equipment);
             Check.That(item.Type).Is(0);
             Check.That(item.SubType).Is(9);
             Check.That(item.Data).CountIs(20);

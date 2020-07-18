@@ -1,5 +1,4 @@
-﻿using Moonlight.Packet;
-using Moonlight.Packet.Core.Serialization;
+﻿using NosCore.Packets.Interfaces;
 
 namespace Moonlight.Tests.Extensions
 {

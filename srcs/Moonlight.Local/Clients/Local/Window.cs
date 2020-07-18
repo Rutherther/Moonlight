@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Forms;
 using Moonlight.Local.Interop;
 
 namespace Moonlight.Local.Clients.Local
@@ -23,11 +22,11 @@ namespace Moonlight.Local.Clients.Local
             User32.SetForegroundWindow(Handle);
         }
 
-        public void SendKey(Keys key)
+        public void SendKey(uint key)
         {
-            User32.PostMessage(Handle, WM_KEYDOWN, Convert.ToUInt32(key), 0);
-            User32.PostMessage(Handle, WM_CHAR, Convert.ToUInt32(key), 0);
-            User32.PostMessage(Handle, WM_KEYUP, Convert.ToUInt16(key), 0);
+            User32.PostMessage(Handle, WM_KEYDOWN, key, 0);
+            User32.PostMessage(Handle, WM_CHAR, key, 0);
+            User32.PostMessage(Handle, WM_KEYUP, key, 0);
         }
     }
 }

@@ -5,11 +5,8 @@ This is a fork of Roxeez/Moonlight. I migrated it to .NET Standard so it can be 
 Moonlight aims to make NosTale .NET Application developer life easier by giving them access to a complete & easy to use API allowing them to interact with (almost) everything in the game  
 Moonlight can be used with local client (injected .dll) or remote client (clientless)
 <br><br>
-![Codacy grade](https://img.shields.io/codacy/grade/d7ecbcba4d48445f8a7e12f1bb4fb8e7)
-![AppVeyor](https://img.shields.io/appveyor/build/Roxeez/Moonlight)
-![AppVeyor tests](https://img.shields.io/appveyor/tests/Roxeez/Moonlight)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Roxeez/Moonlight)
-![GitHub](https://img.shields.io/github/license/Roxeez/Moonlight)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Rutherther/Moonlight)
+![GitHub](https://img.shields.io/github/license/Rutherther/Moonlight)
 
 ## Getting Started
 

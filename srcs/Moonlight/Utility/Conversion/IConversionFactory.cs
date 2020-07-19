@@ -12,6 +12,8 @@ namespace Moonlight.Utility.Conversion
         /// <returns>object converted</returns>
         object ToObject(string value, Type type);
 
+        T ToObject<T>(string value);
+
         /// <summary>
         ///     Convert selected object to string
         /// </summary>
@@ -19,5 +21,7 @@ namespace Moonlight.Utility.Conversion
         /// <param name="type">type of the object</param>
         /// <returns>string converted</returns>
         string ToString(object value, Type type);
+
+        string ToString<T>(T value);
     }
 }

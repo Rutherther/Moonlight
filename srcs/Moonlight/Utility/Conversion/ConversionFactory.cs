@@ -35,6 +35,11 @@ namespace Moonlight.Utility.Conversion
             return converter.ToObject(value, type, this);
         }
 
+        public T ToObject<T>(string value)
+        {
+            return (T)ToObject(value, typeof(T));
+        }
+
         public string ToString(object value, Type type)
         {
             IConverter converter = GetConverter(type);
@@ -44,6 +49,11 @@ namespace Moonlight.Utility.Conversion
             }
 
             return converter.ToString(value, type, this);
+        }
+
+        public string ToString<T>(T value)
+        {
+            return ToString(value, typeof(T));
         }
 
         private void AddConverter(IConverter converter)

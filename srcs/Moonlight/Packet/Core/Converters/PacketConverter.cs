@@ -56,13 +56,10 @@ namespace Moonlight.Packet.Core.Converters
                     content = string.Join(" ", split.Skip(indexAttribute.Index));
                 }
 
-                if (typeof(List<>).IsAssignableFrom(property.PropertyType))
+                if (property.PropertyType.GetInterfaces().Any(t => t.IsGenericType && 
+                    t.GetGenericTypeDefinition() == typeof(IList<>)))
                 {
-                    Type genericType = property.PropertyType.GenericTypeArguments[0];
-                    if (typeof(IPacket).IsAssignableFrom(genericType))
-                    {
-                        content = content.Replace(property.PacketIndexAttribute.ListSeparator, "^");
-                    }
+                    content = content.Replace(property.PacketIndexAttribute.ListSeparator, " ");
                 }
 
                 var converted = factory.ToObject(content, property.PropertyType);

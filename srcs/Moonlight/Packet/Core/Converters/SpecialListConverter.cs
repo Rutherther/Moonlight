@@ -19,11 +19,11 @@ namespace Moonlight.Packet.Core.Converters
             var list = (IList)Activator.CreateInstance(listType);
 
             char separator = ' ';
-            if (typeof(IPacket).IsAssignableFrom(generic))
+            /*if (typeof(IPacket).IsAssignableFrom(generic))
             {
                 separator = '^';
-            }
-
+            }*/
+            
             string[] values = value.Split(separator);
             foreach (string entry in values)
             {

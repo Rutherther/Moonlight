@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 using Moonlight.Clients;
 using Moonlight.Core;
 using Moonlight.Core.Logging;
@@ -16,9 +17,10 @@ namespace Moonlight.Tests.Packet.Handling
         {
             var clientMock = new Mock<Client>();
 
+            string fullPath = Path.GetFullPath("../../../database.db");
             Moonlight = new MoonlightAPI(new AppConfig
             {
-                Database = "../../database.db"
+                Database = fullPath
             });
 
             SkillFactory = Moonlight.Services.GetService<ISkillFactory>();

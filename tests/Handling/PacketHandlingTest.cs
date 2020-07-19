@@ -1,8 +1,10 @@
-﻿using Moonlight.Clients;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Moonlight.Clients;
 using Moonlight.Core;
 using Moonlight.Core.Logging;
 using Moonlight.Game.Entities;
 using Moonlight.Game.Maps;
+using Moonlight.Handlers;
 using Moq;
 
 namespace Moonlight.Tests.Handling
@@ -16,11 +18,11 @@ namespace Moonlight.Tests.Handling
 
             Moonlight = new MoonlightAPI(new AppConfig
             {
-                Database = "../../database.db"
+                Database = "../../../database.db"
             });
 
-            clientMock.Setup(x => x.SendPacket(It.IsAny<string>())).Callback<string>(x => Moonlight.GetPacketHandlerManager().Handle(clientMock.Object, x));
-            clientMock.Setup(x => x.ReceivePacket(It.IsAny<string>())).Callback<string>(x => Moonlight.GetPacketHandlerManager().Handle(clientMock.Object, x));
+            clientMock.Setup(x => x.SendPacket(It.IsAny<string>())).Callback<string>(x => Moonlight.Services.GetService<IPacketHandlerManager>().Handle(clientMock.Object, x));
+            clientMock.Setup(x => x.ReceivePacket(It.IsAny<string>())).Callback<string>(x => Moonlight.Services.GetService<IPacketHandlerManager>().Handle(clientMock.Object, x));
 
             Client = clientMock.Object;
             Client.Character = Character = new Character(new SerilogLogger(),999, "Moonlight", Client);

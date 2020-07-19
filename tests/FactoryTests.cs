@@ -25,7 +25,7 @@ namespace Moonlight.Tests
         {
             var moonlight = new MoonlightAPI(new AppConfig
             {
-                Database = "../../database.db"
+                Database = "../../../database.db"
             });
 
             _itemFactory = moonlight.Services.GetService<IItemFactory>();

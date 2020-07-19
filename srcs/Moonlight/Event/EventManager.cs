@@ -1,50 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Moonlight.Extensions;
 
 namespace Moonlight.Event
 {
     internal class EventManager : IEventManager
     {
-        private readonly Dictionary<Type, List<IEventListener>> _handlers;
+        private readonly Dictionary<Type, List<ListenerData>> _handlers;
 
-        public EventManager() => _handlers = new Dictionary<Type, List<IEventListener>>();
+        public EventManager() => _handlers = new Dictionary<Type, List<ListenerData>>();
 
         public void Emit<T>(T notification) where T : IEventNotification
         {
-            List<IEventListener> handlers = _handlers.GetValueOrDefault(typeof(T));
+            List<ListenerData> handlers = _handlers.GetValueOrDefault(typeof(T));
             if (handlers == null)
             {
                 return;
             }
 
-            handlers.ForEach(x => x.Handle(notification));
+            handlers.ForEach(x => x.Listener.Handle(notification));
+            handlers.RemoveAll(x => x.Once);
         }
 
-        public void RegisterListener<T>(EventListener<T> listener) where T : IEventNotification
+        public void RegisterListener<T>(EventListener<T> listener, bool once = false) where T : IEventNotification
         {
             Type type = typeof(T);
-            List<IEventListener> handlers = _handlers.GetValueOrDefault(type);
+            List<ListenerData> handlers = _handlers.GetValueOrDefault(type);
             if (handlers == null)
             {
-                handlers = new List<IEventListener>();
+                handlers = new List<ListenerData>();
                 _handlers[type] = handlers;
             }
 
-            handlers.Add(listener);
+            handlers.Add(new ListenerData(listener));
         }
 
         public void RemoveListener<T>(EventListener<T> listener) where T : IEventNotification
         {
             Type type = typeof(T);
-            List<IEventListener> handlers = _handlers.GetValueOrDefault(type);
+            List<ListenerData> handlers = _handlers.GetValueOrDefault(type);
 
             if (handlers == null)
             {
                 return;
             }
 
-            handlers.Remove(listener);
+            handlers.RemoveAll(x => x.Listener == listener);
+        }
+
+        public void RegisterOnceListener<T>(EventListener<T> listener) where T : IEventNotification
+        {
+            RegisterListener(listener, true);
+        }
+
+        private class ListenerData
+        {
+            public ListenerData(IEventListener listener, bool once = false)
+            {
+                Listener = listener;
+                Once = once;
+            }
+            
+            public bool Once { get; set; }
+            
+            public IEventListener Listener { get; set; }
         }
     }
 }

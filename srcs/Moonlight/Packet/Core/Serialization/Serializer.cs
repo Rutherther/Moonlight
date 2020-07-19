@@ -30,7 +30,7 @@ namespace Moonlight.Packet.Core.Serialization
             string content = _conversionFactory.ToString(packet, packet.GetType());
 
             _logger.Debug($"Successfully serialized {packet.GetType().FullName}");
-            return header + " " + content;
+            return (header + " " + content).Trim();
         }
     }
 }

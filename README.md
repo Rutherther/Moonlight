@@ -48,58 +48,62 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 - Finally send StartGame to start the game
 
 ## Example
->Example application can be found here : https://github.com/Roxeez/Moonlight.Example
+>Example application can be found here : https://github.com/Rutherther/Moonlight.SimplePiiBot
 ```csharp
-private async Task BotLoop()
+public void Start()
 {
-    while (IsRunning)
+    if (IsRunning)
     {
-        IEnumerable<Monster> monsters;
-        Skill zoneSkill;
-        do
-        {
-            zoneSkill = Configuration.UsedSkills.FirstOrDefault(x => !x.IsOnCooldown);
-            monsters = Client.Character.Map.Monsters
-                .Where(x => x.Vnum == MonsterConstants.SoftPii)
-                .Where(x => x.Position.IsInRange(Client.Character.Position, Radius))
-                .OrderBy(x => x.Position.GetDistance(Client.Character.Position));
-            
-            Monster closestPod = await GetClosestPod();
-            if (closestPod == null)
-            {
-                return;
-            }
-
-            await Client.Character.Attack(closestPod);
-        } 
-        while ((monsters.Count() < 10 || zoneSkill == null) && IsRunning);
-
-        if (monsters.Count() < 10)
-        {
-            return;
-        }
-        
-        await Client.Character.UseSkillOn(zoneSkill, monsters.First());
-        await Task.Delay(100);
+        return;
     }
+
+    IsRunning = true;
+
+    _runningTask = Task.Run(async () =>
+    {
+        Character character = Client.Character;
+
+         while (IsRunning)
+        {
+            IEnumerable<Monster> allPii;
+
+            do
+            {
+                Monster pod;
+                do
+                {
+                    pod = await GetClosest(MonsterConstants.SoftPiiPodVnum);
+                    if (pod == null)
+                    {
+                        await Task.Delay(100);
+                    }
+                }
+                while (pod == null);
+
+                await character.Attack(pod);
+
+                allPii = await GetClose(MonsterConstants.SoftPiiVnum);
+
+                await Task.Delay(100);
+            }
+            while (allPii.Count() < 10);
+
+            await character.Attack(allPii.First());
+         }
+    });
 }
 
-private async Task<Monster> GetClosestPod()
+private async Task<Monster> GetClosest(int vnum)
 {
-    Monster pod;
-    do
-    {
-        pod = Client.Character.Map.Monsters
-            .Where(x => x.Vnum == MonsterConstants.SoftPiiPod)
-            .Where(x => x.Position.IsInRange(Client.Character.Position, Radius))
-            .OrderBy(x => x.Position.GetDistance(Client.Character.Position))
-            .FirstOrDefault();
-        
-        await Task.Delay(100);
-    } 
-    while (pod == null && IsRunning);
+    return (await GetClose(vnum)).FirstOrDefault();
+}
 
-    return pod;
+private async Task<IEnumerable<Monster>> GetClose(int vnum)
+{
+    return Client.Character.Map.Monsters
+            .Where(x => x.Vnum == vnum)
+            .Where(x => x.Position.IsInRange(Client.Character.Position, 10))
+            .OrderBy(x => x.Position.GetDistance(Client.Character.Position));
 }
 ```
 

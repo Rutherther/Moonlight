@@ -6,7 +6,7 @@ namespace Moonlight.Utility.Conversion.Converters
     {
         protected override short? ToObject(string value, Type type, IConversionFactory factory)
         {
-            if (value == "-1")
+            if (value == "-1" || string.IsNullOrEmpty(value))
             {
                 return null;
             }

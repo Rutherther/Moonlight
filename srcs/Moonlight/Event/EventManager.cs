@@ -33,7 +33,7 @@ namespace Moonlight.Event
                 _handlers[type] = handlers;
             }
 
-            handlers.Add(new ListenerData(listener));
+            handlers.Add(new ListenerData(listener, once));
         }
 
         public void RemoveListener<T>(EventListener<T> listener) where T : IEventNotification

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Moonlight.Core.Enums;
 using Moonlight.Packet.Core.Attributes;
 
 namespace Moonlight.Packet.Dialogs
@@ -12,7 +13,7 @@ namespace Moonlight.Packet.Dialogs
         public string Command { get; set; }
 
         [PacketIndex(2)]
-        public long Type { get; set; }
+        public Game18NConstString Type { get; set; }
 
         [PacketIndex(3)]
         public int ParametersCount { get; set; }

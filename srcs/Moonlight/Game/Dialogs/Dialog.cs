@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Moonlight.Clients;
+using Moonlight.Core.Enums;
 
 namespace Moonlight.Game.Dialogs
 {
@@ -22,7 +23,7 @@ namespace Moonlight.Game.Dialogs
 
         public string DenyCommand { get; }
 
-        public DialogType Type { get; set; } = DialogType.UNKNOWN;
+        public Game18NConstString Type { get; set; } = Game18NConstString.Undefined0;
 
         public string PlayerName { get; set; }
 

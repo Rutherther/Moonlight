@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Moonlight.Core.Enums;
 using Moonlight.Packet.Dialogs;
 using Moonlight.Utility.Conversion;
 using Moonlight.Utility.Conversion.Converters;
@@ -20,7 +21,7 @@ namespace Moonlight.Packet.Core.Converters
             string[] splitted = value.Split(' ');
 
             packet.Command = (string)factory.ToObject(splitted[1], typeof(string));
-            packet.Type = (long)factory.ToObject(splitted[2], typeof(long));
+            packet.Type = (Game18NConstString)factory.ToObject(splitted[2], typeof(Game18NConstString));
             packet.ParametersCount = (int)factory.ToObject(splitted[3], typeof(int));
 
 

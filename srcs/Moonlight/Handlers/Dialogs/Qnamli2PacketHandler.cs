@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Moonlight.Clients;
+using Moonlight.Core.Enums;
 using Moonlight.Event;
 using Moonlight.Event.Dialogs;
 using Moonlight.Game.Dialogs;
@@ -20,12 +21,14 @@ namespace Moonlight.Handlers.Dialogs
 
         protected override void Handle(Client client, Qnamli2Packet packet)
         {
-            var dialog = new Dialog(client, packet.Command);
+            var dialog = new Dialog(client, packet.Command)
+            {
+                Type = packet.Type
+            };
 
             switch (packet.Type)
             {
-                case 312:
-                    dialog.Type = DialogType.MINILAND_INVITE;
+                case Game18NConstString.HasInvitedToMiniland:
                     dialog.PlayerName = packet.Parameters[0];
                     break;
             }

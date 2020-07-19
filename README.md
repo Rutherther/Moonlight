@@ -16,7 +16,7 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 ### .NET Framework with local client
 
 - Create a C# .dll project targeting .NET Framework 4.7+
-- Add Moonlight as submodule
+- Add Moonlight dependency
 - Install DllExport to your project and create your export function (cf. DllExport wiki)
 - Install Costura.Fody to your project so you don't have to copy all dependencies to NosTale folder
 - Build your project
@@ -29,6 +29,26 @@ Moonlight can be used with local client (injected .dll) or remote client (client
 - Inject your .dll using an injector supporting custom export function.
 
 > Moonlight is a packet based lib, so if you want everything to work correctly using local client, it should be injected before character selection.
+
+### .NET Core with remote client
+
+> Moonlight remote client currently supports only Gameforge official client with Gameforge auth
+
+- Create a C# .NET Core console project
+- Add Moonlight dependency
+- Use GameforgeApi to obtain sessionToken (You can use GenerateInstallationId for unique id generation based on email and password)
+  - First call GetAuthToken
+  - Then use GetAccounts and select account you want to use
+  - Call GetSessionToken for account you want to use
+- Initializa MoonlightAPI and NosTale
+- Use NosTale.InitLogin to obtain instance of NosTaleLogin
+- Use NosTale login to Connect to server you want and then Login using correct parameters
+- Register listener to event NostaleLogin.ServersReceived
+- You may connect to a channel using NosTaleLogin.ConnectToWorld with Channels received in your listener
+  - You will obtain NosTaleWorld
+- Register listener to event NosTaleWorld.CharactersListReceived
+- You may Select a character from one of the received
+- Finally send StartGame to start the game
 
 ## Example
 >Example application can be found here : https://github.com/Roxeez/Moonlight.Example

@@ -11,7 +11,7 @@ namespace Moonlight.Packet.Core.Converters
         {
             string[] splitted = value.Split(' ');
 
-            RaidPacket packet = new RaidPacket
+            var packet = new RaidPacket
             {
                 Type = RaidPacketType.Unknown
             };

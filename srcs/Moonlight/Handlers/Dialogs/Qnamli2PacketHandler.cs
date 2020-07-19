@@ -20,7 +20,7 @@ namespace Moonlight.Handlers.Dialogs
 
         protected override void Handle(Client client, Qnamli2Packet packet)
         {
-            Dialog dialog = new Dialog(client, packet.Command);
+            var dialog = new Dialog(client, packet.Command);
 
             switch (packet.Type)
             {

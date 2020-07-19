@@ -16,7 +16,7 @@ namespace Moonlight.Packet.Core.Converters
 
         protected override Qnamli2Packet ToObject(string value, Type type, IConversionFactory factory)
         {
-            Qnamli2Packet packet = new Qnamli2Packet();
+            var packet = new Qnamli2Packet();
             string[] splitted = value.Split(' ');
 
             packet.Command = (string)factory.ToObject(splitted[1], typeof(string));

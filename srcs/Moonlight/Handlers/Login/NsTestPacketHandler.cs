@@ -26,7 +26,7 @@ namespace Moonlight.Handlers.Login
                     WorldName = grouping.First().Name
                 };
 
-                foreach (NsTeStSubPacket subPacket in grouping)
+                foreach (NsTeStSubPacket subPacket in grouping.OrderBy(x => x.WorldId))
                 {
                     server.Channels.Add(new Channel
                     {

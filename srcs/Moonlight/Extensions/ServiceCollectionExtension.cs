@@ -35,6 +35,7 @@ namespace Moonlight.Extensions
             services.AddSingleton<IReflectionCache, ReflectionCache>();
             services.AddImplementingTypes<IConverter>();
             services.AddTransient<IDeserializer, Deserializer>();
+            services.AddTransient<ISerializer, Serializer>();
         }
 
         internal static void AddDatabaseDependencies(this IServiceCollection services, AppConfig config)

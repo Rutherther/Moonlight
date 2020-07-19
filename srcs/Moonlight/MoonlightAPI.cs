@@ -44,6 +44,7 @@ namespace Moonlight
 
             serviceCollection.AddSingleton<ILanguageService, LanguageService>();
             serviceCollection.AddSingleton<IClientManager, ClientManager>();
+            serviceCollection.AddSingleton<IPacketHandlerCache, PacketHandlerCache>();
             serviceCollection.AddSingleton<IPacketHandlerManager, PacketHandlerManager>();
             serviceCollection.AddSingleton<IEventManager, EventManager>();
             serviceCollection.AddImplementingTypes<IPacketHandler>();

@@ -1,6 +1,5 @@
 using Moonlight.Clients;
 using Moonlight.Local.Clients.Local;
-using Moonlight.Clients;
 using MoonlightCore;
 
 namespace Moonlight.Local.Clients

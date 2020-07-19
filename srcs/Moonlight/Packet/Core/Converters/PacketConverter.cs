@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Moonlight.Packet.Core.Attributes;
 using Moonlight.Utility.Conversion;
@@ -23,25 +24,44 @@ namespace Moonlight.Packet.Core.Converters
                 throw new ConversionException(value, type);
             }
 
-            string[] split = value.Split(' ');
+            int index = 0;
+            foreach (PropertyData property in cachedType.Properties.Skip(1))
+            {
+                string separator = property.PacketIndexAttribute.Separator;
+                int separatorIndex = value.IndexOf(separator, index, StringComparison.Ordinal);
+
+                if (separator != " ")
+                {
+                    value = value.Remove(separatorIndex, separator.Length);
+                    value = value.Insert(separatorIndex, " ");
+                }
+
+                index = separatorIndex + 1;
+            }
+
+            string[] split = value.Trim(cachedType.Properties.FirstOrDefault()?.PacketIndexAttribute?.Separator?.ToCharArray() ?? new[] { ' ' }).Split(' ');
             var packet = (IPacket)cachedType.Constructor.DynamicInvoke();
 
             foreach (PropertyData property in cachedType.Properties)
             {
                 PacketIndexAttribute indexAttribute = property.PacketIndexAttribute;
-                if (indexAttribute.Index > split.Length)
+                if (indexAttribute.Index >= split.Length)
                 {
                     throw new ConversionException(value, type);
                 }
 
                 string content = split[indexAttribute.Index];
+                if (indexAttribute.TillEnd)
+                {
+                    content = string.Join(" ", split.Skip(indexAttribute.Index));
+                }
 
                 if (typeof(List<>).IsAssignableFrom(property.PropertyType))
                 {
                     Type genericType = property.PropertyType.GenericTypeArguments[0];
                     if (typeof(IPacket).IsAssignableFrom(genericType))
                     {
-                        content = content.Replace(property.PacketIndexAttribute.Separator, "^");
+                        content = content.Replace(property.PacketIndexAttribute.ListSeparator, "^");
                     }
                 }
 

@@ -9,5 +9,9 @@ namespace Moonlight.Packet.Core.Attributes
 
         public int Index { get; }
         public string Separator { get; set; } = " ";
+        
+        public string ListSeparator { get; set; } = " ";
+
+        public bool TillEnd { get; set; } = false;
     }
 }

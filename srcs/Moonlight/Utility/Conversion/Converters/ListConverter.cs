@@ -13,7 +13,7 @@ namespace Moonlight.Utility.Conversion.Converters
         protected override IList ToObject(string value, Type type, IConversionFactory factory)
         {
             Type generic = type.GenericTypeArguments.FirstOrDefault();
-            Type listType = typeof(List<>).MakeGenericType(type);
+            Type listType = typeof(List<>).MakeGenericType(generic);
             var list = (IList)Activator.CreateInstance(listType);
 
             string[] values = value.Split(' ');

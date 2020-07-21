@@ -2,7 +2,7 @@ namespace Moonlight.Remote.Gameforge
 {
     public class Locales
     {
-        private Locales(string value) { Value = value; }
+        public Locales(string value) { Value = value; }
 
         public string Value { get; }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moonlight.Core.Enums;
@@ -10,6 +11,7 @@ using Moonlight.Packet.Login;
 using Moonlight.Remote.Client;
 using Moonlight.Remote.Client.State;
 using Moonlight.Remote.Extensions;
+using Moonlight.Remote.Gameforge;
 using Moonlight.Remote.Listeners;
 using Moonlight.Utility.Conversion;
 
@@ -36,9 +38,10 @@ namespace Moonlight.Remote.Control
             api.Services.GetService<IEventManager>().RegisterOnceListener(new ServersReceivedListener(this));
         }
 
-        public RemoteClientLoginState Connect(string ip, int port, string nostaleClientXHash, string nostaleClientHash, string version)
+        public RemoteClientLoginState Connect(Servers server, string nostaleClientXHash, string nostaleClientHash, string version)
         {
-            RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(ip, port, nostaleClientXHash, nostaleClientHash, version);
+            string[] splitted = server.Value.Split(':');
+            RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(splitted[0], short.Parse(splitted[1]), nostaleClientXHash, nostaleClientHash, version);
             _client.SetState(loginState);
             
             loginState.Connect();

@@ -24,6 +24,7 @@ namespace Moonlight.Game.Maps
             GroundItems = new InternalObservableDictionary<long, GroundItem>();
             Players = new InternalObservableDictionary<long, Player>();
             Portals = new InternalObservableDictionary<long, Portal>();
+            RemovedEntities = new InternalObservableDictionary<long, Entity>();
         }
 
         private byte this[int x, int y] => Grid.Skip(4 + y * Width + x).Take(1).FirstOrDefault();
@@ -33,6 +34,8 @@ namespace Moonlight.Game.Maps
         public byte[] Grid { get; }
         public short Width { get; }
         public short Height { get; }
+        
+        public InternalObservableDictionary<long, Entity> RemovedEntities { get; }
 
         public InternalObservableDictionary<long, Monster> Monsters { get; }
         public InternalObservableDictionary<long, Npc> Npcs { get; }
@@ -107,6 +110,17 @@ namespace Moonlight.Game.Maps
             Portals[portal.Id] = portal;
         }
 
+        internal void AddRemovedEntity(long entityId)
+        {
+            Entity entity = RemovedEntities.GetValueOrDefault(entityId);
+
+            if (entity != null)
+            {
+                AddEntity(entity);
+                RemovedEntities.Remove(entityId);
+            }
+        }
+
         internal void AddEntity(Entity entity)
         {
             switch (entity.EntityType)
@@ -140,15 +154,19 @@ namespace Moonlight.Game.Maps
             switch (entityType)
             {
                 case EntityType.NPC:
+                    RemovedEntities.Add(entityId, Npcs.GetValueOrDefault(entityId));
                     Npcs.Remove(entityId);
                     break;
                 case EntityType.MONSTER:
+                    RemovedEntities.Add(entityId, Monsters.GetValueOrDefault(entityId));
                     Monsters.Remove(entityId);
                     break;
                 case EntityType.PLAYER:
+                    RemovedEntities.Add(entityId, Players.GetValueOrDefault(entityId));
                     Players.Remove(entityId);
                     break;
                 case EntityType.GROUND_ITEM:
+                    RemovedEntities.Add(entityId, GroundItems.GetValueOrDefault(entityId));
                     GroundItems.Remove(entityId);
                     break;
                 default:

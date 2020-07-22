@@ -57,7 +57,17 @@ namespace Moonlight.Packet.Core
 
             if (packetHeaderAttribute != null)
             {
-                _cacheByHeader[packetHeaderAttribute.Header] = typeCreator;
+                if (packetHeaderAttribute.Headers != null)
+                {
+                    foreach (string header in packetHeaderAttribute.Headers)
+                    {
+                        _cacheByHeader[header] = typeCreator;                        
+                    }
+                }
+                else
+                {
+                    _cacheByHeader[packetHeaderAttribute.Header] = typeCreator;
+                }
             }
 
             _cacheByType[type] = typeCreator;

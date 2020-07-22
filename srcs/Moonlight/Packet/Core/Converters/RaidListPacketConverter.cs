@@ -18,7 +18,14 @@ namespace Moonlight.Packet.Core.Converters
             int raidId = Convert.ToInt32(split[2]);
             var playerData = new List<RaidPlayerData>();
 
-            for (int i = 3; i < split.Length; i++)
+            int start = 3;
+            if (int.TryParse(split[start], out int temp))
+            {
+                start++;
+                raidId = temp;
+            }
+
+            for (int i = start; i < split.Length; i++)
             {
                 string player = split[i];
                 string[] splittedPlayer = player.Split('.');

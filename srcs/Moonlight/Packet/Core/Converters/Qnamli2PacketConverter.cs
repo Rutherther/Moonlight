@@ -28,6 +28,11 @@ namespace Moonlight.Packet.Core.Converters
             packet.Parameters = new string[packet.ParametersCount];
             for (int i = 0; i < packet.ParametersCount; i++)
             {
+                if (i + 4 >= splitted.Length)
+                {
+                    break;
+                }
+                
                 packet.Parameters[i] = splitted[i + 4];
             }
 

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Moonlight.Extensions;
 using Moonlight.Remote.Extensions;
 using Newtonsoft.Json;
 

@@ -55,6 +55,11 @@ namespace Moonlight.Remote.Gameforge
             };
 
             Dictionary<string, string> response = await request.Send(authRequest);
+            if (response == null)
+            {
+                return null;
+            }
+            
             string authToken = response.GetValueOrDefault("token") ?? string.Empty;
             
             return new AuthorizedGameforgeApi(authToken, installationId.Value);

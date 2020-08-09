@@ -20,6 +20,8 @@ namespace Moonlight.Remote.Client.State
             Tcp = new TcpClient();
         }
 
+        public bool Connected => Tcp.Connected;
+
         public Thread Thread { get; private set; }
 
         public TcpClient Tcp { get; }
@@ -64,17 +66,29 @@ namespace Moonlight.Remote.Client.State
 
             while (Tcp.Connected)
             {
-                int read = stream.Read(_buffer, 0, _buffer.Length);
-                foreach (string packet in Cryptography.Decrypt(_buffer, read))
+                try
                 {
-                    if (string.IsNullOrEmpty(packet))
+                    int read = stream.Read(_buffer, 0, _buffer.Length);
+                    foreach (string packet in Cryptography.Decrypt(_buffer, read))
                     {
-                        continue;
-                    }
+                        if (string.IsNullOrEmpty(packet))
+                        {
+                            continue;
+                        }
 
-                    ReceivePacket(packet);
+                        ReceivePacket(packet);
+                    }
                 }
-                
+                catch (Exception e)
+                {
+                    // TODO: log it somewhere
+                    // Probably connection closed
+
+                    if (Tcp != null && Tcp.Connected)
+                    {
+                        throw e;
+                    }
+                }
             }
         }
     }

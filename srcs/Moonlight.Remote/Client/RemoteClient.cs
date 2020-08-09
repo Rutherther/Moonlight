@@ -16,6 +16,11 @@ namespace Moonlight.Remote.Client
             _state.ReceivePacket(packet);
         }
 
+        public IState GetState()
+        {
+            return _state;
+        }
+
         public void SetState(IState state)
         {
             _state = state;

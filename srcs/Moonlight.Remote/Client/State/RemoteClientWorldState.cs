@@ -6,8 +6,6 @@ namespace Moonlight.Remote.Client.State
 {
     public class RemoteClientWorldState : RemoteClientState
     {
-        protected int _encryptionKey;
-        
         private int _packetIdentifier;
         private Random rand = new Random();
 
@@ -15,18 +13,20 @@ namespace Moonlight.Remote.Client.State
             : base(ipAddress, port, new WorldCryptography(encryptionKey))
         {
             _packetIdentifier = rand.Next(50000, 55000);
-            _encryptionKey = encryptionKey;
+            EncryptionKey = encryptionKey;
         }
+
+        public int EncryptionKey { get; private set; }
 
         public override void SendPacket(string packet, bool session = false)
         {
             base.SendPacket(_packetIdentifier++ + " " + packet, session);
         }
 
-        public void Handshake(string accountName)
+        public virtual void Handshake(string accountName)
         {
             Thread.Sleep(100);
-            SendPacket(_encryptionKey.ToString(), true);
+            SendPacket(EncryptionKey.ToString(), true);
             Thread.Sleep(100);
             SendPacket(accountName + " GF 7");
             Thread.Sleep(100);

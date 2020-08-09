@@ -38,6 +38,8 @@ namespace Moonlight.Remote.Control
             eventManager.RegisterOnceListener(new CharactersListReceivedListener(this));
         }
         
+        public string AccountName { get; protected set; }
+        
         public RemoteClientWorldState Connect(string ip, int port, int encryptionKey)
         {
             RemoteClientWorldState worldState = _worldState = new RemoteClientWorldState(ip, port, encryptionKey);
@@ -50,6 +52,7 @@ namespace Moonlight.Remote.Control
 
         public void Handshake(string accountName)
         {
+            AccountName = accountName;
             _worldState.Handshake(accountName);
         }
 

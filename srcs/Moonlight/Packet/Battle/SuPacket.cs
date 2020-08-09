@@ -29,5 +29,8 @@ namespace Moonlight.Packet.Battle
 
         [PacketIndex(12)]
         public int Damage { get; set; }
+        
+        [PacketIndex(13)]
+        public SuPacketHitMode HitMode { get; set; }
     }
 }

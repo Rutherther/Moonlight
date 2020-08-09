@@ -1,5 +1,6 @@
 using System.Linq;
 using Moonlight.Clients;
+using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 using Moonlight.Event;
 using Moonlight.Event.Entities;
@@ -25,6 +26,12 @@ namespace Moonlight.Handlers.Battle
         {
             if (client.Character == null || client.Character.Map == null)
             {
+                return;
+            }
+
+            if (packet.Damage == 0 && (packet.HitMode == SuPacketHitMode.SuccessAttack || packet.HitMode == SuPacketHitMode.SuccessfulBuff))
+            {
+                // buff or successful attack with 0 damage should not be used as attack
                 return;
             }
 

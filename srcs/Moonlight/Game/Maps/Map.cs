@@ -154,19 +154,19 @@ namespace Moonlight.Game.Maps
             switch (entityType)
             {
                 case EntityType.NPC:
-                    RemovedEntities.Add(entityId, Npcs.GetValueOrDefault(entityId));
+                    RemovedEntities[entityId] = Npcs.GetValueOrDefault(entityId);
                     Npcs.Remove(entityId);
                     break;
                 case EntityType.MONSTER:
-                    RemovedEntities.Add(entityId, Monsters.GetValueOrDefault(entityId));
+                    RemovedEntities[entityId] = Monsters.GetValueOrDefault(entityId);
                     Monsters.Remove(entityId);
                     break;
                 case EntityType.PLAYER:
-                    RemovedEntities.Add(entityId, Players.GetValueOrDefault(entityId));
+                    RemovedEntities[entityId] = Players.GetValueOrDefault(entityId);
                     Players.Remove(entityId);
                     break;
                 case EntityType.GROUND_ITEM:
-                    RemovedEntities.Add(entityId, GroundItems.GetValueOrDefault(entityId));
+                    RemovedEntities[entityId] = GroundItems.GetValueOrDefault(entityId);
                     GroundItems.Remove(entityId);
                     break;
                 default:

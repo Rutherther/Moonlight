@@ -18,7 +18,7 @@ namespace Moonlight.Remote.Control
 {
     public class NostaleWorld
     {
-        public event Action<List<Character>> CharactersListReceived;
+        public event Action<Dictionary<short, Character>> CharactersListReceived;
 
         private Timer _pulseTimer;
         private long _pulse = 0;
@@ -36,10 +36,13 @@ namespace Moonlight.Remote.Control
             
             IEventManager eventManager = api.Services.GetService<IEventManager>();
             eventManager.RegisterOnceListener(new CharactersListReceivedListener(this));
+            eventManager.RegisterListener(new ServerChangeListener(this, client));
         }
         
-        public string AccountName { get; protected set; }
+        public bool Started { get; private set; }
         
+        public string AccountName { get; protected set; }
+
         public RemoteClientWorldState Connect(string ip, int port, int encryptionKey)
         {
             RemoteClientWorldState worldState = _worldState = new RemoteClientWorldState(ip, port, encryptionKey);
@@ -48,6 +51,11 @@ namespace Moonlight.Remote.Control
             worldState.Connect();
 
             return worldState;
+        }
+
+        public void SetRemoteState(RemoteClientWorldState worldState)
+        {
+            _worldState = worldState;
         }
 
         public void Handshake(string accountName)
@@ -66,6 +74,7 @@ namespace Moonlight.Remote.Control
             }
             
             _pulseTimer = new Timer(SendPulse, _worldState, 0, 60000);
+            Started = true;
         }
 
         public void Select(Character character)
@@ -85,7 +94,7 @@ namespace Moonlight.Remote.Control
         public void OnCharacterListReceived(Dictionary<short,Character> characters)
         {
             _characters = characters;
-            CharactersListReceived?.Invoke(characters.Values.ToList());
+            CharactersListReceived?.Invoke(characters);
         }
 
         private void SendPulse(object state)
@@ -93,10 +102,12 @@ namespace Moonlight.Remote.Control
             var worldState = (RemoteClientWorldState)state;
             
             _pulse += 60;
-            worldState.SendPacket(_serializer.Serialize(new PulsePacket
-            {
-                Tick = _pulse
-            }));
+            if (worldState.Connected) {
+                worldState.SendPacket(_serializer.Serialize(new PulsePacket
+                {
+                    Tick = _pulse
+                }));
+            }
         }
     }
 }

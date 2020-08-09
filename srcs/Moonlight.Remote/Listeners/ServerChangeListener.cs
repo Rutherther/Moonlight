@@ -32,6 +32,7 @@ namespace Moonlight.Remote.Listeners
                 _client.SetState(newState);
                 Thread.Sleep(100);
 
+                _world.SetRemoteState(newState);
                 _world.StartGame();
             }
         }

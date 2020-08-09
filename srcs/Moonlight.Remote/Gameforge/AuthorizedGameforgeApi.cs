@@ -13,7 +13,8 @@ namespace Moonlight.Remote.Gameforge
 {
     public class AuthorizedGameforgeApi
     {
-
+        private List<GameforgeAccount> _accounts;
+        
         public AuthorizedGameforgeApi(string authToken, Guid installationId)
         {
             AuthToken = authToken;
@@ -24,8 +25,13 @@ namespace Moonlight.Remote.Gameforge
         
         public string AuthToken { get; }
         
-        public async Task<IEnumerable<GameforgeAccount>> GetAccounts()
+        public async Task<IEnumerable<GameforgeAccount>> GetAccounts(bool cache = true)
         {
+            if (cache && _accounts != null)
+            {
+                return _accounts;
+            }
+            
             var request = new GameforgeRequest<GameforgeAccount>(HttpMethod.Get, "/user/accounts", InstallationId, AuthToken);
             Dictionary<string, GameforgeAccount> response = await request.Send();
 
@@ -33,8 +39,9 @@ namespace Moonlight.Remote.Gameforge
             {
                 return new List<GameforgeAccount>();
             }
-
-            return response.Values.ToArray();
+            
+            _accounts = new List<GameforgeAccount>(response.Values);
+            return _accounts;
         }
 
         public async Task<string> GetSessionToken(GameforgeAccount gameforgeAccount)

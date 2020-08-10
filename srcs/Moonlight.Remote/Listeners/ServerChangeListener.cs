@@ -23,16 +23,17 @@ namespace Moonlight.Remote.Listeners
             IState state = _client.GetState();
             if (state is RemoteClientWorldState worldState)
             {
-                worldState.Disconnnect();
                 var newState = new RemoteClientWorldReconnectState(notification.Ip, notification.Port, worldState.EncryptionKey);
+                _client.SetState(newState);
+                _world.SetRemoteState(newState);
                 
+                worldState.Disconnnect();
+
                 newState.Connect();
                 newState.Handshake(_world.AccountName);
                 
-                _client.SetState(newState);
                 Thread.Sleep(100);
 
-                _world.SetRemoteState(newState);
                 _world.StartGame();
             }
         }

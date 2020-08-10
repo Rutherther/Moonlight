@@ -9,12 +9,23 @@ using Newtonsoft.Json;
 
 namespace Moonlight.Remote.Gameforge
 {
-    public class GameforgeRequest<T>
+    public class GameforgeRequest
     {
         protected const string Url = "https://spark.gameforge.com/api/v1";
-        protected const string UserAgent = "GameforgeClient/2.1.11";
+        protected static string UserAgent = "GameforgeClient/2.1.12";
         protected const string MediaType = "application/json";
-        
+
+        public static void SetVersion(string version)
+        {
+            if (!string.IsNullOrEmpty(version))
+            {
+                UserAgent = "GameforgeClient/" + version;
+            }
+        }   
+    }
+    
+    public class GameforgeRequest<T> : GameforgeRequest
+    {
         private static readonly HttpClient _httpClient = new HttpClient();
 
         public GameforgeRequest(HttpMethod method, string path, Guid? installationId = null, string bearerToken = null)

@@ -14,10 +14,6 @@ namespace Moonlight.Remote.Gameforge
 {
     public class GameforgeApi
     {
-        private const string URL = "https://spark.gameforge.com/api/v1";
-        private const string USER_AGENT = "GameforgeClient/2.1.11";
-        private const string MEDIA_TYPE = "application/json";
-
         private readonly HttpClient _httpClient;
 
         public GameforgeApi()

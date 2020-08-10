@@ -20,6 +20,7 @@ namespace Moonlight.Remote.Control
     public class NosTaleLogin
     {
         public event Action<List<WorldServer>> ServersReceived;
+        public event Action<LoginFailType> LoginFailed;
 
         private readonly RemoteClient _client;
         private readonly MoonlightAPI _api;
@@ -34,8 +35,11 @@ namespace Moonlight.Remote.Control
             _api = api;
             _serializer = api.Services.GetService<ISerializer>();
             _client = client;
+
+            IEventManager eventManager = api.Services.GetService<IEventManager>();
             
-            api.Services.GetService<IEventManager>().RegisterOnceListener(new ServersReceivedListener(this));
+            eventManager.RegisterOnceListener(new ServersReceivedListener(this));
+            eventManager.RegisterOnceListener(new LoginFailListener(this));
         }
 
         public RemoteClientLoginState Connect(Servers server, string nostaleClientXHash, string nostaleClientHash, string version)
@@ -90,7 +94,14 @@ namespace Moonlight.Remote.Control
             _sessionId = sessionId;
             _accountName = accountName;
             
+            Disconnnect();
             ServersReceived?.Invoke(servers);
+        }
+
+        internal void OnLoginFailed(LoginFailType failType)
+        {
+            LoginFailed?.Invoke(failType);
+            Disconnnect();
         }
     }
 }

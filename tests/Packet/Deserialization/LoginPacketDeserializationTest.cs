@@ -20,7 +20,7 @@ namespace Moonlight.Tests.Packet.Deserialization
         {
             NsTestPacket packet = _deserializer.Deserialize<NsTestPacket>("NsTeST  6 rutherther 2 56344 79.110.84.41:4014:0:1.5.Aeros 79.110.84.41:4012:0:1.3.Aeros 79.110.84.41:4013:0:1.4.Aeros 79.110.84.41:4010:2:1.1.Aeros 79.110.84.41:4011:0:1.2.Aeros -1:-1:-1:10000.10000.1");
 
-            Check.That(packet.RegionType).Is(RegionType.CS);
+            Check.That(packet.RegionType).Is(RegionType.CZ);
             Check.That(packet.AccountName).Is("rutherther");
             Check.That(packet.Unknown).Is(2);
             Check.That(packet.SessionId).Is(56344);

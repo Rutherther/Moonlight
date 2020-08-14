@@ -17,7 +17,8 @@ namespace Moonlight.Handlers.World
             _eventManager.Emit(new ServerChangeEvent(client)
             {
                 Ip = packet.Ip,
-                Port = packet.Port
+                Port = packet.Port,
+                DACIdentifier = packet.DACIdentifier
             });
         }
     }

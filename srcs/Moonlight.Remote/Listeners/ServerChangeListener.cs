@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Moonlight.Event;
 using Moonlight.Event.World;
 using Moonlight.Remote.Client;
@@ -18,18 +20,25 @@ namespace Moonlight.Remote.Listeners
             _world = world;
         }
         
-        protected override void Handle(ServerChangeEvent notification)
+        protected async override void Handle(ServerChangeEvent notification)
         {
             IState state = _client.GetState();
             if (state is RemoteClientWorldState worldState)
             {
-                var newState = new RemoteClientWorldReconnectState(notification.Ip, notification.Port, worldState.EncryptionKey);
+                await Task.Delay(500);
+                
+                var newState = new RemoteClientWorldReconnectState(notification.DACIdentifier, notification.Ip, notification.Port, worldState.EncryptionKey);
                 _client.SetState(newState);
                 _world.SetRemoteState(newState);
                 
+                worldState.SendPacket("c_close 0");
+                worldState.SendPacket("c_stash_end");
+                worldState.SendPacket("c_close 1");
                 worldState.Disconnnect();
 
+                await Task.Delay(500);
                 newState.Connect();
+                await Task.Delay(100);
                 newState.Handshake(_world.AccountName);
                 
                 Thread.Sleep(100);

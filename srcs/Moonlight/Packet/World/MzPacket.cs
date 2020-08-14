@@ -10,5 +10,8 @@ namespace Moonlight.Packet.World
         
         [PacketIndex(1)]
         public short Port { get; set; }
+        
+        [PacketIndex(2)]
+        public byte DACIdentifier { get; set; }
     }
 }

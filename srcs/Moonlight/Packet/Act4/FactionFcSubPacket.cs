@@ -1,7 +1,7 @@
 using Moonlight.Core.Enums;
 using Moonlight.Packet.Core.Attributes;
 
-namespace Moonlight.Packet.Act5
+namespace Moonlight.Packet.Act4
 {
     public class FactionFcSubPacket : Packet
     {
@@ -9,7 +9,7 @@ namespace Moonlight.Packet.Act5
         public short Percentage { get; set; }
         
         [PacketIndex(1)]
-        public Act5Mode Mode { get; set; }
+        public Act4Mode Mode { get; set; }
         
         [PacketIndex(2)]
         public long CurrentTime { get; set; }

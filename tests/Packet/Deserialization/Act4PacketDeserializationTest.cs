@@ -1,5 +1,5 @@
 using Moonlight.Core.Enums;
-using Moonlight.Packet.Act5;
+using Moonlight.Packet.Act4;
 using Moonlight.Packet.Character.Inventory;
 using Moonlight.Packet.Core.Serialization;
 using Moonlight.Tests.Extensions;
@@ -24,7 +24,7 @@ namespace Moonlight.Tests.Packet.Deserialization
             Check.That(packet.MinutesUntilReset).IsEqualTo(29257);
             
             Check.That(packet.AngelState.Percentage).IsEqualTo(88);
-            Check.That(packet.AngelState.Mode).IsEqualTo(Act5Mode.None);
+            Check.That(packet.AngelState.Mode).IsEqualTo(Act4Mode.None);
             Check.That(packet.AngelState.CurrentTime).IsEqualTo(1);
             Check.That(packet.AngelState.TotalTime).IsEqualTo(2);
             Check.That(packet.AngelState.IsCalvina).IsEqualTo(false);
@@ -33,7 +33,7 @@ namespace Moonlight.Tests.Packet.Deserialization
             Check.That(packet.AngelState.IsMorcos).IsEqualTo(false);
             
             Check.That(packet.DemonState.Percentage).IsEqualTo(42);
-            Check.That(packet.DemonState.Mode).IsEqualTo(Act5Mode.None);
+            Check.That(packet.DemonState.Mode).IsEqualTo(Act4Mode.None);
             Check.That(packet.DemonState.CurrentTime).IsEqualTo(0);
             Check.That(packet.DemonState.TotalTime).IsEqualTo(0);
             Check.That(packet.DemonState.IsCalvina).IsEqualTo(false);

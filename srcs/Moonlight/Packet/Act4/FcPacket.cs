@@ -1,7 +1,7 @@
 using Moonlight.Core.Enums;
 using Moonlight.Packet.Core.Attributes;
 
-namespace Moonlight.Packet.Act5
+namespace Moonlight.Packet.Act4
 {
     [PacketHeader("fc")]
     public class FcPacket : Packet

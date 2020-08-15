@@ -18,12 +18,16 @@ namespace Moonlight.Remote.Control
 {
     public class NostaleWorld
     {
+        public event Action Disconnected;
+        public event Action ServerChanged;
+        
         public event Action<Dictionary<short, Character>> CharactersListReceived;
 
         private Timer _pulseTimer;
         private long _pulse = 0;
         
         private readonly RemoteClient _client;
+        private readonly MoonlightAPI _api;
         private RemoteClientWorldState _worldState;
         private Dictionary<short, Character> _characters;
         private ISerializer _serializer;
@@ -31,12 +35,13 @@ namespace Moonlight.Remote.Control
         public NostaleWorld(MoonlightAPI api, RemoteClient client)
         {
             _client = client;
+            _api = api;
 
             _serializer = api.Services.GetService<ISerializer>();
             
             IEventManager eventManager = api.Services.GetService<IEventManager>();
             eventManager.RegisterOnceListener(new CharactersListReceivedListener(this));
-            eventManager.RegisterListener(new ServerChangeListener(this, client));
+            eventManager.RegisterListener(new ServerChangeListener(api.Logger, this, client));
         }
         
         public bool Started { get; private set; }
@@ -45,7 +50,7 @@ namespace Moonlight.Remote.Control
 
         public RemoteClientWorldState Connect(string ip, int port, int encryptionKey)
         {
-            RemoteClientWorldState worldState = _worldState = new RemoteClientWorldState(ip, port, encryptionKey);
+            var worldState = new RemoteClientWorldState(_api.Logger, ip, port, encryptionKey);
             SetRemoteState(worldState);
             _client.SetState(worldState);
             

@@ -45,7 +45,7 @@ namespace Moonlight.Remote.Control
         public RemoteClientLoginState Connect(Servers server, string nostaleClientXHash, string nostaleClientHash, string version)
         {
             string[] splitted = server.Value.Split(':');
-            RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(splitted[0], short.Parse(splitted[1]), nostaleClientXHash, nostaleClientHash, version);
+            RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(_api.Logger, splitted[0], short.Parse(splitted[1]), nostaleClientXHash, nostaleClientHash, version);
             _client.SetState(loginState);
             
             loginState.Connect();

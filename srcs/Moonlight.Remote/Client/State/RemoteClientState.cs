@@ -1,7 +1,12 @@
 using System;
+using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
+using Moonlight.Core.Logging;
 using Moonlight.Remote.Cryptography;
+using Moonlight.Remote.Extensions;
 
 namespace Moonlight.Remote.Client.State
 {
@@ -12,9 +17,11 @@ namespace Moonlight.Remote.Client.State
         
         private byte[] _buffer;
         private bool _disconnectHandled;
+        private ILogger _logger;
 
-        public RemoteClientState(string ipAddress, int port, ICryptography cryptography)
+        public RemoteClientState(ILogger logger, string ipAddress, int port, ICryptography cryptography)
         {
+            _logger = logger;
             _buffer = new byte[4 * 1024];
 
             Port = port;
@@ -74,10 +81,12 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (SocketException e)
                 {
+                    _logger.Error(e);
                     Disconnnect();
                 }
                 catch (IOException e)
                 {
+                    _logger.Error(e);
                     Disconnnect();
                 }
             }
@@ -115,6 +124,7 @@ namespace Moonlight.Remote.Client.State
                     }
                     else
                     {
+                        _logger.Error(e);
                         throw e;
                     }
                 }

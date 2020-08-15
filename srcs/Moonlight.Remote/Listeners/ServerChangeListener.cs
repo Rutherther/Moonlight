@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Moonlight.Core.Logging;
 using Moonlight.Event;
 using Moonlight.Event.World;
 using Moonlight.Remote.Client;
@@ -11,11 +12,13 @@ namespace Moonlight.Remote.Listeners
 {
     public class ServerChangeListener : EventListener<ServerChangeEvent>
     {
-        private NostaleWorld _world;
-        private RemoteClient _client;
+        private readonly NostaleWorld _world;
+        private readonly RemoteClient _client;
+        private readonly ILogger _logger;
         
-        public ServerChangeListener(NostaleWorld world, RemoteClient client)
+        public ServerChangeListener(ILogger logger, NostaleWorld world, RemoteClient client)
         {
+            _logger = logger;
             _client = client;
             _world = world;
         }
@@ -27,7 +30,7 @@ namespace Moonlight.Remote.Listeners
             {
                 await Task.Delay(500);
                 
-                var newState = new RemoteClientWorldReconnectState(notification.DACIdentifier, notification.Ip, notification.Port, worldState.EncryptionKey);
+                var newState = new RemoteClientWorldReconnectState(_logger, notification.DACIdentifier, notification.Ip, notification.Port, worldState.EncryptionKey);
                 _client.SetState(newState);
                 _world.SetRemoteState(newState);
                 

@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Moonlight.Core.Logging;
 using Moonlight.Remote.Cryptography;
 
 namespace Moonlight.Remote.Client.State
@@ -9,8 +10,8 @@ namespace Moonlight.Remote.Client.State
         private int _packetIdentifier;
         private Random rand = new Random();
 
-        public RemoteClientWorldState(string ipAddress, int port, int encryptionKey)
-            : base(ipAddress, port, new WorldCryptography(encryptionKey))
+        public RemoteClientWorldState(ILogger logger, string ipAddress, int port, int encryptionKey)
+            : base(logger, ipAddress, port, new WorldCryptography(encryptionKey))
         {
             _packetIdentifier = rand.Next(50000, 55000);
             EncryptionKey = encryptionKey;

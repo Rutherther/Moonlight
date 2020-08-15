@@ -44,6 +44,7 @@ namespace Moonlight.Remote.Control
 
         public RemoteClientLoginState Connect(Servers server, string nostaleClientXHash, string nostaleClientHash, string version)
         {
+            _api.Logger.Debug($"Connecting to login server {server.Value} with client version {version}");
             string[] splitted = server.Value.Split(':');
             RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(_api.Logger, splitted[0], short.Parse(splitted[1]), nostaleClientXHash, nostaleClientHash, version);
             _client.SetState(loginState);
@@ -60,6 +61,7 @@ namespace Moonlight.Remote.Control
 
         public void Login(string sessionToken, RegionType region, string version, string hash, Guid installationId)
         {
+            _api.Logger.Debug($"Sending login packet");
             var authPacket = new NoS0577Packet
             {
                 ClientId = installationId,
@@ -81,7 +83,7 @@ namespace Moonlight.Remote.Control
             {
                 throw new InvalidOperationException("Session id or account name is not initialized. Cannot proceed to connecting to world server");
             }
-
+            
             var world = new NostaleWorld(_api, _client);
             world.Connect(channel.Host, channel.Port, _sessionId.Value);
             world.Handshake(_accountName);
@@ -91,6 +93,7 @@ namespace Moonlight.Remote.Control
 
         internal void OnServersReceived(int sessionId, string accountName, List<WorldServer> servers)
         {
+            _api.Logger.Debug($"Servers list received");
             _sessionId = sessionId;
             _accountName = accountName;
             
@@ -100,6 +103,7 @@ namespace Moonlight.Remote.Control
 
         internal void OnLoginFailed(LoginFailType failType)
         {
+            _api.Logger.Debug($"Login failed with type {failType}");
             LoginFailed?.Invoke(failType);
             Disconnnect();
         }

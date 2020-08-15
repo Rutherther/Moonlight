@@ -26,6 +26,7 @@ namespace Moonlight.Remote.Client.State
 
         public virtual void Handshake(string accountName)
         {
+            _logger.Debug("Sending world handshake with account {accountName}");
             Thread.Sleep(100);
             SendPacket(EncryptionKey.ToString(), true);
             Thread.Sleep(100);

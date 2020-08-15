@@ -25,6 +25,7 @@ namespace Moonlight.Remote.Listeners
         
         protected async override void Handle(ServerChangeEvent notification)
         {
+            _logger.Debug($"Server change to {notification.Ip}:{notification.Port} event received");
             IState state = _client.GetState();
             if (state is RemoteClientWorldState worldState)
             {

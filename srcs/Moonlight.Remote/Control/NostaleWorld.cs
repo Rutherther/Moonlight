@@ -50,6 +50,7 @@ namespace Moonlight.Remote.Control
 
         public RemoteClientWorldState Connect(string ip, int port, int encryptionKey)
         {
+            _api.Logger.Debug($"Connecting to world {ip}:{port}");
             var worldState = new RemoteClientWorldState(_api.Logger, ip, port, encryptionKey);
             SetRemoteState(worldState);
             _client.SetState(worldState);
@@ -80,6 +81,7 @@ namespace Moonlight.Remote.Control
 
         public void StartGame()
         {
+            _api.Logger.Debug($"Starting the game");
             _worldState.SendPacket(_serializer.Serialize(new GameStartPacket()));
 
             if (_pulseTimer != null)
@@ -87,12 +89,13 @@ namespace Moonlight.Remote.Control
                 _pulseTimer.Dispose();
             }
             
-            _pulseTimer = new Timer(SendPulse, _worldState, 0, 60000);
+            _pulseTimer = new Timer(SendPulse, _worldState, 60000, 60000);
             Started = true;
         }
 
         public void Select(Character character)
         {
+            _api.Logger.Debug($"Sending character select");
             short slot = _characters.First(x => x.Value == character).Key;
             _worldState.SendPacket(_serializer.Serialize(new SelectPacket
             {
@@ -102,6 +105,8 @@ namespace Moonlight.Remote.Control
 
         public void Disconnnect()
         {
+            _api.Logger.Debug($"World disconnected");
+
             _worldState.Disconnnect();            
         }
         
@@ -113,6 +118,7 @@ namespace Moonlight.Remote.Control
 
         private void SendPulse(object state)
         {
+            _api.Logger.Debug($"Sending pulse packet");
             var worldState = (RemoteClientWorldState)state;
             
             _pulse += 60;

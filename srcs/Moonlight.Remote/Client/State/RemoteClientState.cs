@@ -7,8 +7,11 @@ namespace Moonlight.Remote.Client.State
 {
     public class RemoteClientState : IState
     {
+        public event Action Disconnected;
         public event Action<string> PacketReceived;
+        
         private byte[] _buffer;
+        private bool _disconnectHandled;
 
         public RemoteClientState(string ipAddress, int port, ICryptography cryptography)
         {
@@ -20,11 +23,11 @@ namespace Moonlight.Remote.Client.State
             Tcp = new TcpClient();
         }
 
-        public bool Connected => Tcp.Connected;
-
+        public bool Connected => (Tcp?.GetState() ?? TcpState.Unknown) == TcpState.Established;
+        
         public Thread Thread { get; private set; }
 
-        public TcpClient Tcp { get; }
+        public TcpClient Tcp { get; private set; }
 
         public ICryptography Cryptography { get; }
 
@@ -41,18 +44,43 @@ namespace Moonlight.Remote.Client.State
             }
         }
 
-        public void Disconnnect()
+        public void Disconnnect(bool forced = false)
         {
+            _disconnectHandled = true;
+            
             if (Tcp.Connected)
             {
                 Tcp.Close();
+                Tcp = null;
+            }
+
+            if (Thread != null)
+            {
+                Thread thread = Thread;
+                Thread = null;
+
+                Disconnected?.Invoke();
             }
         }
 
         public virtual void SendPacket(string packet, bool session = false)
         {
-            byte[] encrypted = Cryptography.Encrypt(packet, session);
-            Tcp.GetStream().Write(encrypted, 0, encrypted.Length);
+            if (!_disconnectHandled && Connected)
+            {
+                try
+                {
+                    byte[] encrypted = Cryptography.Encrypt(packet, session);
+                    Tcp.GetStream().Write(encrypted, 0, encrypted.Length);
+                }
+                catch (SocketException e)
+                {
+                    Disconnnect();
+                }
+                catch (IOException e)
+                {
+                    Disconnnect();
+                }
+            }
         }
 
         public virtual void ReceivePacket(string packet)
@@ -64,7 +92,7 @@ namespace Moonlight.Remote.Client.State
         {
             NetworkStream stream = Tcp.GetStream();
 
-            while (Tcp.Connected)
+            while (!_disconnectHandled && Connected)
             {
                 try
                 {
@@ -81,15 +109,18 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (Exception e)
                 {
-                    // TODO: log it somewhere
-                    // Probably connection closed
-
-                    if (Tcp != null && Tcp.Connected)
+                    if (!Connected)
+                    {
+                        Disconnnect();
+                    }
+                    else
                     {
                         throw e;
                     }
                 }
             }
+            
+            Disconnnect();
         }
     }
 }

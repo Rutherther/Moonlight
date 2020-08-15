@@ -46,6 +46,7 @@ namespace Moonlight.Remote.Control
         public RemoteClientWorldState Connect(string ip, int port, int encryptionKey)
         {
             RemoteClientWorldState worldState = _worldState = new RemoteClientWorldState(ip, port, encryptionKey);
+            SetRemoteState(worldState);
             _client.SetState(worldState);
             
             worldState.Connect();
@@ -55,7 +56,15 @@ namespace Moonlight.Remote.Control
 
         public void SetRemoteState(RemoteClientWorldState worldState)
         {
+            if (_worldState != null)
+            {
+                _worldState.Disconnected -= ProcessDisconnected;
+            }
+
             _worldState = worldState;
+            _worldState.Disconnected += ProcessDisconnected;
+            
+            ServerChanged?.Invoke();
         }
 
         public void Handshake(string accountName)
@@ -108,6 +117,11 @@ namespace Moonlight.Remote.Control
                     Tick = _pulse
                 }));
             }
+        }
+
+        protected void ProcessDisconnected()
+        {
+            Disconnected?.Invoke();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Moonlight.Remote.Client.State
         private byte[] _buffer;
         private bool _disconnectHandled;
         private ILogger _logger;
+        private Timer _timer;
 
         public RemoteClientState(ILogger logger, string ipAddress, int port, ICryptography cryptography)
         {
@@ -30,7 +31,7 @@ namespace Moonlight.Remote.Client.State
             Tcp = new TcpClient();
         }
 
-        public bool Connected => (Tcp?.GetState() ?? TcpState.Unknown) == TcpState.Established;
+        public bool Connected => !_disconnectHandled && (Tcp?.GetState() ?? TcpState.Unknown) == TcpState.Established;
         
         public Thread Thread { get; private set; }
 
@@ -43,22 +44,34 @@ namespace Moonlight.Remote.Client.State
 
         public void Connect()
         {
-            if (!Tcp.Connected)
+            if (!Connected)
             {
                 Tcp.Connect(IpAddress, Port);
                 Thread = new Thread(ThreadProc);
                 Thread.Start();
+                
+                _timer = new Timer(CheckConnection, null, 1000, 500);
             }
         }
 
         public void Disconnnect(bool forced = false)
         {
-            _disconnectHandled = true;
+            if (_disconnectHandled)
+            {
+                return;
+            }
             
+            _disconnectHandled = true;
+
             if (Tcp.Connected)
             {
                 Tcp.Close();
                 Tcp = null;
+            }
+
+            if (_timer != null)
+            {
+                _timer.Dispose();
             }
 
             if (Thread != null)
@@ -131,6 +144,14 @@ namespace Moonlight.Remote.Client.State
             }
             
             Disconnnect();
+        }
+
+        protected void CheckConnection(object state)
+        {
+            if (!Connected && !_disconnectHandled)
+            {
+                Disconnnect();
+            }
         }
     }
 }

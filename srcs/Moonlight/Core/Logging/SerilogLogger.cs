@@ -8,17 +8,19 @@ namespace Moonlight.Core.Logging
     {
         private readonly Serilog.ILogger _logger;
 
-        public SerilogLogger()
+        public SerilogLogger(LoggerConfig config)
         {
-            _logger = new LoggerConfiguration()
+            LoggerConfiguration configuration = new LoggerConfiguration()
 #if(DEBUG)
                 .MinimumLevel.Debug()
 #endif
 #if(RELEASE)
                 .MinimumLevel.Information()
 #endif
-                .WriteTo.Console(theme: AnsiConsoleTheme.Code, outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u4}] {Message:lj} {NewLine}{Exception}")
-                .CreateLogger();
+                .WriteTo.Console(theme: AnsiConsoleTheme.Code, outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u4}] {Message:lj} {NewLine}{Exception}");
+            config?.Invoke(configuration);
+
+            _logger = configuration.CreateLogger();
         }
 
         public void Debug(object message)

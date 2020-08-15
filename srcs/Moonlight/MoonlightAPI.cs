@@ -37,7 +37,7 @@ namespace Moonlight
         public MoonlightAPI(AppConfig config)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogger();
+            serviceCollection.AddLogger(config.LoggerConfig);
             serviceCollection.AddPacketDependencies();
             serviceCollection.AddDatabaseDependencies(config);
             serviceCollection.AddFactories();

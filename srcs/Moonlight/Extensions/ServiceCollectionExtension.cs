@@ -69,7 +69,7 @@ namespace Moonlight.Extensions
             }
         }
 
-        internal static void AddLogger(this IServiceCollection services, LoggerConfig config)
+        internal static void AddLogger(this IServiceCollection services, LoggerConfig config = null)
         {
             services.AddSingleton<ILogger>(new SerilogLogger(config));
         }

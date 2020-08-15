@@ -8,7 +8,7 @@ namespace Moonlight.Core.Logging
     {
         private readonly Serilog.ILogger _logger;
 
-        public SerilogLogger(LoggerConfig config)
+        public SerilogLogger(LoggerConfig config = null)
         {
             LoggerConfiguration configuration = new LoggerConfiguration()
 #if(DEBUG)

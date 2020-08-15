@@ -25,6 +25,7 @@ namespace Moonlight.Remote.Client
         {
             _state = state;
             _state.PacketReceived += (packet) => OnPacketReceived(packet);
+            _state.PacketSent += (packet) => OnPacketSend(packet);
         }
     }
 }

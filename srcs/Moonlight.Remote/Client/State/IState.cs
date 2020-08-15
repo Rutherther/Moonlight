@@ -5,6 +5,7 @@ namespace Moonlight.Remote.Client.State
     public interface IState
     {
         event Action<string> PacketReceived;
+        event Action<string> PacketSent;
         
         string IpAddress { get; }
 

@@ -14,10 +14,11 @@ namespace Moonlight.Remote.Client.State
     {
         public event Action Disconnected;
         public event Action<string> PacketReceived;
-        
+        public event Action<string> PacketSent;
+
         private byte[] _buffer;
         private bool _disconnectHandled;
-        private ILogger _logger;
+        protected ILogger _logger;
         private Timer _timer;
 
         public RemoteClientState(ILogger logger, string ipAddress, int port, ICryptography cryptography)
@@ -91,6 +92,7 @@ namespace Moonlight.Remote.Client.State
                 {
                     byte[] encrypted = Cryptography.Encrypt(packet, session);
                     Tcp.GetStream().Write(encrypted, 0, encrypted.Length);
+                    PacketSent?.Invoke(packet);
                 }
                 catch (SocketException e)
                 {

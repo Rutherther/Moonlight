@@ -16,6 +16,8 @@ namespace Moonlight.Remote.Client.State
         public event Action<string> PacketReceived;
         public event Action<string> PacketSent;
 
+        public event Action<Exception> Error;
+
         private byte[] _buffer;
         private bool _disconnectHandled;
         protected ILogger _logger;
@@ -66,6 +68,7 @@ namespace Moonlight.Remote.Client.State
 
             if (Tcp.Connected)
             {
+                _logger.Error("Disconnecting the client");
                 Tcp.Close();
                 Tcp = null;
             }
@@ -96,11 +99,21 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (SocketException e)
                 {
+                    if (Tcp != null)
+                    {
+                        _logger.Error($"TCP state - {Tcp.GetState()}");
+                    }
+                    
                     _logger.Error(e);
                     Disconnnect();
                 }
                 catch (IOException e)
                 {
+                    if (Tcp != null)
+                    {
+                        _logger.Error($"TCP state - {Tcp.GetState()}");
+                    }
+                    
                     _logger.Error(e);
                     Disconnnect();
                 }
@@ -133,13 +146,20 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (Exception e)
                 {
+                    _logger.Error("There was an error");
+                    _logger.Error(e);
+
+                    if (Tcp != null)
+                    {
+                        _logger.Error($"TCP state - {Tcp.GetState()}");
+                    }
+
                     if (!Connected)
                     {
                         Disconnnect();
                     }
                     else
                     {
-                        _logger.Error(e);
                         throw e;
                     }
                 }

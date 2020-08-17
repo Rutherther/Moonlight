@@ -99,6 +99,8 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (SocketException e)
                 {
+                    Error?.Invoke(e);
+                    
                     if (Tcp != null)
                     {
                         _logger.Error($"TCP state - {Tcp.GetState()}");
@@ -109,6 +111,8 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (IOException e)
                 {
+                    Error?.Invoke(e);
+                    
                     if (Tcp != null)
                     {
                         _logger.Error($"TCP state - {Tcp.GetState()}");
@@ -146,6 +150,8 @@ namespace Moonlight.Remote.Client.State
                 }
                 catch (Exception e)
                 {
+                    Error?.Invoke(e);
+                    
                     _logger.Error("There was an error");
                     _logger.Error(e);
 

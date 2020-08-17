@@ -133,6 +133,12 @@ namespace Moonlight.Remote.Control
         protected void ProcessDisconnected()
         {
             Disconnected?.Invoke();
+
+            if (_pulseTimer != null)
+            {
+                _pulseTimer.Dispose();
+                _pulseTimer = null;
+            }
         }
     }
 }

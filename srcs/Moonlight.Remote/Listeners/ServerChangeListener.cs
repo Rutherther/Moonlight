@@ -31,7 +31,7 @@ namespace Moonlight.Remote.Listeners
             {
                 await Task.Delay(500);
                 
-                var newState = new RemoteClientWorldReconnectState(_logger, notification.DACIdentifier, notification.Ip, notification.Port, worldState.EncryptionKey);
+                var newState = new RemoteClientWorldReconnectState(_logger, _client.Region, notification.DACIdentifier, notification.Ip, notification.Port, worldState.EncryptionKey);
                 _client.SetState(newState);
                 _world.SetRemoteState(newState);
                 

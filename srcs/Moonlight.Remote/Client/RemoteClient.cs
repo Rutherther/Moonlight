@@ -1,3 +1,5 @@
+using System.Dynamic;
+using Moonlight.Core.Enums;
 using Moonlight.Remote.Client.State;
 
 namespace Moonlight.Remote.Client
@@ -5,6 +7,13 @@ namespace Moonlight.Remote.Client
     public class RemoteClient : Clients.Client
     {
         private IState _state;
+
+        public RemoteClient(RegionType region)
+        {
+            Region = region;
+        }
+        
+        public RegionType Region { get; }
 
         public override void SendPacket(string packet)
         {

@@ -51,7 +51,7 @@ namespace Moonlight.Remote.Control
         public RemoteClientWorldState Connect(string ip, int port, int encryptionKey)
         {
             _api.Logger.Debug($"Connecting to world {ip}:{port}");
-            var worldState = new RemoteClientWorldState(_api.Logger, ip, port, encryptionKey);
+            var worldState = new RemoteClientWorldState(_api.Logger, _client.Region, ip, port, encryptionKey);
             SetRemoteState(worldState);
             _client.SetState(worldState);
             

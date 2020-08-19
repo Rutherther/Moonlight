@@ -1,4 +1,5 @@
 using System.Threading;
+using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 
 namespace Moonlight.Remote.Client.State
@@ -7,8 +8,8 @@ namespace Moonlight.Remote.Client.State
     {
         protected readonly byte _dacIdentifier;
         
-        public RemoteClientWorldReconnectState(ILogger logger, byte dacIdentifier, string ipAddress, int port, int encryptionKey)
-            : base(logger, ipAddress, port, encryptionKey)
+        public RemoteClientWorldReconnectState(ILogger logger, RegionType region, byte dacIdentifier, string ipAddress, int port, int encryptionKey)
+            : base(logger, region, ipAddress, port, encryptionKey)
         {
             _dacIdentifier = dacIdentifier;
         }

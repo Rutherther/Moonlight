@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Moonlight.Core.Enums;
 using Moonlight.Core.Logging;
 using Moonlight.Remote.Cryptography;
 
@@ -10,12 +11,15 @@ namespace Moonlight.Remote.Client.State
         private int _packetIdentifier;
         private Random rand = new Random();
 
-        public RemoteClientWorldState(ILogger logger, string ipAddress, int port, int encryptionKey)
+        public RemoteClientWorldState(ILogger logger, RegionType region, string ipAddress, int port, int encryptionKey)
             : base(logger, ipAddress, port, new WorldCryptography(encryptionKey))
         {
+            Region = region;
             _packetIdentifier = rand.Next(50000, 55000);
             EncryptionKey = encryptionKey;
         }
+
+        public RegionType Region { get; set; }
 
         public int EncryptionKey { get; private set; }
 
@@ -30,7 +34,7 @@ namespace Moonlight.Remote.Client.State
             Thread.Sleep(100);
             SendPacket(EncryptionKey.ToString(), true);
             Thread.Sleep(100);
-            SendPacket(accountName + " GF 7");
+            SendPacket(accountName + " GF " + (short)Region);
             Thread.Sleep(100);
             SendPacket("thisisgfmode");
         }

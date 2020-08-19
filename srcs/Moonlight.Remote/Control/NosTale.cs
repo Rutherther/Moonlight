@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Moonlight.Core.Enums;
 using Moonlight.Handlers;
 using Moonlight.Remote.Client;
 
@@ -8,10 +9,13 @@ namespace Moonlight.Remote.Control
     {
         private readonly MoonlightAPI _moonlightApi;
         
-        public NosTale(MoonlightAPI moonlightApi)
+        public NosTale(MoonlightAPI moonlightApi, RegionType region)
         {
+            Region = region;
             _moonlightApi = moonlightApi;
         }
+        
+        public RegionType Region { get; set; }
 
         public RemoteClient GetRemoteClient()
         {
@@ -19,7 +23,7 @@ namespace Moonlight.Remote.Control
 
             if (client == null)
             {
-                _moonlightApi.Client = client = new RemoteClient();
+                _moonlightApi.Client = client = new RemoteClient(Region);
 
                 client.PacketReceived += packet => _moonlightApi.Services.GetService<IPacketHandlerManager>().Handle(client, packet);
                 client.PacketSend += packet => _moonlightApi.Services.GetService<IPacketHandlerManager>().Handle(client, packet);

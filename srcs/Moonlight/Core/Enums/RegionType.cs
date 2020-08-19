@@ -8,8 +8,8 @@ namespace Moonlight.Core.Enums
         IT,
         PL,
         ES,
+        RU,
         CZ,
         TR,
-        RU,
     }
 }

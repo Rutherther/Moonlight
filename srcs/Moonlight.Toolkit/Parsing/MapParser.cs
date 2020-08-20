@@ -5,7 +5,6 @@ using System.Linq;
 using Moonlight.Core.Logging;
 using Moonlight.Database.DAL;
 using Moonlight.Database.Dto;
-using Moonlight.Extensions;
 using Moonlight.Toolkit.Commands;
 using Moonlight.Utility.Reader;
 using TextReader = Moonlight.Utility.Reader.TextReader;

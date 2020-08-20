@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Moonlight.Extensions;
 using Moonlight.Toolkit.Commands;
 using Moonlight.Toolkit.Handlers;
 

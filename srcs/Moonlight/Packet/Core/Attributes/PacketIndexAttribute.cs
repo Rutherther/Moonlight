@@ -12,6 +12,6 @@ namespace Moonlight.Packet.Core.Attributes
         
         public string ListSeparator { get; set; } = " ";
 
-        public bool TillEnd { get; set; } = false;
+        public bool TillEnd { get; set; }
     }
 }

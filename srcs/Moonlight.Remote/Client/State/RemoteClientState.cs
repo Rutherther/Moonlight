@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
+using Microsoft.Extensions.DependencyModel.Resolution;
 using Moonlight.Core.Logging;
 using Moonlight.Remote.Cryptography;
 using Moonlight.Remote.Extensions;
@@ -18,7 +19,7 @@ namespace Moonlight.Remote.Client.State
 
         public event Action<Exception> Error;
 
-        private byte[] _buffer;
+        private readonly byte[] _buffer;
         private bool _disconnectHandled;
         protected ILogger _logger;
         private Timer _timer;
@@ -57,7 +58,7 @@ namespace Moonlight.Remote.Client.State
             }
         }
 
-        public void Disconnnect(bool forced = false)
+        public void Disconnnect()
         {
             if (_disconnectHandled)
             {
@@ -87,7 +88,7 @@ namespace Moonlight.Remote.Client.State
             }
         }
 
-        public virtual void SendPacket(string packet, bool session = false)
+        public virtual void SendPacket(string packet, bool session)
         {
             if (!_disconnectHandled && Connected)
             {
@@ -122,6 +123,11 @@ namespace Moonlight.Remote.Client.State
                     Disconnnect();
                 }
             }
+        }
+
+        public void SendPacket(string packet)
+        {
+            SendPacket(packet, false);
         }
 
         public virtual void ReceivePacket(string packet)

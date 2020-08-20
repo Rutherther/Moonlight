@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Moonlight.Remote.Cryptography
 {
@@ -32,14 +33,14 @@ namespace Moonlight.Remote.Cryptography
         /// <returns>Decrypted packet as string</returns>
         public List<string> Decrypt(byte[] bytes, int size)
         {
-            string output = "";
+            var output = new StringBuilder();
             for (int i = 0; i < size; i++)
             {
-                output += Convert.ToChar(bytes[i] - 0xF);
+                output.Append(Convert.ToChar(bytes[i] - 0xF));
             }
 
             var list = new List<string>();
-            list.Add(output);
+            list.Add(output.ToString());
             
             return list;
         }
@@ -50,7 +51,7 @@ namespace Moonlight.Remote.Cryptography
         /// <param name="value">String to encrypt</param>
         /// <param name="session">Ignored</param>
         /// <returns>Encrypted packet as byte array</returns>
-        public byte[] Encrypt(string value, bool session = false)
+        public byte[] Encrypt(string value, bool session)
         {
             var output = new byte[value.Length + 1];
             for (int i = 0; i < value.Length; i++)
@@ -59,6 +60,11 @@ namespace Moonlight.Remote.Cryptography
             }
             output[output.Length - 1] = 0xD8;
             return output;
+        }
+        
+        public byte[] Encrypt(string data)
+        {
+            return Encrypt(data, false);
         }
 
         public override string ToString()

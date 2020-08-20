@@ -16,7 +16,7 @@ using Moonlight.Remote.Listeners;
 
 namespace Moonlight.Remote.Control
 {
-    public class NostaleWorld
+    public class NostaleWorld : IDisposable
     {
         public event Action Disconnected;
         public event Action ServerChanged;
@@ -28,9 +28,10 @@ namespace Moonlight.Remote.Control
         
         private readonly RemoteClient _client;
         private readonly MoonlightAPI _api;
+        private readonly ISerializer _serializer;
+        
         private RemoteClientWorldState _worldState;
         private Dictionary<short, Character> _characters;
-        private ISerializer _serializer;
 
         public NostaleWorld(MoonlightAPI api, RemoteClient client)
         {
@@ -139,6 +140,11 @@ namespace Moonlight.Remote.Control
                 _pulseTimer.Dispose();
                 _pulseTimer = null;
             }
+        }
+
+        public void Dispose()
+        {
+            _pulseTimer?.Dispose();
         }
     }
 }

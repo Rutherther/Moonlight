@@ -12,7 +12,7 @@ namespace Moonlight.Handlers.Characters
     internal class AtPacketHandler : PacketHandler<AtPacket>
     {
         private readonly IMapFactory _mapFactory;
-        private IEventManager _eventManager;
+        private readonly IEventManager _eventManager;
 
         public AtPacketHandler(IMapFactory mapFactory, IEventManager eventManager)
         {

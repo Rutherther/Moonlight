@@ -23,7 +23,12 @@ namespace Moonlight.Event
             handlers.RemoveAll(x => x.Once);
         }
 
-        public void RegisterListener<T>(EventListener<T> listener, bool once = false) where T : IEventNotification
+        public void RegisterListener<T>(EventListener<T> listener) where T : IEventNotification
+        {
+            RegisterListener(listener, false);
+        }
+
+        public void RegisterListener<T>(EventListener<T> listener, bool once) where T : IEventNotification
         {
             Type type = typeof(T);
             List<ListenerData> handlers = _handlers.GetValueOrDefault(type);

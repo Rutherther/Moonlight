@@ -34,14 +34,9 @@ namespace Moonlight.Remote.Gameforge
             return response.GetValueOrDefault("latest");
         }
 
-        public async Task<AuthorizedGameforgeApi> Login(string email, string password, Locales locale, Guid? installationId = null)
+        public async Task<AuthorizedGameforgeApi> Login(string email, string password, Locales locale, Guid installationId)
         {
-            if (installationId == null)
-            {
-                installationId = GenerateIntallationId(email, password);
-            }
-            
-            var request = new GameforgeRequest<AuthRequest, string>(HttpMethod.Post, "/auth/sessions", installationId.Value);
+            var request = new GameforgeRequest<AuthRequest, string>(HttpMethod.Post, "/auth/sessions", installationId);
             
             var authRequest = new AuthRequest
             {
@@ -58,7 +53,12 @@ namespace Moonlight.Remote.Gameforge
             
             string authToken = response.GetValueOrDefault("token") ?? string.Empty;
             
-            return new AuthorizedGameforgeApi(authToken, installationId.Value);
+            return new AuthorizedGameforgeApi(authToken, installationId);
+        }
+
+        public Task<AuthorizedGameforgeApi> Login(string email, string password, Locales locale)
+        {
+            return Login(email, password, locale, GenerateIntallationId(email, password));
         }
     }
 }

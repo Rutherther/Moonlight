@@ -13,14 +13,14 @@ namespace Moonlight.Database
 
         public MoonlightContext CreateContext()
         {
-            var builder = new SqliteConnectionStringBuilder()
+            var builder = new SqliteConnectionStringBuilder
             {
                 DataSource = Path.GetFullPath(_appConfig.Database),
                 Mode = _appConfig.ReadOnlyDatabase ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate,
                 Cache = SqliteCacheMode.Shared
             };
 
-            var connection = new SqliteConnection()
+            var connection = new SqliteConnection
             {
                 ConnectionString = builder.ToString()
             };

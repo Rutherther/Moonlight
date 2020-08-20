@@ -28,12 +28,22 @@ namespace Moonlight.Remote.Gameforge
     {
         private static readonly HttpClient _httpClient = new HttpClient();
 
-        public GameforgeRequest(HttpMethod method, string path, Guid? installationId = null, string bearerToken = null)
+        public GameforgeRequest(HttpMethod method, string path, Guid? installationId, string bearerToken)
         {
             Method = method;
             Path = path;
             InstallationId = installationId;
             BearerToken = bearerToken;
+        }
+
+        public GameforgeRequest(HttpMethod method, string path, Guid? installationId)
+            : this(method, path, installationId, null)
+        {
+        }
+        
+        public GameforgeRequest(HttpMethod method, string path)
+            : this(method, path, null, null)
+        {
         }
 
         public string Path { get; set; }

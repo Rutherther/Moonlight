@@ -38,9 +38,9 @@ namespace Moonlight.Remote.Gameforge
                 // TODO: Find out russian port and ip
                 case RegionType.TR:
                     return Turkey;
+                default:
+                    return null;
             }
-
-            return null;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -68,6 +69,8 @@ namespace Moonlight.Toolkit.Parsing
                     case 10:
                         inventoryType = 2;
                         break;
+                    default:
+                        throw new NotSupportedException("InventoryType not supported");
                 }
 
                 items.Add(new ItemDto

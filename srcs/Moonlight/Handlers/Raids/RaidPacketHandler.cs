@@ -70,8 +70,6 @@ namespace Moonlight.Handlers.Raids
                         Raid = raid
                     });
                     break;
-                default:
-                    break;
             }
         }
     }

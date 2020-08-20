@@ -8,11 +8,16 @@ namespace Moonlight.Game.Dialogs
 {
     public class Dialog
     {
-        public Dialog(Client client, string acceptCommand, string denyCommand = null)
+        public Dialog(Client client, string acceptCommand, string denyCommand)
         {
             Client = client;
             AcceptCommand = acceptCommand;
             DenyCommand = denyCommand;
+        }
+        
+        public Dialog(Client client, string acceptCommand)
+            : this(client, acceptCommand, null)
+        {
         }
 
         public bool Pending { get; private set; } = true;

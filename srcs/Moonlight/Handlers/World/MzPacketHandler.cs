@@ -7,7 +7,7 @@ namespace Moonlight.Handlers.World
 {
     public class MzPacketHandler : PacketHandler<MzPacket>
     {
-        private IEventManager _eventManager;
+        private readonly IEventManager _eventManager;
         
         public MzPacketHandler(IEventManager eventManager)
             => _eventManager = eventManager;

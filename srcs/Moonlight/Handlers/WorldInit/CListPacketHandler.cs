@@ -8,7 +8,7 @@ namespace Moonlight.Handlers.WorldInit
 {
     public class CListPacketHandler : PacketHandler<CListPacket>
     {
-        public const string CListPacketCacheKey = "CListData";
+        public static readonly string CListPacketCacheKey = "CListData";
 
         private readonly ILogger _logger;
         private readonly IPacketHandlerCache _cache;

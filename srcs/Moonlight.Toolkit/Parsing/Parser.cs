@@ -5,7 +5,7 @@ namespace Moonlight.Toolkit.Parsing
 {
     internal abstract class Parser
     {
-        public Parser(ILogger logger) => Logger = logger;
+        protected Parser(ILogger logger) => Logger = logger;
 
         protected ILogger Logger { get; }
 

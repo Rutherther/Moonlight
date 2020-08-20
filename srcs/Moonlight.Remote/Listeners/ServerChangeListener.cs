@@ -29,7 +29,7 @@ namespace Moonlight.Remote.Listeners
             IState state = _client.GetState();
             if (state is RemoteClientWorldState worldState)
             {
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
                 
                 var newState = new RemoteClientWorldReconnectState(_logger, _client.Region, notification.DACIdentifier, notification.Ip, notification.Port, worldState.EncryptionKey);
                 _client.SetState(newState);
@@ -40,9 +40,9 @@ namespace Moonlight.Remote.Listeners
                 worldState.SendPacket("c_close 1");
                 worldState.Disconnnect();
 
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
                 newState.Connect();
-                await Task.Delay(100);
+                await Task.Delay(100).ConfigureAwait(false);
                 newState.Handshake(_world.AccountName);
                 
                 Thread.Sleep(100);

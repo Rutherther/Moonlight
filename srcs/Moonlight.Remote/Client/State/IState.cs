@@ -11,7 +11,8 @@ namespace Moonlight.Remote.Client.State
 
         int Port { get; }
 
-        void SendPacket(string packet, bool session = false);
+        void SendPacket(string packet, bool session);
+        void SendPacket(string packet);
         void ReceivePacket(string packet);
     }
 }

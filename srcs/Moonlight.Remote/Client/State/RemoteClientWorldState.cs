@@ -9,13 +9,13 @@ namespace Moonlight.Remote.Client.State
     public class RemoteClientWorldState : RemoteClientState
     {
         private int _packetIdentifier;
-        private Random rand = new Random();
+        private readonly Random _rand = new Random();
 
         public RemoteClientWorldState(ILogger logger, RegionType region, string ipAddress, int port, int encryptionKey)
             : base(logger, ipAddress, port, new WorldCryptography(encryptionKey))
         {
             Region = region;
-            _packetIdentifier = rand.Next(50000, 55000);
+            _packetIdentifier = _rand.Next(50000, 55000);
             EncryptionKey = encryptionKey;
         }
 
@@ -23,7 +23,7 @@ namespace Moonlight.Remote.Client.State
 
         public int EncryptionKey { get; private set; }
 
-        public override void SendPacket(string packet, bool session = false)
+        public override void SendPacket(string packet, bool session)
         {
             base.SendPacket(_packetIdentifier++ + " " + packet, session);
         }

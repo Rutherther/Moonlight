@@ -11,10 +11,6 @@ namespace Moonlight.Packet.Core.Converters
 {
     internal class Qnamli2PacketConverter : Converter<Qnamli2Packet>
     {
-        public Qnamli2PacketConverter()
-        {
-        }
-
         protected override Qnamli2Packet ToObject(string value, Type type, IConversionFactory factory)
         {
             var packet = new Qnamli2Packet();

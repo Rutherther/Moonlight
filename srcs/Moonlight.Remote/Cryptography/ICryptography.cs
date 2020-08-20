@@ -6,6 +6,7 @@ namespace Moonlight.Remote.Cryptography
     {
         List<string> Decrypt(byte[] bytes, int size);
 
-        byte[] Encrypt(string data, bool session = false);
+        byte[] Encrypt(string data);
+        byte[] Encrypt(string data, bool session);
     }
 }

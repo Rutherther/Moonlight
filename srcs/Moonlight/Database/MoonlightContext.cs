@@ -8,10 +8,9 @@ namespace Moonlight.Database
 {
     internal class MoonlightContext : DbContext
     {
-        private DbConnection _connection;
+        private readonly DbConnection _connection;
 
         public MoonlightContext(DbConnection connection)
-            : base()
         {
             _connection = connection;
             Database.EnsureCreated();
@@ -37,7 +36,9 @@ namespace Moonlight.Database
             {
                 // Skip shadow types
                 if (entityType.ClrType == null)
+                {
                     continue;
+                }
 
                 entityType.SetTableName(entityType.ClrType.Name);
             }

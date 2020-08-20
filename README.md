@@ -5,6 +5,7 @@ This is a fork of Roxeez/Moonlight. I migrated it to .NET Standard so it can be 
 Moonlight aims to make NosTale .NET Application developer life easier by giving them access to a complete & easy to use API allowing them to interact with (almost) everything in the game  
 Moonlight can be used with local client (injected .dll) or remote client (clientless)
 <br><br>
+![Codacy Badge](https://api.codacy.com/project/badge/Grade/ebcbcda4ea754a048ed1b1fd3e763080)](https://app.codacy.com/manual/Rutherther/Moonlight?utm_source=github.com&utm_medium=referral&utm_content=Rutherther/Moonlight&utm_campaign=Badge_Grade_Dashboard)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Rutherther/Moonlight)
 ![GitHub](https://img.shields.io/github/license/Rutherther/Moonlight)
 

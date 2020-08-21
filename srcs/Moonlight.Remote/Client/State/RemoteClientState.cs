@@ -69,6 +69,8 @@ namespace Moonlight.Remote.Client.State
 
             if (Tcp.Connected)
             {
+                _logger.Error($"TCP state - {Tcp.GetState()}");
+                
                 _logger.Error("Disconnecting the client");
                 Tcp.Close();
                 Tcp = null;
@@ -184,6 +186,7 @@ namespace Moonlight.Remote.Client.State
         {
             if (!Connected && !_disconnectHandled)
             {
+                _logger.Error($"TCP state - {Tcp.GetState()}");
                 Disconnnect();
             }
         }

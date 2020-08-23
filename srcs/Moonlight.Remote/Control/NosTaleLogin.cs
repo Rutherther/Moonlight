@@ -10,6 +10,7 @@ using Moonlight.Packet.Core.Serialization;
 using Moonlight.Packet.Login;
 using Moonlight.Remote.Client;
 using Moonlight.Remote.Client.State;
+using Moonlight.Remote.Control.Version;
 using Moonlight.Remote.Extensions;
 using Moonlight.Remote.Gameforge;
 using Moonlight.Remote.Listeners;
@@ -42,11 +43,11 @@ namespace Moonlight.Remote.Control
             eventManager.RegisterOnceListener(new LoginFailListener(this));
         }
 
-        public RemoteClientLoginState Connect(Servers server, string nostaleClientXHash, string nostaleClientHash, string version)
+        public RemoteClientLoginState Connect(Servers server, NostaleVersion version)
         {
             _api.Logger.Debug($"Connecting to login server {server.Value} with client version {version}");
             string[] splitted = server.Value.Split(':');
-            RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(_api.Logger, splitted[0], short.Parse(splitted[1]), nostaleClientXHash, nostaleClientHash, version);
+            RemoteClientLoginState loginState = _loginState = new RemoteClientLoginState(_api.Logger, splitted[0], short.Parse(splitted[1]), version.NostaleClientXHash, version.NostaleClientHash, version.NosTaleVersion);
             _client.SetState(loginState);
             
             loginState.Connect();

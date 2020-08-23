@@ -42,6 +42,8 @@ namespace Moonlight.Remote.Control
             eventManager.RegisterOnceListener(new ServersReceivedListener(this));
             eventManager.RegisterOnceListener(new LoginFailListener(this));
         }
+        
+        public bool HasReceivedServers { get; protected set; }
 
         public RemoteClientLoginState Connect(Servers server, NostaleVersion version)
         {
@@ -94,6 +96,8 @@ namespace Moonlight.Remote.Control
 
         internal void OnServersReceived(int sessionId, string accountName, List<WorldServer> servers)
         {
+            HasReceivedServers = true;
+            
             _api.Logger.Debug($"Servers list received");
             _sessionId = sessionId;
             _accountName = accountName;

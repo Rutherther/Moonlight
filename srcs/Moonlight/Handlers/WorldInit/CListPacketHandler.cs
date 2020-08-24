@@ -24,7 +24,8 @@ namespace Moonlight.Handlers.WorldInit
             var character = new Character(_logger, 0, packet.Name, client)
             {
                 Class = packet.Class,
-                Gender = packet.Gender
+                Gender = packet.Gender,
+                Level = packet.Level
             };
 
             Dictionary<short, Character> cachedCharacters = _cache.Get<Dictionary<short, Character>>(CListPacketCacheKey);

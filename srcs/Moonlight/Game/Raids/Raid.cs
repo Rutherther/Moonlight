@@ -14,7 +14,9 @@ namespace Moonlight.Game.Raids
             Bosses = new List<Monster>();
         }
 
-        public bool Ended => Status == RaidStatus.Fail || Status == RaidStatus.Left || Status == RaidStatus.Successful;
+        public bool Ended => Status == RaidStatus.Fail || Status == RaidStatus.Left || (Status == RaidStatus.Successful && TeleportedAway);
+        
+        public bool TeleportedAway { get; set; }
 
         public int? RaidId { get; set; }
 

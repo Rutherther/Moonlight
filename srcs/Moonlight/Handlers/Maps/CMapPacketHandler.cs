@@ -2,8 +2,10 @@ using Moonlight.Clients;
 using Moonlight.Core.Logging;
 using Moonlight.Event;
 using Moonlight.Event.Maps;
+using Moonlight.Event.Raids;
 using Moonlight.Game.Factory;
 using Moonlight.Game.Maps;
+using Moonlight.Game.Raids;
 using Moonlight.Packet.Map;
 
 namespace Moonlight.Handlers.Maps
@@ -46,6 +48,16 @@ namespace Moonlight.Handlers.Maps
                     Character = client.Character,
                     Source = source,
                     Destination = destination
+                });
+            }
+
+            Raid raid = client.Character.Raid;
+            if (raid != null && raid.Status == RaidStatus.Successful && !raid.TeleportedAway)
+            {
+                raid.TeleportedAway = true;
+                _eventManager.Emit(new RaidStatusChangedEvent(client)
+                {
+                    Raid = raid
                 });
             }
         }

@@ -9,4 +9,4 @@ namespace Moonlight.Event.Characters
         public Character Character { get; internal set; }
         public Client Emitter { get; }
     }
-}
+} 

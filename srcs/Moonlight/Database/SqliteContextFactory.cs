@@ -24,6 +24,8 @@ namespace Moonlight.Database
             {
                 ConnectionString = builder.ToString()
             };
+            
+            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
 
             return new MoonlightContext(connection);
         }

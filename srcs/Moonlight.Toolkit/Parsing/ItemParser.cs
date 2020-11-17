@@ -70,7 +70,8 @@ namespace Moonlight.Toolkit.Parsing
                         inventoryType = 2;
                         break;
                     default:
-                        throw new NotSupportedException("InventoryType not supported");
+                        //throw new NotSupportedException("InventoryType not supported");
+                        break;
                 }
 
                 items.Add(new ItemDto

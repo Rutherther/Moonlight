@@ -6,6 +6,9 @@ namespace Moonlight.Local.Clients
 {
     public sealed class LocalClient : Client
     {
+        internal static bool SharedInstanceCreated { get; set; }
+        internal static bool NonSharedInstanceCreated { get; set; }
+        
         /// <summary>
         ///     Declared as private field to avoid GC
         /// </summary>

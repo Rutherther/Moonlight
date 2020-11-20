@@ -22,14 +22,37 @@ namespace Moonlight
 {
     public sealed class MoonlightAPI
     {
+        private static MoonlightAPI _moonlightApiInstance;
+        
+        /// <summary>
+        /// Create shared moonlight API for more injected dlls at once.
+        /// First application chooses config, it cannot be overriden or merged.
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static MoonlightAPI GetSharedMoonlightAPI(AppConfig config = null)
+        {
+            if (_moonlightApiInstance == null)
+            {
+                _moonlightApiInstance = new MoonlightAPI(config ?? new AppConfig(), true);
+            }
+
+            return _moonlightApiInstance;
+        }
+        
         private readonly IClientManager _clientManager;
         private readonly IEventManager _eventManager;
         private readonly ILanguageService _languageService;
         private readonly IPacketHandlerManager _packetHandlerManager;
 
+        internal MoonlightAPI(AppConfig config, bool shared)
+            : this(config)
+        {
+            SharedInstance = shared;
+        }
+        
         public MoonlightAPI() : this(new AppConfig())
         {
-            
         }
 
         public MoonlightAPI(SynchronizationContext context) : this() => Context = context;
@@ -80,6 +103,8 @@ namespace Moonlight
         }
 
         internal static SynchronizationContext Context { get; private set; }
+        
+        public bool SharedInstance { get; }
 
         public Client Client { get; set; }
 
